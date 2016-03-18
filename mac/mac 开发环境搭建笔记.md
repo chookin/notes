@@ -62,6 +62,16 @@ FCCC7561 8A4A1741 68FA4223 ADCEDE07
 ```shell
 ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/subl
 ```
+
+# apache
+1.启动
+
+sudo apachectl -k start
+
+2.重新启动
+
+sudo apachectl -k restart
+
 # iterm2
 设置字体大小为16。
 
@@ -93,23 +103,6 @@ Already downloaded: /Library/Caches/Homebrew/tigervnc-viewer-1.6.0.dmg
 🍺  tigervnc-viewer staged at '/opt/homebrew-cask/Caskroom/tigervnc-viewer/1.6.0' (6 files, 3.9M)
 ```
 
-# vi
-## 语法高亮
-编辑文件~/.vimrc，添加如下内容
-
-    set ai                  " auto indenting
-    set history=100         " keep 100 lines of history
-    set ruler               " show the cursor position
-    syntax on               " syntax highlighting
-    set hlsearch            " highlight the last searched term
-    filetype plugin on      " use the file type plugins
-    " When editing a file, always jump to the last cursor position
-    autocmd BufReadPost *
-    \ if ! exists("g:leave_my_cursor_position_alone") |
-    \ if line("'\"") > 0 && line ("'\"") <= line("$") |
-    \ exe "normal g'\"" |
-    \ endif |
-    \ endif
 # jdk
 JDK7，JDK8则需要自己到Oracle官网下载安装对应的版本。自己安装的JDK默认路径为：/Library/Java/JavaVirtualMachines/jdk1.8.0_73.jdk
 [jdk1.7](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
@@ -143,6 +136,35 @@ JDK7，JDK8则需要自己到Oracle官网下载安装对应的版本。自己安
 
 # maven
 在mac中使用brew安装，配置文件没有找到，因此采用下载安装包的方式。
+
+# php
+brew install php
+
+# phpmyadmin
+
+```
+brew install mhash
+brew install homebrew/php/phpmyadmin
+```
+之后，配置apache，添加如下内容到/etc/apache2/httpd.conf文件的末尾处。
+
+```shell
+  Alias /phpmyadmin /usr/local/share/phpmyadmin
+  <Directory /usr/local/share/phpmyadmin/>
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride All
+    <IfModule mod_authz_core.c>
+      Require all granted
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+      Order allow,deny
+      Allow from all
+    </IfModule>
+  </Directory>
+```
+
+修改httpd.conf，找到“#LoadModule php5_module libexec/apache2/libphp5.so”，把前面的#号去掉，以使得apache能处理php页面。
+
 
 # PhantomJS
 [PhantomJS](http://phantomjs.org/download.html) is a headless WebKit scriptable with a JavaScript API. It has fast and native support for various web standards: DOM handling, CSS selector, JSON, Canvas, and SVG.
@@ -192,9 +214,9 @@ Now , try to run again , and you will not see this error .
 
 # SecureCRT
 
-更改字体
+更改字体、默认编码
 
-    在出现的“Global Options”选项卡中，选择“Default Session”选项，再选择右边一栏中的“Edit Default Settings”按钮。字体选择“couriew 18pt"。之后重启 SecureCRT
+    在出现的“Global Options”选项卡中，选择“Default Session”选项，再选择右边一栏中的“Edit Default Settings”按钮。字体选择“couriew 18pt"，Character encoding选择“UTF-8"。之后重启 SecureCRT
 破解3.7.x 版本
 `sudo perl ~/Downloads/securecrt_mac_crack.pl /Applications/SecureCRT.app/Contents/MacOS/SecureCRT`
 生成序列号信息。

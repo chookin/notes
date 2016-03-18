@@ -34,6 +34,10 @@ Wunderlist is a simple to­do list and task manager app that helps you get stuff
     Credits go to darkvoid.
     All done! Enjoy! :)
 
+导入utf-8编码的中文csv文件乱码问题：
+- 首先使用sublime打开该csv文件，将文件转为GBK编码（需要sublime装convert to utf8插件），【File】|【Set File Encoding to】|【Chinese Simplified(GBK)】。
+- 之后，打开office excel，新建一个空白文档，选择【文件】|【导入...】，选择已转码后的csv文件，在“文件原始格式”处，选择Chinese(GB 18030)。
+
 # VirtualBox
 [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 安装virtualbox和VirtualBox Extension Pack。

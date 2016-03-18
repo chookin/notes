@@ -85,24 +85,26 @@ route add default gw 192.168.110.103
 # Firewall configuration written by system-config-firewall
 # Manual customization of this file is not recommended.
 *filter
-# 该规则表示INPUT表默认策略是ACCEPT
+# the default rule for input is ACCEPT
 :INPUT ACCEPT [0:0]
-# 该规则表示FORWARD表默认策略是ACCEPT
+# the default rule for forward is ACCEPT
 :FORWARD ACCEPT [0:0]
-# 该规则表示OUTPUT表默认策略是ACCEPT
+# the default rule for output is ACCEPT
 :OUTPUT ACCEPT [0:0]
-# 允许已建立的或相关连的通行
+# accept input of established connections
 -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-# 向指定网段开放
+# open to sub network
 -A INPUT -s 192.168.0.0/255.255.255.0 -j ACCEPT
-#允许本地回环接口(即运行本机访问本机)
--A INPUT -s 127.0.0.1 -d 127.0.0.1 -j ACCEPT 
-# 开放22端口
+# accept loop access
+-A INPUT -s 127.0.0.1 -d 127.0.0.1 -j ACCEPT
+# open port 22
 -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
 # -A INPUT -p icmp -j ACCEPT
-# 下面两条的意思是在INPUT表和FORWARD表中拒绝所有其他不符合上述任何一条规则的数据包。并且发送一条host prohibited的消息给被拒绝的主机。
+# reject other packets, and send a message of 'host prohibited' to the rejected host.
 -A INPUT -j REJECT --reject-with icmp-host-prohibited
--A FORWARD -j REJECT --reject-with icmp-host-prohibited
+
+# if reject forward, lvs nat cannot work
+# -A FORWARD -j REJECT --reject-with icmp-host-prohibited
 -A OUTPUT -j ACCEPT
 COMMIT
 ```

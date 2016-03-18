@@ -9,5 +9,3 @@ yum install -y gcc zlib-devel openssl-devel
 ./configure && make && make install
 # ssh -V
 OpenSSH_6.9p1, OpenSSL 1.0.1e-fIPs 11 Feb 2013
-```
-

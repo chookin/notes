@@ -23,7 +23,7 @@ memcache是一个高性能的分布式的内存对象缓存系统，通过在内
 ## 启动命令
 指定监听端口，启动memcached实例：
 
-    nohup bin/memcached -m 2048  -u work -c 8192 -p 11211 >/dev/null 2>> logs/memcached11211.log &
+    nohup bin/memcached -m 2048 -c 8192 -p 11211 >/dev/null 2>> logs/memcached11211.log &
 
 ## 参数说明
 参数说明如下

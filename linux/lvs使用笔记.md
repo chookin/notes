@@ -21,10 +21,6 @@ lvs_server_outer_ip=111.13.47.171
 # 设置转发算法为加权轮叫调度（Weighted Round Robin）
 ipvsadm -A -t $lvs_server_outer_ip:8001 -s wrr
 ipvsadm -a -t $lvs_server_outer_ip:8001 -r 192.168.110.222:21889 -m
-ipvsadm -A -t $lvs_server_outer_ip:8002 -s wrr
-ipvsadm -a -t $lvs_server_outer_ip:8002 -r 192.168.110.223:21889 -m
-ipvsadm -A -t $lvs_server_outer_ip:8003 -s wrr
-ipvsadm -a -t $lvs_server_outer_ip:8003 -r 192.168.110.224:21889 -m
 ```
 5.查看配置的现有转发
 ```shell

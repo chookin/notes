@@ -141,7 +141,7 @@ Brogrammer主题可使得标题栏、侧边栏都是酷酷的黑色，不错！�
 格式化html，`cmd + shift +h`
 
 # ConvertToUTF8
-
+需要装插件Codecs33.
 # 插入当前时间
 想在代码注释时插入当前时间发现Sublime Text 3不支持，于是编写插件实现插入时间功能
 

@@ -21,15 +21,18 @@ make install
 linux服务器的默认位置是/etc/nginx/nginx.conf
 
 ## 基本配置
-```
+```shell
+#  运行 nginx 的所属组和所有者
 user www-data;
 pid /var/run/nginx.pid;
 worker_processes auto;
+# worker_processes 8;
+# worker_cpu_affinity 00000001 00000010 00000100 00001000 00010000 00100000 01000000 10000000;
 worker_rlimit_nofile 100000;
-
 ```
 
 - worker_processes 定义了nginx对外提供web服务时的worder进程数。最优值取决于许多因素，包括（但不限于）CPU核的数量、存储数据的硬盘数量及负载模式。不能确定的时候，将其设置为可用的CPU内核数将是一个好的开始（设置为“auto”将尝试自动检测它）。
+- worker_cpu_affinity Nginx 默认没有开启利用多核 cpu,配置该参数以充分利用多核cpu的性能，cpu有多少个核，就有几位数，1代表内核开启，0代表内核关闭
 - worker_rlimit_nofile 更改worker进程的最大打开文件数限制。如果没设置的话，这个值为操作系统的限制。设置后你的操作系统和Nginx可以处理比“ulimit -a”更多的文件，所以把这个值设高，这样nginx就不会有“too many open files”问题了。
 
 ## Events模块
@@ -43,7 +46,7 @@ use epoll;
 }
 ```
 
-- worker_connections设置可由一个worker进程同时打开的最大连接数。如果设置了上面提到的worker_rlimit_nofile，我们可以将这个值设得很高。
+- worker_connections设置可由一个worker进程同时打开的最大连接数。在作为web服务器的情况下，nginx最大连接数为worker_connections * worker_processes.
 - multi_accept 告诉nginx收到一个新连接通知后接受尽可能多的连接。
 - use 设置用于复用客户端线程的轮询方法。如果你使用Linux 2.6+，你应该使用epoll。如果你使用*BSD，你应该使用kqueue。想知道更多有关事件轮询？看下维基百科吧（注意，想了解一切的话可能需要neckbeard和操作系统的课程基础）
 
@@ -54,46 +57,80 @@ HTTP模块控制着nginx http处理的所有核心特性。
 
 ```shell
 http {
-server_tokens off;
-sendfile on;
-tcp_nopush on;
-tcp_nodelay on;
+    server_tokens off;
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
 
-access_log off;
-error_log /var/log/nginx/error.log crit;
+    access_log off;
+    error_log /var/log/nginx/error.log crit;
 
-keepalive_timeout 10;
-client_header_timeout 10;
-client_body_timeout 10;
-reset_timedout_connection on;
-send_timeout 10;
+    keepalive_timeout 10;
+    client_header_timeout 10;
+    client_body_timeout 10;
+    reset_timedout_connection on;
+    send_timeout 10;
 
-limit_conn_zone $binary_remote_addr zone=addr:5m;
-limit_conn addr 100;
+    limit_conn_zone $binary_remote_addr zone=addr:5m;
+    limit_conn addr 100;
 
-include /etc/nginx/mime.types;
-default_type text/html;
-charset UTF-8;
+    include /etc/nginx/mime.types;
+    default_type text/html;
+    charset UTF-8;
 
-gzip_disable "msie6";
-# gzip_static on;
-gzip_proxied any;
-gzip_min_length 1000;
-gzip_comp_level 4;
-gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+    gzip_disable "msie6";
+    # gzip_static on;
+    gzip_proxied any;
+    gzip_min_length 1000;
+    gzip_comp_level 4;
+    gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;
 
-# cache informations about file descriptors, frequently accessed files
-# can boost performance, but you need to test those values
-open_file_cache max=100000 inactive=20s;
-open_file_cache_valid 30s;
-open_file_cache_min_uses 2;
-open_file_cache_errors on;
-##
-# Virtual Host Configs
-# aka our settings for specific servers
-##
-include /etc/nginx/conf.d/*.conf;
-include /etc/nginx/sites-enabled/*;
+    # cache informations about file descriptors, frequently accessed files
+    # can boost performance, but you need to test those values
+    open_file_cache max=100000 inactive=20s;
+    open_file_cache_valid 30s;
+    open_file_cache_min_uses 2;
+    open_file_cache_errors on;
+    ##
+    # Virtual Host Configs
+    # aka our settings for specific servers
+    ##
+    include /etc/nginx/conf.d/*.conf;
+    include /etc/nginx/sites-enabled/*;
+
+    # 定义服务组 myapp1
+    upstream myapp1 {
+        server srv1.example.com weight=5;
+        server srv2.example.com weight=10;
+    }
+    # 开始配置一个域名,一个 server 配置段一般对应一个域名
+    server {
+        # 在本机所有 ip 上监听 80,也可以写为 192.168.1.202:80,这样的话,就只监听 192.168.1.202 上的 80 口
+        listen 80;
+        server_name  *.example.org; # 域名
+        index index.html index.htm; # 索引文件
+        location / { # 可以有多个 location
+            root /data/www; # 站点根目录,你网站文件存放的地方。注:站点目录和域名尽量一样,养成一个 好习惯
+            proxy_pass http://myapp1;
+        }
+        location /images/ {
+            root /data;
+        }
+        location ~ \.(gif|jpg|jpeg|png|bmp|ico)$ {
+            root /var/www/img/;
+            expires 30d;
+        }
+        # 定义错误页面,如果是 500 错误,则把站点根目录下的 50x.html 返回给用户
+        error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+            root /www/html/bbs.heytool.com;
+        }
+    }
+    server {
+        listen 80;
+        server_name  ~^(?<user>.+)\.example\.net$;
+        ...
+    }
 }
 ```
 
@@ -124,26 +161,37 @@ include /etc/nginx/sites-enabled/*;
 - open_file_cache_min_uses 定义了open_file_cache中指令参数不活动时间期间里最小的文件数。
 - open_file_cache_errors指定了当搜索一个文件时是否缓存错误信息，也包括再次给配置中添加文件。我们也包括了服务器模块，这些是在不同文件中定义的。如果你的服务器模块不在这些位置，你就得修改这一行来指定正确的位置。
 
-### 配置expires
-expires起到控制页面缓存的作用，合理的配置expires可以减少很多服务器的请求
-要配置expires，可以在http段中或者server段中或者location段中加入
-
-    location ~ \.(gif|jpg|jpeg|png|bmp|ico)$ {
-       root /var/www/img/;
-       expires 30d;
-    }
-控制图片等过期时间为30天.
+- upstream 用于定义一组反向代理/负载均衡后端服务器池。负载均衡默认采用轮询方式。参考[Using nginx as HTTP load balancer](http://nginx.org/en/docs/http/load_balancing.html)
+- server 服务组，通过端口或server_name区分。nginx在确定用哪个server处理来处理接收到的request后，将进一步从该server block中所定义的location directives中，选择能匹配该请求URI的。参考nginx [beginner's guide](http://nginx.org/en/docs/beginners_guide.html).
+- server_name 虚拟主机的域名,可以写多个域名,类似于别名,比如说你可以配置成
+server_name b.ttlsa.com c.ttlsa.com d.ttlsa.com,这样的话,访问任何一个域名,内容都是一样的。支持通配符*（例如*.domain.com）或正则表达式（例如~^(?.+)\.domain\.com$）。参考关于Nginx的[server names](http://nginx.org/en/docs/http/server_names.html)
+- proxy_pass 用于指定反向代理的服务器池
+- expires起到控制页面缓存的作用，合理的配置expires可以减少很多服务器的请求.
 
 # nginx 操作
 启动：
 
-    nginx -c /home/work/local/nginx/conf/nginx.conf
+    nginx
+    # nginx -c ~/local/nginx/conf/nginx.conf
 其他操作
 
     nginx -s stop                快速关闭Nginx，可能不保存相关信息，并迅速终止web服务。
     nginx -s quit                平稳关闭Nginx，保存相关信息，有安排的结束web服务。 
-    nginx -s reload              因改变了Nginx相关配置，需要重新加载配置而重载。 
+    nginx -s reload              修改配置后重启。 
     nginx -s reopen              重新打开日志文件。 
     从容停止   kill -QUIT 主进程号
     快速停止   kill -TERM 主进程号
     强制停止   kill -9 nginx
+
+# 常见问题
+（1）nginx: [emerg] unknown log format "main" in
+"main"错误是因为丢失了log_format选项，之前把他屏蔽掉了，把nginx.conf文件中的"log_format"取消注释即可。
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+    access_log  logs/access.log main;
+(2)nginx: [emerg] bind() to 0.0.0.0:80 failed (13: permission denied)
+the socket API bind() to a port less than 1024, such as 80 as your title mentioned, need root access.
+
+

@@ -1,58 +1,81 @@
-# init database
 
-    scripts/mysql_install_db --defaults-file=etc/my.cnf
-or
-
-    mysqld --initialize
-
-# start mysql
-start mysql, ensure the port is usable.
-
-    bin/mysqld_safe  --defaults-file=etc/my.cnf &
-    # if mac
-    mysql.server start
-
-# reset the root password
-
-    bin/mysqladmin --defaults-file=etc/my.cnf -u root -p password
-
-# stop mysql
-
-    bin/mysqladmin --defaults-file=etc/my.cnf -uroot -p shutdown
 
 # 登录
+
 ```shell
 mysql --defaults-file=local/mysql/etc/my.cnf -u root -p -h {host_name} -P {port}
 ```
-# grant privileges
 
-    bin/mysql --defaults-file=etc/my.cnf -u root -p
-    mysql> select user, host, password from mysql.user;
-    mysql> create database if not exists `snapshot` default character set utf8;
-    mysql> grant all on snapshot.* to 'snap'@'localhost' identified by 'snap_cm';
-    mysql> flush privileges;
+# 创建用户及授权
+
+```sql
+mysql> select user, host, password from mysql.user;
+mysql> create database if not exists `snapshot` default character set utf8;
+mysql> grant all on snapshot.* to 'snap'@'localhost' identified by 'snap_cm';
+mysql> flush privileges;
+```
+
+# 数据库操作
+```sql
+<!-- 创建数据库 -->
+create database if not exists db_name;
+<!-- 查看数据库 -->
+show databases;
+<!-- 选用数据库 -->
+use db_name;
+<!-- 删除数据库 -->
+drop database if exist db_name;
+查看数据库表
+show tables;
+删除数据表
+drop table if exists db_name;
+```
+
+## 数据库状态
+
+```sql
+查看目前处理的列表
+show processlist;
+查看存储过程有哪些
+show procedure status\G;
+
+```
+
+## 数据表操作
+```sql
+查看表信息
+desc table_name;
+查看表的创建
+show create table table_name;
+```
 
 # 编码
-
-    mysql> show variables like 'character%';
-    mysql> CREATE DATABASE yourdbname DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+```sql
+show variables like 'character%';
+CREATE DATABASE yourdbname DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+```
 
 # 导出
-
-    # 导出整个库
-    mysqldump -u root TE_DSP > te_dsp.sql
-    # 导出数据库的表结构，不含数据
-    mysqldump -u root -d TE_DSP_STAT > te_dsp.sql
-    # 导出库中的部分表
-    mysqldump  -u root -p darwin_lab20 t_flow t_project t_flowComp t_udc > darwin.sql
+```shell
+# 导出整个库
+mysqldump -u root TE_DSP > te_dsp.sql
+# 导出数据库的表结构，不含数据
+mysqldump -u root -d TE_DSP_STAT > te_dsp.sql
+# 导出库中的部分表
+mysqldump  -u root -p darwin_lab20 t_flow t_project t_flowComp t_udc > darwin.sql
+```
 
 # 导入
 
-    mysql -u someuser -p targetdatabase < mydatabase.sql
-    # 或者，登录mysql后，执行source 命令，此时注意需要先创建目标数据库并执行use命令切换数据库
-    create targetdatabase;
-    use targetdatabase;
-    source te_dsp.sql;
+```shell
+mysql -u someuser -p targetdatabase < mydatabase.sql
+
+# 或者，登录mysql后，执行source 命令，此时注意需要先创建目标数据库并执行use命令切换数据库
+create targetdatabase;
+use targetdatabase;
+source te_dsp.sql;
+```
+
 ## 使用LOAD DATA INFILE快速导入数据
 LOAD DATA INFILE 语句以非常高的速度从一个文本文件中读取记录行并插入到一个表中，该方式比直接的insert的效率要高，按照官方的说法是要比insert语句快上20倍。
 
@@ -65,7 +88,7 @@ LOAD DATA INFILE 语句以非常高的速度从一个文本文件中读取记录
 示例：
 
     load data infile '/home/mark/data_update.sql' replace into table test FIELDS TERMINATED BY ',' (id,name) 
-
+    
 # Notice
 
 * Tinyint,占用1字节的存储空间,取值范围是：带符号的范围是-128到127.
