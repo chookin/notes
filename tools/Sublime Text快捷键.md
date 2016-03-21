@@ -2,6 +2,7 @@ Sublime Text 2 实用快捷键[Mac OS X]
 
 #打开/前往
 
+    ⌘P  前往文件，可用于快速打开文件
     ⌘T  前往文件
     ⌘⌃P 前往项目
     ⌘R  前往 method

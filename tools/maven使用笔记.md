@@ -13,6 +13,18 @@
 mvn install:install-file -Dfile=lib/CCP_REST_SDK_JAVA_v2.7r.jar -DgroupId=com-cloopen-rest -DartifactId=rest-sdk -Dversion=1.0.0 -Dpackaging=jar -DgeneratePom=true
 ```
 
+# 语法
+## maven依赖关系中Scope的作用
+```
+在POM 4中，<dependency>中还引入了<scope>，用于管理依赖的部署。目前<scope>可以使用5个值：
+
+    * compile，缺省值，适用于所有阶段，会随着项目一起发布。
+    * provided，类似compile，期望JDK、容器或使用者会提供这个依赖。如servlet.jar。
+    * runtime，只在运行时使用，如JDBC驱动，适用运行和测试阶段。
+    * test，只在测试时使用，用于编译和运行测试代码。不会随项目发布。
+    * system，类似provided，需要显式提供包含依赖的jar，Maven不会在Repository中查找它。
+```
+
 # 打包
 ## 设定jdk版本
 ```xml
@@ -151,5 +163,49 @@ mvn install:install-file -Dfile=lib/CCP_REST_SDK_JAVA_v2.7r.jar -DgroupId=com-cl
             </configuration>
         </execution>
     </executions>
+</plugin>
+```
+
+# 常见问题
+1）打包时出现问题：
+
+    [ERROR] /Users/chookin/project/DaTiBa/Server4.0/trunk/src/com/chinamobile/websurvey/action/PublishAction.java:[1,1] 非法字符: '\ufeff'
+解决办法，转换文件为utf8 无bom格式。可以使用sublime打开，然后选择【File】|【Save with Encoding】|[UTF-8].
+
+2) jdk7中，maven 程序包com.sun.image.codec.jpeg不存在的解决方案
+
+```shell
+mvn install:install-file -DgroupId=com.sun -DartifactId=rt -Dversion=1.7 -Dpackaging=jar -Dfile=/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/jre/lib/rt.jar 
+mvn install:install-file -DgroupId=com.sun -DartifactId=jce -Dversion=1.7 -Dpackaging=jar -Dfile=/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/jre/lib/jce.jar 
+```
+
+在pox.xml中引入依赖 
+
+```xml
+<dependency>
+    <groupId>com.sun</groupId>
+    <artifactId>rt</artifactId>
+    <version>1.7</version>
+</dependency>
+
+<dependency>
+    <groupId>com.sun</groupId>
+    <artifactId>jce</artifactId>
+    <version>1.7</version>
+</dependency>
+```
+
+3) 打包war时报错，Error assembling WAR: webxml attribute is required (or pre-existing WEB-INF/web.xml if executing in update mode)
+
+需要指定web.xml文件的路径。
+
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-war-plugin</artifactId>
+    <version>2.2</version>
+    <configuration>
+        <webXml>WebRoot/WEB-INF/web.xml</webXml>
+    </configuration>
 </plugin>
 ```

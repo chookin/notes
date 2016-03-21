@@ -1,6 +1,7 @@
 [TOC]
 
 # brew
+
 http://brew.sh
 安装`/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
 
@@ -9,8 +10,10 @@ brew 安装的软件存放在 /usr/local/Cellar 中，同时会在 /usr/local/bi
 ```shell
 brew install wget
 ```
+
 # 控制台
 配置文件
+
 ```shell
 export MAVEN_HOME=/usr/local/maven
 export PATH=$MAVEN_HOME/bin:$PATH
@@ -27,6 +30,7 @@ alias ll="ls -all"
 ```
 
 # idea
+
 快捷键 https://resources.jetbrains.com/assets/products/intellij-idea/IntelliJIDEA_ReferenceCard_mac.pdf
 idea15激活
 选择license server
@@ -116,23 +120,8 @@ JDK7，JDK8则需要自己到Oracle官网下载安装对应的版本。自己安
         export JAVA_7_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home
         export JAVA_8_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_73.jdk/Contents/Home
         export JAVA_HOME=$JAVA_8_HOME
-
-3. 创建alias命令动态切换JAVA_HOME的配置 
-
-        alias jdk8='export JAVA_HOME=$JAVA_8_HOME'
-        alias jdk7='export JAVA_HOME=$JAVA_7_HOME'
-
-4. 验证
-
-    $ java -version
-    java version "1.8.0_73"
-    Java(TM) SE Runtime Environment (build 1.8.0_73-b02)
-    Java HotSpot(TM) 64-Bit Server VM (build 25.73-b02, mixed mode)
-    $ jdk7
-    $ java -version
-    java version "1.7.0_79"
-    Java(TM) SE Runtime Environment (build 1.7.0_79-b15)
-    Java HotSpot(TM) 64-Bit Server VM (build 24.79-b02, mixed mode)
+        export CLASSPATH="$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$CLASSPATH"
+        export PATH=$JAVA_HOME/bin:$PATH
 
 # maven
 在mac中使用brew安装，配置文件没有找到，因此采用下载安装包的方式。
@@ -165,13 +154,15 @@ brew install homebrew/php/phpmyadmin
 
 修改httpd.conf，找到“#LoadModule php5_module libexec/apache2/libphp5.so”，把前面的#号去掉，以使得apache能处理php页面。
 
-
 # PhantomJS
+
 [PhantomJS](http://phantomjs.org/download.html) is a headless WebKit scriptable with a JavaScript API. It has fast and native support for various web standards: DOM handling, CSS selector, JSON, Canvas, and SVG.
 
 下载解压缩，配置到PATH路径中即可。
 https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-macosx.zip
+
 # CasperJS
+
 [CasperJS](http://casperjs.org/) is an open source navigation scripting & testing utility written in Javascript for the PhantomJS WebKit headless browser and SlimerJS (Gecko). It eases the process of defining a full navigation scenario and provides useful high-level functions, methods & syntactic sugar for doing common tasks such as:
 
 - defining & ordering browsing navigation steps
@@ -196,6 +187,7 @@ Prerequisites
     phantomjs --version
     casperjs
 如果执行‘casperjs'命令时报错
+
 ```
 Couldn't find nor compute phantom.casperPath, exiting.
 ```
@@ -218,6 +210,7 @@ Now , try to run again , and you will not see this error .
 
     在出现的“Global Options”选项卡中，选择“Default Session”选项，再选择右边一栏中的“Edit Default Settings”按钮。字体选择“couriew 18pt"，Character encoding选择“UTF-8"。之后重启 SecureCRT
 破解3.7.x 版本
+
 `sudo perl ~/Downloads/securecrt_mac_crack.pl /Applications/SecureCRT.app/Contents/MacOS/SecureCRT`
 生成序列号信息。
 之后，打开secureCRT，输入license，选择手动依次输入。
@@ -249,8 +242,10 @@ npm was installed at
 
 Make sure that /usr/local/bin is in your $PATH.
 ```
+
 # 代码托管
 ## git.oschina
+
 https://git.oschina.net/oschina/git-osc/wikis/%E5%B8%AE%E5%8A%A9#ssh-keys
 
     ssh-keygen -t rsa -C "xxxxx@xxxxx.com"# Creates a new ssh key using the provided email
@@ -269,5 +264,18 @@ https://git.oschina.net/oschina/git-osc/wikis/%E5%B8%AE%E5%8A%A9#ssh-keys
 则证明添加成功。
 
 # 常用网址
-[google的镜像站](http://guge.suanfazu.com)
-[What's My User Agent?](http://whatsmyuseragent.com)
+
+- [google的镜像站](http://guge.suanfazu.com)
+- [What's My User Agent?](http://whatsmyuseragent.com)
+- [MVN repository](http://mvnrepository.com)
+
+# 常见问题
+（1）mac下~/.bashrc不起作用
+新建了 .bash_profile加载一次.bashrc就ok啦
+
+```shell
+if [ "${BASH-no}" != "no" ]; then  
+    [ -r ~/.bashrc ] && . ~/.bashrc  
+fi
+```
+

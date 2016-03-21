@@ -21,6 +21,7 @@ make install
 linux服务器的默认位置是/etc/nginx/nginx.conf
 
 ## 基本配置
+
 ```shell
 #  运行 nginx 的所属组和所有者
 user www-data;
@@ -38,6 +39,7 @@ worker_rlimit_nofile 100000;
 ## Events模块
 
 events模块中包含nginx中所有处理连接的设置。
+
 ```
 events {
 worker_connections 2048;
@@ -172,7 +174,7 @@ server_name b.ttlsa.com c.ttlsa.com d.ttlsa.com,这样的话,访问任何一个�
 启动：
 
     nginx
-    # nginx -c ~/local/nginx/conf/nginx.conf
+    nginx -c ~/local/nginx/conf/nginx.conf
 其他操作
 
     nginx -s stop                快速关闭Nginx，可能不保存相关信息，并迅速终止web服务。

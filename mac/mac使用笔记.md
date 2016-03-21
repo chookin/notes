@@ -44,13 +44,13 @@ Wunderlist is a simple to­do list and task manager app that helps you get stuff
 在菜单【VirtualBox】，点击【偏好配置】，在“网络”页面添加nat和hostonly的网卡。
 
 ## 安装windows
-在网络配置中，选择”网络地址转换(NAT)”即可。USB选择USB3.0.
+在网络配置中，选择”网络地址转换(NAT)”即可。USB选择USB2.0(注意：虚机选用usb3.0很可能识别不了u盘，建议选用usb2.0).
 在共享文件夹配置中添加共享文件夹。
 
 win7密钥 KH2J9-PC326-T44D4-39H6V-TVPBY
 虚机屏幕全屏的办法：登录虚机，之后，在虚机的菜单栏【设备】,点击【安装增强功能...】
 启用共享文件夹的方法：登录虚机，在文件夹窗口，右键点击”计算机“，选择”映射网络驱动器(N)...“,进入”映射网络驱动器“窗口，点击”浏览“，选择宿主机所共享的文件夹路径即可。
-虚机连接USB设备：首先需要在宿主机中”推出“，之后，在虚机的菜单栏【设备】|【USB】勾选相应的USB即可。注意：虚机选用usb3.0很可能识别不了u盘，建议选用usb2.0.
+虚机连接USB设备：首先需要在宿主机中”推出“，之后，在虚机的菜单栏【设备】|【USB】勾选相应的USB即可。
 
 # 操作笔记
 
@@ -63,6 +63,10 @@ win7密钥 KH2J9-PC326-T44D4-39H6V-TVPBY
     创建软连接 ln -s source_file target_file 注意mac系统中文件名是不区分大小写的
     怎么看mht文件    把mht文件作为附件发给自己的qq邮箱，然后点击预览
     修改hostname  sudo scutil --set HostName chookin.mac
+    截取全屏 Shift＋Command＋3快捷键组合，即可截取电脑全屏，图片自动保存在桌面
+    截取任意窗口：快捷键（Shift＋Command＋4）
+        ▲直接按“Shift＋Command＋4“快捷键组合，出现十字架的坐标图标；
+        ▲拖动坐标图标，选取任意区域后释放鼠标，图片会自动保存在桌面。
 # note
 不好用的软件
 foxmail

@@ -27,9 +27,34 @@ cat /proc/meminfo
 ```
 
 # 文件操作
+## 权限
+
 ```shell
 find /var/backup/db* -type f -exec chmod 400 {} \;
 find /var/backup/db* -type d -exec chmod 700 {} \;
+```
+
+## ls 排序
+
+```shell
+ls -lS                 按大小降序排列
+ls -l | sort -n -k5    按大小升序
+ls -lrt                按时间降序
+ls -lnt                按时间升序
+ls -l | sort -k9       按文件名升序（这是ls的默认输出方式）
+ls -lr                 按文件名降序
+ls -l | sort -rk9      按文件名降序
+ls -l -d */            只显示目录
+ls -l |grep -v "^d"    只显示文件
+```
+
+# 进程
+## 结束进程
+
+```shell
+jps | grep appname | awk '{print $1}' | xargs kill -9
+ps aux | grep appname | awk '{print $2}' | xargs kill -9
+pgrep appname | xargs kill -9
 ```
 
 # 系统配置
