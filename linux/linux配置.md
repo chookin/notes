@@ -1,5 +1,35 @@
+[TOC]
+
+# 时区
+## 查看时区
+
+```shell
+$ date -R
+Thu, 07 Apr 2016 10:29:09 +0800
+```
+
+## 修改时区
+
+```shell
+cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+```
+
 # 网络
+## hostname
+### 修改hostname
+
+1. Open the /etc/sysconfig/network file with your favorite text editor. Modify the HOSTNAME= value to match your FQDN host name.
+```shell
+$ sudo vi /etc/sysconfig/network
+NETWORKING=yes
+HOSTNAME=myserver.domain.com
+```
+2. Change the host that is associated to your main IPaddress for your server, this is for internal networking (found at /etc/hosts):
+3. The 'hostname' command will let you change the hostname on the server that the commandline remembers, but it will not actively update all programs that are running under the old hostname.
+4. reconnect the shell connection, or restart network.
+
 ## 查看网卡是否连接网线
+
 ```shell
 [root@lab50 ~]# mii-tool em1
 em1: negotiated 100baseTx-FD, link ok

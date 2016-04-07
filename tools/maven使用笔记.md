@@ -209,3 +209,8 @@ mvn install:install-file -DgroupId=com.sun -DartifactId=jce -Dversion=1.7 -Dpack
     </configuration>
 </plugin>
 ```
+
+4) Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.1:compile (default-compile) on project Mycat-server: Fatal error compiling: 无效的目标发行版: 1.8 -> [Help 1]
+
+Your Maven is reading Java version is not the version of the pom.xml says, which is 1.8. Try using the jdk1.8.
+

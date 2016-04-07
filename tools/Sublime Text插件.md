@@ -29,6 +29,7 @@ int main(){
 
 # MarkdownLight
 主题`MarkdownEditing`相对好看。貌似不能语法高亮，需要结合MarkdownEditing使用。
+
 # Markdown Preview
 相对`OmniMarkupPreviewer`来说，可以用[TOC]标记来生成目录。
 ## 使用
@@ -83,6 +84,19 @@ st支持自定义快捷键，markdown preview默认没有快捷键，我们可�
 JsFormat 基于 JS Beautifier，可以帮助你自动格式化 JavaScript和JSON。
 快捷键：Ctrl + Alt + f 或者，你也可以使用菜单栏。
 可定制喜欢的格式：在 SublimeText 3 中 Preferences -> Package Settings -> JsFormat -> Settings - Default 可以调整这些配置。
+
+
+# HTML-CSS-JS Prettify
+需要先按照node.js.
+
+确认Node.js安装路径:
+
+鼠标右键HTML/CSS/JS Prettify > Set Plugin Options保证插件路径与Node.js安装路径一致，Ctrl+s保存。
+格式化html，`cmd + shift +h`
+
+# Pretty Json
+格式化`cmd + cntr + j`
+
 # Terminal
 用于从当前位置打开终端。
 ## 配置终端路径
@@ -131,14 +145,6 @@ Brogrammer主题可使得标题栏、侧边栏都是酷酷的黑色，不错！�
 "theme": "Brogrammer.sublime-theme",
 "color_scheme": "Packages/Theme - Brogrammer/brogrammer.tmTheme"
 ```
-
-# HTML-CSS-JS Prettify
-需要先按照node.js.
-
-确认Node.js安装路径:
-
-鼠标右键HTML/CSS/JS Prettify > Set Plugin Options保证插件路径与Node.js安装路径一致，Ctrl+s保存。
-格式化html，`cmd + shift +h`
 
 # ConvertToUTF8
 需要装插件Codecs33.

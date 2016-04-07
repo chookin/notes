@@ -6,3 +6,10 @@
     可以使用标准的 glob 模式匹配。
     匹配模式最后跟反斜杠（/）说明要忽略的是目录。
     要忽略指定模式以外的文件或目录，可以在模式前加上惊叹号（!）取反。
+
+# git status显示中文
+执行如下命令即可
+
+```shell
+git config --global core.quotepath false
+```

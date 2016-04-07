@@ -1,5 +1,7 @@
 # 超大硬盘分区
+
 安装os完毕后，root登录linux。
+
 ## GPT
 由于MBR分区表只支持2T磁盘，所以大于2T的磁盘必须使用GPT分区表。
 
@@ -25,18 +27,21 @@ Information: You may need to update /etc/fstab.
 ### 安装xfsprogs
 挂载rhel的iso安装盘，从其中找到xfsprogs的安装包，安装即可。
 或者直接从网络下载安装。
+
 ```shell
 yum install -y http://mirrors.aliyun.com/centos/6/os/x86_64/Packages/xfsprogs-3.1.1-16.el6.x86_64.rpm
 ```
 
 ### 格式化
 利用mkfs.xfs格式化硬盘，xfs格式化速度还是挺快的，稍等几分钟即可把30T的硬盘格式化完毕。
+
 ```shell
 mkfs.xfs -f /dev/sdb1
 ```
 
 ### 挂载硬盘
 创建数据文件夹，并挂载磁盘分区到此路径。
+
 ```shell
 mkdir /data
 mount /dev/sdb1 /data/
@@ -44,14 +49,17 @@ mount /dev/sdb1 /data/
 
 ### 配置硬盘开机挂载
 修改/etc/fstab，新增一行
+
 ```
 /dev/sdb1       /data           xfs     defaults        0 0
 ```
 之后，执行如下命令测试是否配置正确，如果报错，请一定检查。
+
 ```shel
 mount -a
 ```
 或者，一步到位执行如下命令：
+
 ```shell
 cp /etc/fstab /etc/fstab.bak && echo '/dev/sdb1               /data                   xfs     defaults        0 0'>> /etc/fstab && mount -a
 ```

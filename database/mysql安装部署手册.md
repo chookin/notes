@@ -1,4 +1,5 @@
 [TOC]
+
 # rhel6安装mysql
 ## 安装编译代码需要的包
 
@@ -41,6 +42,12 @@ bin/mysqladmin --defaults-file=etc/my.cnf -uroot -p shutdown
 # 访问mysql
 bin/mysql --defaults-file=etc/my.cnf -u root -p
 ```
+
+选用mysqld_safe启动的好处。
+1、mysqld_safe增加了一些安全特性，例如当出现错误时重启服务器并向错误日志文件写入运行时间信息。
+2、如果有的选项是mysqld_safe 启动时特有的，那么可以终端指定，如果在配置文件中指定需要放在[mysqld_safe]组里面，放在其他组不能被正确解析。
+3、mysqld_safe启动能够指定内核文件大小`ulimit -c $core_file_size`以及打开的文件的数量`ulimit -n $size`。
+4、MySQL程序首先检查环境变量，然后检查配置文件，最后检查终端的选项，说明终端指定选项优先级最高。
 
 ## 常见问题
 （1）invalid conversion from ‘size_socket*’ to ‘socklen_t*’
@@ -89,15 +96,14 @@ port            = 23306
 socket          = /Users/chookin/data/mysql/var/mysqld.sock
 default-character-set   =utf8
 
-# Here follows entries for some specific programs
+# Here follows entries for mysqld_safe
 [mysqld_safe]
-socket          = /Users/chookin/data/mysql/var/mysqld.sock
-nice            = 0
 
 # The MySQL server
 [mysqld]
-port            = 23306
-socket          = /Users/chookin/data/mysql/var/mysql.sock
+## 忽略密码，可用于处理密码忘记的情境
+#skip-grant-tables
+
 local-infile    = 0
 pid-file        = /Users/chookin/data/mysql/var/mysqld.pid
 socket          = /Users/chookin/data/mysql/var/mysqld.sock
@@ -135,3 +141,34 @@ Notice, full text replacement command of vi(如果包含字符'/'，那么需要
 ```shell
 :g/path\/work/s//path\/yourname/g
 ```
+
+# 使用mysqld_multi部署单机多实例
+
+# 常见问题
+1）mysql编译出错
+```
+-- Could NOT find Curses (missing:  CURSES_LIBRARY CURSES_INCLUDE_PATH) 
+CMake Error at cmake/readline.cmake:83 (MESSAGE):
+  Curses library not found.  Please install appropriate package,
+```
+
+解决办法：The error may be from cache file. Delete CMakeCache.txt, then try again. http://stackoverflow.com/questions/8192287/curses-library-not-found 
+
+2）mysql编译时，明明指定的路径是/home/work/local/mysql，为什么启动mysql时，却提示没有权限建立/var/lib/mysql?
+
+可能原因：如果安装Linux系统时，安装了系统自带的mysql，则对以后安装mysql产生影响。
+
+解决方案：启动时指定配置文件，例如
+```
+bin/mysqld_safe --defaults-file=etc/my.cnf &
+```
+
+3) mysql本地连接报错
+```
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' 
+```
+问题原因，所连接的数据库为本机数据库，然而mysql命令调用的配置文件不是所连接数据库的。解决办法，指定socket参数，例如：
+```
+mysql -u admin -p -S /home/zhuyin/local/mysql/var/mysql.sock 
+```
+

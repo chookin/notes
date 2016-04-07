@@ -1,9 +1,12 @@
-
+[TOC]
 
 # 登录
 
 ```shell
 mysql --defaults-file=local/mysql/etc/my.cnf -u root -p -h {host_name} -P {port}
+
+# 当使用-A参数时，就不预读数据库信息
+mysql --defaults-file=local/mysql/etc/my.cnf -u root -p -h {host_name} -P {port} {database} -A
 ```
 
 # 创建用户及授权
@@ -55,6 +58,24 @@ show variables like 'character%';
 CREATE DATABASE yourdbname DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
 ```
 
+# 存储引擎
+InnoDB和MyISAM是许多人在使用MySQL时最常用的两个表类型，这两个表类型各有优劣，视具体应用而定。基本的差别为：
+
+- MyISAM不支持事务，而InnoDB支持。InnoDB的AUTOCOMMIT默认是打开的，即每条SQL语句会默认被封装成一个事务，自动提交，这样会影响速度，所以最好是把多条SQL语句显示放在begin和commit之间，组成一个事务去提交。
+- InnoDB支持数据行锁定，MyISAM不支持行锁定，只支持锁定整个表。即MyISAM同一个表上的读锁和写锁是互斥的，MyISAM并发读写时如果等待队列中既有读请求又有写请求，默认写请求的优先级高，即使读请求先到，所以MyISAM不适合于有大量查询和修改并存的情况，那样查询进程会长时间阻塞。因为MyISAM是锁表，所以某项读操作比较耗时会使其他写进程饿死。
+- InnoDB支持外键，MyISAM不支持。
+- InnoDB的主键范围更大，最大是MyISAM的2倍。
+- InnoDB不支持全文索引，而MyISAM支持。
+
+mysql> show variables like '%storage_engine%';
++------------------------+--------+
+| Variable_name          | Value  |
++------------------------+--------+
+| default_storage_engine | InnoDB |
+| storage_engine         | InnoDB |
++------------------------+--------+
+2 rows in set (0.00 sec)
+
 # 导出
 ```shell
 # 导出整个库
@@ -63,6 +84,9 @@ mysqldump -u root TE_DSP > te_dsp.sql
 mysqldump -u root -d TE_DSP_STAT > te_dsp.sql
 # 导出库中的部分表
 mysqldump  -u root -p darwin_lab20 t_flow t_project t_flowComp t_udc > darwin.sql
+
+# export to csv
+mysql> select nodeid, nodename from treenode  where treepath like '12276%' into outfile '/tmp/treenode.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n';
 ```
 
 # 导入
@@ -89,6 +113,17 @@ LOAD DATA INFILE 语句以非常高的速度从一个文本文件中读取记录
 
     load data infile '/home/mark/data_update.sql' replace into table test FIELDS TERMINATED BY ',' (id,name) 
     
+# 忘记密码
+在my.cnf 里面的[mysqld]下面加上一行：
+```
+skip-grant-tables
+```
+然后重启mysql服务，并执行
+```
+mysql> update mysql.user set password = password ( 'new-password' ) WHERE user = 'root';
+```
+随后，再把刚添加的“skip-grant-tables”给注释掉，最后重启msql，OK！
+
 # Notice
 
 * Tinyint,占用1字节的存储空间,取值范围是：带符号的范围是-128到127.
@@ -97,3 +132,5 @@ LOAD DATA INFILE 语句以非常高的速度从一个文本文件中读取记录
 * TIMESTAMP values are converted from the current time zone to UTC for storage, and converted back from UTC to the current time zone for retrieval. (This occurs only for the TIMESTAMP data type, not for other types such as DATETIME.) More notably:If you store a TIMESTAMP value, and then change the time zone and retrieve the value, the retrieved value is different from the value you stored.
 * Timestamps in MySQL generally used to track changes to records, and are often updated every time the record is changed. If you want to store a specific value you should use a datetime field.
 * BIGINT[(M)] [UNSIGNED] [ZEROFILL] 大整数。带符号的范围是-9223372036854775808到9223372036854775807。无符号的范围是0到18446744073709551615。M指示最大显示宽度。最大有效显示宽度是255。显示宽度与存储大小或类型包含的值的范围无关
+
+# 常见问题

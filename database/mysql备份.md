@@ -109,5 +109,8 @@ CONFIG_mail_address='elarwei@gmail.com'
 sh automysqlbackup automysqlbackup.conf
 ```
 
+## 解压缩
+gzip -d back.sql.gz
+
 ## 参考
 - [CentOS下使用Automysqlbackup工具自动备份MySQL](http://www.cnblogs.com/elaron/archive/2013/03/22/2975887.html)

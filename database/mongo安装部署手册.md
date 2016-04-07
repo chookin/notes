@@ -24,6 +24,15 @@ Or, if you don't want/need launchctl, you can just run:
   mongod --config /usr/local/etc/mongod.conf &
 ```
 
+## 问题
+（1） “WARNING: soft rlimits too low” in MongoDB with Mac OS X
+
+Amongodd this to the /etc/launchd.conf file:
+`launchctl limit maxfiles 1024 1024`
+
+Now reboot to make changes effective.
+
+
 # 启动服务
 ```shell
 mongod --config /usr/local/etc/mongod.conf &

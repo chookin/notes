@@ -163,7 +163,7 @@ http {
 - open_file_cache_min_uses 定义了open_file_cache中指令参数不活动时间期间里最小的文件数。
 - open_file_cache_errors指定了当搜索一个文件时是否缓存错误信息，也包括再次给配置中添加文件。我们也包括了服务器模块，这些是在不同文件中定义的。如果你的服务器模块不在这些位置，你就得修改这一行来指定正确的位置。
 
-- upstream 用于定义一组反向代理/负载均衡后端服务器池。负载均衡默认采用轮询方式。参考[Using nginx as HTTP load balancer](http://nginx.org/en/docs/http/load_balancing.html)
+- upstream 用于定义一组反向代理/负载均衡后端服务器池。服务器池可以使用域名，也可以使用服务器的IP地址。负载均衡默认采用轮询方式。参考[Using nginx as HTTP load balancer](http://nginx.org/en/docs/http/load_balancing.html)
 - server 服务组，通过端口或server_name区分。nginx在确定用哪个server处理来处理接收到的request后，将进一步从该server block中所定义的location directives中，选择能匹配该请求URI的。参考nginx [beginner's guide](http://nginx.org/en/docs/beginners_guide.html).
 - server_name 虚拟主机的域名,可以写多个域名,类似于别名,比如说你可以配置成
 server_name b.ttlsa.com c.ttlsa.com d.ttlsa.com,这样的话,访问任何一个域名,内容都是一样的。支持通配符*（例如*.domain.com）或正则表达式（例如~^(?.+)\.domain\.com$）。参考关于Nginx的[server names](http://nginx.org/en/docs/http/server_names.html)

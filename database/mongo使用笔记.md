@@ -116,9 +116,30 @@
     db.book.update({},{$unset:{"tag":""}},{multi:true})
 
 # 索引
+对于不使用索引的sort()操作，当使用超过32Mb内存时，sort()操作将退出。
+## 创建索引
 
     db.goods.ensureIndex({'site':1}) # 使用ensureIndex来创建索引，1为升序，-1为倒序
     db.runCommand({“dropIndexes”: “goods”, “index”: “site”}) # dropIndexes后面跟的参数是集合名称，index后面跟的参数是索引名称，如果需要删除所有索引，使用”*”即可
+
+## 创建稀疏索引
+`db.collection.ensureIndex({a:1},{sparse:true})`
+
+## 创建唯一索引
+`db.collection.ensureIndex({a:1},{unique:true})`
+
+## 查看某个表上的所有索引
+`db.collection.getIndexes()`
+
+## 删除索引
+
+```
+ db.comments.dropIndex({"channel" : 1,
+... "appName" : 1,
+... "version" : 1});
+{ "nIndexesWas" : 3, "ok" : 1 }
+```
+
 # group
 
     db.goods.group({
@@ -165,3 +186,12 @@
     mongoexport --host localhost --db ecomm --collection category --csv --out chinaz.csv --fields name,site,level,url -q '{ site:"chinaz"}'
     mongoexport --host localhost --db ecomm --collection site --csv --out sites.csv --fields name,url,ranking,category
     mongoexport --host localhost --db ecomm --collection goods --csv --out goods.csv --fields name,site,tag -q '{"tag":{"$ne":null}}'
+
+# mapreduce
+## 调试
+调试可以用print输出。注意：调试信息输入到了mongo的日子文件中，而不是直接输出到控制台。
+```
+var emit = function(key, value) {
+    print("emit -> key: " + key + " value: " + tojson(value));
+};
+```

@@ -169,7 +169,7 @@ yum install mod_dav_svn subversion httpd
 
     svn checkout http://111.13.47.167/repos/tagbase/ tagbase/
 不会覆盖本地的tagbase文件夹中文件。
-## 撤消add
+## 撤消 revert
 
     svn revert --recursive example_folder
     svn info
@@ -184,9 +184,17 @@ checkout到本地的src文件夹（需要把原来的给删掉）。
 ## update
 
     svn update
-## revert
+## 分支
+创建分支 svn copy trunk branches/branch-ms
+merge分支 首先把主干上的代码合并到分支上来（如果主干进行修改了的话），分支测试完成之后再将分支代码合并到主干去。
+建立tags
+产品开发已经基本完成，并且通过很严格的测试，这时候我们就想发布给客户使用，发布我们的1.0版本
+svn copy http://svn_server/xxx_repository/trunk http://svn_server/xxx_repository/tags/release-1.0 -m "1.0 released"
 
-    svn revert .
+删除分支或tags
+svn rm http://svn_server/xxx_repository/branches/br_feature001
+svn rm http://svn_server/xxx_repository/tags/release-1.0
+
 ## 提交文件
 
     svn commit  [path...]
