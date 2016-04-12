@@ -13,3 +13,54 @@
 ```shell
 git config --global core.quotepath false
 ```
+
+# 命令
+## git
+- 查看配置信息 `git config --list`
+
+## 获取
+```shell
+# 获取最新版本
+git clone git@github.com:MyCATApache/Mycat-Server.git --max-depth=1
+# 获取指定分支
+git clone -b release_branch https://github.com/jetty/
+```
+
+## 分支管理
+- 查看远程分支
+
+```shell
+$ git branch -a
+* master
+  remotes/origin/1.3.0.1
+  remotes/origin/1.4
+  remotes/origin/1.5
+  remotes/origin/1.6
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/master
+  remotes/origin/revert-677-1.5
+```
+
+- 查看当前的远程库 `git remote -v`
+- 查看当前分支
+
+```shell
+$ git branch
+$ git branch -v
+* master
+```
+
+- 创建分支 `git branch brach_name`
+- 切换分支 `git checkout branch_name`
+- 删除分支
+    + `git branch -d branch_name` 如果该分支没有合并到主分支会报错
+    + `git branch -D branch_name` 强制删除
+- 分支合并
+比如，如果要将开发中的分支（develop），合并到稳定分支（master），
+    + 首先切换的master分支：git checkout master。
+    + 然后执行合并操作：git merge develop。
+    + 如果有冲突，会提示你，调用git status查看冲突文件。
+    + 解决冲突，然后调用git add或git rm将解决后的文件暂存。
+    + 所有冲突解决后，git commit 提交更改。
+
+

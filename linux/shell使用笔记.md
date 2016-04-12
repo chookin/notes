@@ -77,10 +77,21 @@ shell中条件判断if中的-z到-d的意思：
     [ STRING1 < STRING2 ] 如果 “STRING1” sorts before “STRING2” lexicographically in the current locale则为真。
     [ STRING1 > STRING2 ] 如果 “STRING1” sorts after “STRING2” lexicographically in the current locale则为真。
 
-## 1>/dev/null跟在命令行后面
+## 1>/dev/null 2>&1的含义
+shell中可能经常能看到：`>/dev/null 2>&1`
 
-    1> /dev/null 表示将命令的标准输出重定向到 /dev/null
-    2>/dev/null 表示将命令的错误输出重定向到 /dev/null
+其意义是什么呢？现在说说其中各组件的意思：
+
+    /dev/null 代表空设备文件
+    > 代表重定向到哪里，例如：echo "123" > /home/123.txt
+    1 表示stdout标准输出，系统默认值是1，所以">/dev/null"等同于"1>/dev/null"
+    2 表示stderr标准错误
+    & 表示等同于的意思，2>&1，表示2的输出重定向等同于1
+
+那么本文标题的语句:
+
+    1>/dev/null 首先表示标准输出重定向到空设备文件，也就是不输出任何信息到终端，说白了就是不显示任何信息。
+    2>&1 接着，标准错误输出重定向等同于 标准输出，因为之前标准输出已经重定向到了空设备文件，所以标准错误输出也重定向到空设备文件。
 
 ## $参数说明
 

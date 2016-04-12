@@ -11,6 +11,10 @@ DS_Store是Mac OS保存文件夹的自定义属性的隐藏文件，如文件的
 把聊天记录的QQ文件夹整个复制替换新电脑里的，打开QQ后一切都过来了。mac中的路径为：
 
     ~/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/
+
+# 移动硬盘的挂载路径
+/Volumes/
+
 # rar解压缩软件
 iZip unarchiver app store安装。
 
@@ -58,6 +62,15 @@ win7密钥 KH2J9-PC326-T44D4-39H6V-TVPBY
 虚机屏幕全屏的办法：登录虚机，之后，在虚机的菜单栏【设备】,点击【安装增强功能...】
 启用共享文件夹的方法：登录虚机，在文件夹窗口，右键点击”计算机“，选择”映射网络驱动器(N)...“,进入”映射网络驱动器“窗口，点击”浏览“，选择宿主机所共享的文件夹路径即可。
 虚机连接USB设备：首先需要在宿主机中”推出“，之后，在虚机的菜单栏【设备】|【USB】勾选相应的USB即可。
+
+# 翻墙
+不需要使用翻墙软件，配置hosts即可。
+https://github.com/highsea/Hosts/blob/master/hosts
+https://github.com/racaljk/hosts/blob/master/hosts#L2
+
+参考：
+
+- [mac修改host文件，让你的mac轻松上google](http://www.liubingyang.com/like/host-google-mac.html)
 
 # 操作笔记
 
