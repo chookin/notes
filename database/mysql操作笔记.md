@@ -1,6 +1,7 @@
 [TOC]
+# 权限
 
-# 登录
+## 登录
 
 ```shell
 mysql --defaults-file=local/mysql/etc/my.cnf -u root -p -h {host_name} -P {port}
@@ -9,7 +10,7 @@ mysql --defaults-file=local/mysql/etc/my.cnf -u root -p -h {host_name} -P {port}
 mysql --defaults-file=local/mysql/etc/my.cnf -u root -p -h {host_name} -P {port} {database} -A
 ```
 
-# 创建用户及授权
+## 创建用户及授权
 
 ```sql
 mysql> select user, host, password from mysql.user;
@@ -18,7 +19,18 @@ mysql> grant all on snapshot.* to 'snap'@'localhost' identified by 'snap_cm';
 mysql> flush privileges;
 ```
 
-# 数据库操作
+## 忘记密码
+在my.cnf 里面的[mysqld]下面加上一行：
+```
+skip-grant-tables
+```
+然后重启mysql服务，并执行
+```
+mysql> update mysql.user set password = password ( 'new-password' ) WHERE user = 'root';
+```
+随后，再把刚添加的“skip-grant-tables”给注释掉，最后重启msql，OK！
+
+# mysql 操作
 ```sql
 <!-- 创建数据库 -->
 create database if not exists db_name;
@@ -32,6 +44,8 @@ drop database if exist db_name;
 show tables;
 删除数据表
 drop table if exists db_name;
+
+CREATE TABLE table_name (column_name column_type);
 ```
 
 ## 数据库状态
@@ -57,6 +71,59 @@ show create table table_name;
 show variables like 'character%';
 CREATE DATABASE yourdbname DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
 ```
+
+# binlog
+## 登录到mysql查看binlog
+- 获取binlog文件列表
+
+```sql
+mysql> show binary logs;
++---------------------+-----------+
+| Log_name            | File_size |
++---------------------+-----------+
+| 50-mysql-bin.000001 |       107 |
++---------------------+-----------+
+```
+
+- 查看第一个binlog文件的内容
+
+```sql
+
+mysql> show binlog events;
++---------------------+-----+-------------+-----------+-------------+---------------------------------------+
+| Log_name            | Pos | Event_type  | Server_id | End_log_pos | Info                                  |
++---------------------+-----+-------------+-----------+-------------+---------------------------------------+
+| 50-mysql-bin.000001 |   4 | Format_desc |         2 |         107 | Server ver: 5.5.48-log, Binlog ver: 4 |
++---------------------+-----+-------------+-----------+-------------+---------------------------------------+
+```
+
+- 查看指定binlog文件的内容
+```
+show binlog events in 'mysql-bin.000002';
+```
+
+- 查看当前正在写入的binlog文件
+
+```
+show master status\G
+```
+
+## 用 mysqlbinlog 查看
+采用mysqlbinlog 查看mysql的binlog文件.
+
+```shell
+mysqlbinlog --no-defaults mysql-bin.000001 |less
+```
+
+## 常见问题
+1）mysqlbinlog查看日志的时候碰到了一个问题， 
+错误提示如下：
+/usr/local/mysql/bin/mysqlbinlog: unknown variable 'default-character-set=utf8' 
+
+产生这个问题的原因是因为我在my.cnf中的client选项组中添加了
+default-character-set=utf8
+
+解决办法：使用`--no-defaults`
 
 # 存储引擎
 InnoDB和MyISAM是许多人在使用MySQL时最常用的两个表类型，这两个表类型各有优劣，视具体应用而定。基本的差别为：
@@ -113,16 +180,6 @@ LOAD DATA INFILE 语句以非常高的速度从一个文本文件中读取记录
 
     load data infile '/home/mark/data_update.sql' replace into table test FIELDS TERMINATED BY ',' (id,name) 
     
-# 忘记密码
-在my.cnf 里面的[mysqld]下面加上一行：
-```
-skip-grant-tables
-```
-然后重启mysql服务，并执行
-```
-mysql> update mysql.user set password = password ( 'new-password' ) WHERE user = 'root';
-```
-随后，再把刚添加的“skip-grant-tables”给注释掉，最后重启msql，OK！
 
 # Notice
 

@@ -48,6 +48,16 @@ ls -l -d */            只显示目录
 ls -l |grep -v "^d"    只显示文件
 ```
 
+## 文件查找
+查找指定类型的文件，并进而查找包含指定字符的
+```find . -type f -name *.java | xargs grep -r common.Logger```
+
+## 文件删除
+- 删除除指定文件外的其它文件
+`ls | grep -v jpg | xargs rm -rf`
+
+说明：ls列出当前目录下的所有文件（不包括以 . 开头的隐含文件），然后是管道（|）传给过滤器，然后通过过滤器grep -v（-v表示反检索，只显示不匹配的行，类似windows下的反选，注意是小写的v），然后再是管道（|）传给xargs（xargs是给命令传递参数的一个过滤器），到这儿也就说，xargs会把前面管道传来输入作为后面rm -rf命令执行的参数。
+
 # grep常用用法
 
 ```shell

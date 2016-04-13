@@ -1,10 +1,6 @@
 [TOC]
 # 基本使用
 
-## 查找
-查找指定类型的文件，并进而查找包含指定字符的
-```find . -type f -name *.java | xargs grep -r common.Logger```
-
 ## echo
 -e
 

@@ -67,6 +67,7 @@ mysql> select user,host,password from mysql.user;
 server-id=1
 # log-bin为二进制变更日值
 log-bin=mysql-bin
+binlog_format=mixed
 ```
 
 参数：
@@ -238,6 +239,37 @@ Master_SSL_Verify_Server_Cert: No
 `Slave_IO_Running`和`Slave_SQL_Running`均是`yes`表明slave的两个同步线程状态正常。
 此时，可以在我们的主服务器做一些更新的操作,然后在从服务器查看是否已经更新
 
+## 常见问题
+1）在slave机器上执行`show slave status\G;`报错
+
+```sql
+mysql> show slave status\G;
+…
+Last_IO_Error: Fatal error: The slave I/O thread stops because master and slave have equal MySQL server UUIDs; these UUIDs must be different for replication to work.
+```
+
+问题原因，拷贝整个data目录，把auto.cnf文件也拷贝过来了，里面记录了数据库的uuid，每个库的uuid应该是不一样的。因此，修改该值为其他数据即可。
+
+2) 在slave机器上执行show slave status\G；报错
+
+```
+mysql> show slave status\G;
+…
+Last_Errno: 1062
+Last_Error: Error 'Duplicate entry '%-test-' for key 'PRIMARY'' on query. Default database: 'mysql'. Query: 'INSERT INTO db SELECT * FROM tmp_db WHERE @had_db_table=0;'
+```
+解决办法：分别登录主库和从库的mysql，执行如下命令。
+
+```
+# in both nodes
+STOP SLAVE;
+RESET MASTER;
+RESET SLAVE;
+# on slave node
+start slave;
+```
+
+# 主从同步的管理
 ## 状态监控
 ### 查看主库状态
 ```sql
@@ -289,7 +321,27 @@ Command: Connect
 ```
 
 行3为I/O线程状态，行4为SQL线程状态。
+## 同步启停
+1.  停止MYSQL同步
+```sql
+STOP SLAVE IO_THREAD;    #停止IO进程
+STOP SLAVE SQL_THREAD;    #停止SQL进程
+STOP SLAVE;                               #停止IO和SQL进程
+```
 
+2.  启动MYSQL同步
+```sql
+START SLAVE IO_THREAD;    #启动IO进程
+START SLAVE SQL_THREAD;  #启动SQL进程
+START SLAVE;             #启动IO和SQL进程
+```
+
+3.   重置MYSQL同步
+```sql
+RESET SLAVE;
+```
+
+## 故障切换
 ### slave同步状态检测及主从切换
 检测 show slave status 中的 "Seconds_Behind_Master","Slave_IO_Running","Slave_SQL_Running" 三个字段来确定当前主从同步的状态及 Seconds_Behind_Master 主从复制时延。
 
@@ -302,36 +354,6 @@ Command: Connect
 ## 性能提升
 为了提升查询性能,有人创新的设计了一种 MySQL 主从复制模式,主节点为 InnoDB 引擎,读节点为 MyISAM 引擎,经过实践,収现查询性能提升不少。
 此外,为了减少主从复制的时延,也建议采用 MySQL 5.6+的版本,用 GTID 同步复制方式减少复制的时延,可以将一个 Database 中的表，根据写频率的不同，分成几个数据库，这样就可以多库并发复制，注意的是，有join关系的表需放在一个库中。
-
-## 常见问题
-1）在slave机器上执行`show slave status\G;`报错
-
-```sql
-mysql> show slave status\G;
-…
-Last_IO_Error: Fatal error: The slave I/O thread stops because master and slave have equal MySQL server UUIDs; these UUIDs must be different for replication to work.
-```
-
-问题原因，拷贝整个data目录，把auto.cnf文件也拷贝过来了，里面记录了数据库的uuid，每个库的uuid应该是不一样的。因此，修改该值为其他数据即可。
-
-2) 在slave机器上执行show slave status\G；报错
-
-```
-mysql> show slave status\G;
-…
-Last_Errno: 1062
-Last_Error: Error 'Duplicate entry '%-test-' for key 'PRIMARY'' on query. Default database: 'mysql'. Query: 'INSERT INTO db SELECT * FROM tmp_db WHERE @had_db_table=0;'
-```
-解决办法：分别登录主库和从库的mysql，执行如下命令。
-
-```
-# in both nodes
-STOP SLAVE;
-RESET MASTER;
-RESET SLAVE;
-# on slave node
-start slave;
-```
 
 # 参考
 - [高性能Mysql主从架构的复制原理及配置详解](http://blog.csdn.net/hguisu/article/details/7325124/)
