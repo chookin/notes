@@ -90,6 +90,8 @@
     db.goods.find({"url":{$regex:'detail.tmall'}})
     db.goods.find({"properties.品牌":{$regex:'博龙啤酒'}})
     db.goods.find({"properties.品牌":{$regex:'other/其他'}})
+    # 替换换行符
+    db.comments.find({content:{$regex:'\n'}}).limit(10)
 # 插入
 
     db.user.insert({‘name’ : ’starlee’, ‘age’ : 25})

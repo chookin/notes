@@ -161,8 +161,12 @@ skip-slave-start
 - skip-slave-start 防止复制随着mysql启动而自动启动。即slave端的mysql服务重启后需手动来启动主从复制（slave start），最好加上，slave端数据库服务重启后手动启动slave比较安全；
 - read-only 用来限制普通用户对从数据库的更新操作，以确保从数据库的安全性，不过如果是超级用户依然可以对从数据库进行更新操作;直接向从库写入数据时，是会写入log-bin日志的;
 - slave-skip-errors 用来定义复制过程中从服务器可以自动跳过的错误号，当复制过程中遇到定义的错误号，就可以自动跳过，直接执行后面的SQL语句；
-- replicate-do-db 配置需同步的数据库
+- replicate-do-db 配置需同步的数据库,多个DB用逗号分隔
 - replicate-ignore-db 配置忽略同步的数据库
+- Replicate_Do_Table:设定需要复制的Table
+- Replicate_Ignore_Table:设定可以忽略的Table
+- Replicate_Wild_Do_Table:功能同Replicate_Do_Table,但可以带通配符来进行设置。
+- Replicate_Wild_Ignore_Table:功能同Replicate_Do_Table,功能同Replicate_Ignore_Table,可以带通配符。
 
 3.测试从库是否能和主库相连接
 ```shell

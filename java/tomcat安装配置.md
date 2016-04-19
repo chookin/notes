@@ -434,5 +434,8 @@ web.xml基于Java Servlet规范，可被用于每一个Java servlet容器，通�
 1）启动tomcat后，控制台报错：WEB-INF/lib/servlet-api.jar not loaded. See Servlet Spec 2.3, section 9.7.2. Offending class: javax/servlet/Servlet.class
 问题原因：tomcat的common/lib下已经包含了servlet-api.jar，因此没有重复加载。
 
+2）与nginx集成端口重定向问题
+
 # 参考
 - [Tomcat安装及配置详解](https://www.ttlsa.com/tomcat/tomcat-install-and-configure/)
+- [nginx和Tomcat集成后发生的重定向问题分析和解决](http://www.ituring.com.cn/article/48042)

@@ -59,6 +59,7 @@ IPV6INIT=no
 NAME="System em1"
 ```
 
+`HWADDR`即为mac地址，mac地址
 ### 增加ip
 若网卡为em1,则创建文件`/etc/sysconfig/network-scripts/ifcfg-em1:0`,编辑文件内容
 ```shell

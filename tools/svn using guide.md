@@ -216,6 +216,7 @@ svn rm http://svn_server/xxx_repository/tags/release-1.0
     svn diff -x --ignore-all-space -r 276 > a.patch
 # 常见问题
 
+1)
     svn: Could not use external editor to fetch log message; consider setting the $SVN_EDITOR environment variable or using the --message (-m) or --file (-F) options
     svn: None of the environment variables SVN_EDITOR, VISUAL or EDITOR are set, and no 'editor-cmd' run-time configuration option was found
 问题原因：
@@ -225,12 +226,19 @@ svn rm http://svn_server/xxx_repository/tags/release-1.0
 1. 记录一个log信息，即在命令后面加上 -m "消息内容"
 2. 修改环境变量文件，例如/etc/profile，加入如下一行：
 
-<pre>
+```
 export SVN_EDITOR=vi
-</pre>
+```
 温馨提示：
 编辑完以后一般需要让配置文件立即生效，可执行命令：
 
     source /etc/profile
+
+2) idea打开svn版本管理的项目报错：
+```
+svn: E155021: This client is too old to work with the working copy at '/Users/chookin/project/DaTiBa' (format 31). You need to get a newer Subversion client. 
+```
+
+查看当前用户下的svn版本，发现版本挺高的啊。问题原因是，idea使用的系统自带的svn，配置idea中的svn路径为当前用户所使用的较高版本的svn路径即可。
 # 总结
 在这篇文章中介绍了如何部署svn的服务端软件subversion、客户端软件TortoiseSVN、eclipse svn插件以及在eclipse中使用svn。

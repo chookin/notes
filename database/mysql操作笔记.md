@@ -18,7 +18,6 @@ mysql> create database if not exists `snapshot` default character set utf8;
 mysql> grant all on snapshot.* to 'snap'@'localhost' identified by 'snap_cm';
 mysql> flush privileges;
 ```
-
 ## 忘记密码
 在my.cnf 里面的[mysqld]下面加上一行：
 ```
@@ -170,7 +169,9 @@ source te_dsp.sql;
 ## 使用LOAD DATA INFILE快速导入数据
 LOAD DATA INFILE 语句以非常高的速度从一个文本文件中读取记录行并插入到一个表中，该方式比直接的insert的效率要高，按照官方的说法是要比insert语句快上20倍。
 
-    LOAD DATA [LOW_PRIORITY | CONCURRENT] [LOCAL] INFILE 'file_name.txt' [REPLACE | IGNORE] INTO TABLE tbl_name [FIELDS [TERMINATED BY '\t'] [[OPTIONALLY] ENCLOSED BY ''] [ESCAPED BY '\\' ] ] [LINES TERMINATED BY '\n'] [IGNORE number LINES] [(col_name,...)]
+```sql
+LOAD DATA [LOW_PRIORITY | CONCURRENT] [LOCAL] INFILE 'file_name.txt' [REPLACE | IGNORE] INTO TABLE tbl_name [FIELDS [TERMINATED BY '\t'] [[OPTIONALLY] ENCLOSED BY ''] [ESCAPED BY '\\' ] ] [LINES TERMINATED BY '\n'] [IGNORE number LINES] [(col_name,...)]
+```
 
 - LOCAL 如果 LOCAL 关键词被指定，文件从客户端主机读取。如果 LOCAL 没有被指定，文件必须位于服务器上。只有当你没有以 --local-infile=0 选项启动mysqld，或你没有禁止你的客户端程序支持 LOCAL的情况下，LOCAL 才会工作
 - 如果你对一个 MyISAM 表指定关键词 CONCURRENT，那么当 LOAD DATA正在执行时，其它的线程仍可以从表中检索数据。
@@ -180,6 +181,20 @@ LOAD DATA INFILE 语句以非常高的速度从一个文本文件中读取记录
 
     load data infile '/home/mark/data_update.sql' replace into table test FIELDS TERMINATED BY ',' (id,name) 
     
+
+# shell访问mysql并执行命令
+```shell
+#!/bin/sh
+db_user=taglib_user
+db_passwd=tag_lib*user
+db_port=1128
+db_host=localhost
+db_dbname=TE_DSP
+mysql_bin_dir=/home/work/local/mysql/bin
+
+
+${mysql_bin_dir}/mysql -u${db_user} -p${db_passwd} -P${db_port} -h${db_host} -D${db_dbname} -e "show tables;"
+```
 
 # Notice
 

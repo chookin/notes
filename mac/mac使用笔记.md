@@ -21,11 +21,15 @@ iZip unarchiver app store安装。
 # Wunderlist
 Wunderlist is a simple to­do list and task manager app that helps you get stuff done. Whether you’re sharing a grocery list with a loved one, working on a project, or planning a vacation, Wunderlist makes it easy to capture, share, and complete your to­dos. Wunderlist instantly syncs between your phone, tablet and computer, so you can access all your tasks from anywhere.
 
-# 打开mht文件
+# 文件操作
+
+## 打开mht文件
 在MAC下查看MHT文件About how to open mht files on a mac. MHT是IE (PC)下保存网页的文件，有很多人说直接拖到OPERA下就行，但由于很多页面不兼容OPERA内容可能无法显示。后来找到FIREFOX和SAFARI的插件，用起来更顺手一些。
 
 打开firefox, 输入地址：http://www.unmht.org/en_index.html 点击 unmht-5.2.0.xpi （或最新版本）。会提示安装（install），然后自动重启后就行了。直接拖文件到ff图标下无法打开，需要先打开ff然后拖文件到浏览器就可以看了。
 
+## terminal打开当前路径文件夹
+`open .`
 
 
 # Microsoft Office 2016

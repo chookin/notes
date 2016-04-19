@@ -110,6 +110,7 @@ body {
 # 代码格式化
 ## Alignment
 代码对齐，按照=对齐
+ctrl + alt + a
 
 ## Trmmer
 删除不必要的空格

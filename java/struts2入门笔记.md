@@ -61,7 +61,7 @@ package元素一般继承struts-default.xml文件中定义的struts-default包�
 如果某个action不能从其声明中找到匹配的返回结果，则将查询global-results中可用的。
 
 # struts2与spring集成
-需要的JAR文件为：Spring和Struts2框架本身需要的JAR文件以及他们所依赖的JAR文件，比如commons-logging.jar等等，另外还需要Struts2发布包中的struts2-spring-plugin-x.xx.jar。
+需要的JAR文件为：Spring和Struts2框架本身需要的JAR文件以及他们所依赖的JAR文件，比如commons-logging.jar等等，另外<font color="red">还需要Struts2发布包中的struts2-spring-plugin-x.xx.jar</font>。
 
 struts2单独使用时action由struts2自己负责创建；与spring集成时，action实例由spring负责创建（依赖注入）。这导致在两种情况下struts.xml配置文件的略微差异。
 
