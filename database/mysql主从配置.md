@@ -47,8 +47,8 @@ SQL slave thread（SQL从线程）处理该过程的最后一步。SQL线程从�
 1.在主服务器上设置一个从数据库的账户,使用`REPLICATION SLAVE`赋予权限,如：在主库上新增加一个名为slave的账户,其中`mysql_slave1`为从库的hostname。
 
 ```sql
-# mysql> grant FILE ON *.* TO 'slave'@'192.168.110.*' IDENTIFIED BY 'OC3ABgWVIEltoU9Y';
-mysql> grant replication slave on *.* to 'slave'@'192.168.110.*' identified by 'OC3ABgWVIEltoU9Y';
+# mysql> grant FILE ON *.* TO 'slave'@'lab51' IDENTIFIED BY 'OC3ABgWVIEltoU9Y';
+mysql> grant replication slave on *.* to 'slave'@'lab51' identified by 'OC3ABgWVIEltoU9Y';
 mysql> FLUSH PRIVILEGES;
 ```
 
@@ -72,7 +72,7 @@ binlog_format=mixed
 
 参数：
 
-- auto-increment-increment和auto- increment-offset是为了支持双主而设置的，在只做主从的时候，也可以不设置。
+- auto-increment-increment和auto-increment-offset是为了支持双主而设置的，在只做主从的时候，也可以不设置。
 - binlog-do-db 用来表示，只把哪些数据库的改动记录到binary日志中。
 - binlog-ignore-db 表示，需要忽略哪些数据库。
 
@@ -98,7 +98,7 @@ mysql> show master status;
 1 row in set (0.00 sec)
 ```
 
-该status表明了正在记录的 binarylog文件名及文件偏移量。其中，Binlog_Do_DB和Binlog_Ignore_DB是在配置文件中配置的。
+该status表明了正在记录的 binarylog文件名及文件偏移量（请记住这两个参数，配置slave时需使用）。其中，Binlog_Do_DB和Binlog_Ignore_DB是在配置文件中配置的。
 
 - Master 重启后会修改mysql-bin（序号加1）
 
@@ -118,7 +118,7 @@ mysql> show variables like '%log_bin%';
 +---------------------------------+-------+
 ```
 
-3.创建mysql数据目录的快照
+3.创建mysql数据目录的快照，或者直接同步数据文件夹到从库服务器
 
 ```shell
 $ cd /data/work/ && tar zcvf /tmp/mysql-snapshot.tgz mysql
@@ -130,12 +130,7 @@ mysql> unlock tables;
 ```
 
 ## 配置从库
-1.编译安装mysql数据库或者采用rsync同步主库的数据到从库。
-
-```shell
-$ cd /home/work/local # 进入到mysql安装目录的上级目录
-$ rsync -av mysql node146:~/local/ --exclude=mysql/var/*
-```
+1.编译安装mysql，并配置从主库拷贝过来的数据文件到slave数据目录
 
 2.配置slave
 
@@ -183,7 +178,9 @@ $ bin/mysqld_safe  --defaults-file=etc/my.cnf &
 
 2.和主数据库同步
 
-登录从库
+- 登录从库
+
+如果Master已经运行一段时间，日志可能已经丢失或转储，此时，不可能从头开始复制日志，所以配置从库时，一般进行一次性初始化操作，主要是用`change master to`命令中的两个参数指定binlog复制的开始位置，即：`master_log_file`和`master_log_pos`.
 
 ```sql
 mysql> stop slave;
@@ -351,15 +348,73 @@ RESET SLAVE;
 
 当Seconds_Behind_Master的值超过某一阈值时,读写分离筛选器需过滤掉该Slave机器,防止过时的旧数捤,当主节点宕机后,切换逻辑检查 Slave 上的Seconds_Behind_Master 是否为0,为0时则表示主从同步,可以安全切换,否则不会切换。
 
-参考：
-
-- Mycat权威指南v1.6.0
-
 ## 性能提升
 为了提升查询性能,有人创新的设计了一种 MySQL 主从复制模式,主节点为 InnoDB 引擎,读节点为 MyISAM 引擎,经过实践,収现查询性能提升不少。
 此外,为了减少主从复制的时延,也建议采用 MySQL 5.6+的版本,用 GTID 同步复制方式减少复制的时延,可以将一个 Database 中的表，根据写频率的不同，分成几个数据库，这样就可以多库并发复制，注意的是，有join关系的表需放在一个库中。
+
+# 克隆slave
+当需要增加slave节点时，如果已经有一个Slave连在Master上，则可使用这个Slave创建新的Slave，而不需要离线(offline)Master了。
+与克隆Master基本相同，主要区别在于如果找到binlog位置。
+因为要克隆那个Slave同时还在执行从Master的复制，所以必须在备份前停止Slave,保证Slave上不再发变化，否则会产生不一致的备份镜像。
+但是如果使用某种在线备份方法，如InnoDB Hot Backup，则不需要在创建备份前停止Slave。
+## 锁定源Slave数据库并查看状态，确定复制开始位置。
+
+```sql
+--停止Slave
+stop slave;
+--锁定数据库
+flush tables with read lock;
+--查看Slave数据库状态
+show slave status\G;
+```
+
+查看从库状态时，记住这两个参数的值
+- Relay_Master_Log_File， 如master-bin.000004
+- Exec_Master_Log_Pos，如2958
+
+## 拷贝数据
+拷贝数据到新建slave节点；
+
+## 解锁源slave
+```sql
+unlock tables;
+```
+
+## 在新的slave配置并启动
+- 测试连接
+```shell
+mysql -u slave -p -h mysql_master -P23306
+```
+
+- 配置新的slave
+```shell
+server-id       = 3
+relay_log       = mysql-relay-bin
+read-only
+skip-slave-start
+```
+
+- 启动新的slave数据库
+```shell
+bin/mysqld_safe  --defaults-file=etc/my.cnf & 
+```
+
+- 登录新的slave数据库并配置复制
+```sql
+CHANGE MASTER TO MASTER_HOST='mysql_master', MASTER_PORT=23306, MASTER_USER='slave', MASTER_PASSWORD='OC3ABgWVIEltoU9Y',MASTER_LOG_FILE='mysql-bin.000001', MASTER_LOG_POS=16902270;
+```
+
+- 启动slave复制并查看状态
+```sql
+start slave;
+show slave status\G;
+```
 
 # 参考
 - [高性能Mysql主从架构的复制原理及配置详解](http://blog.csdn.net/hguisu/article/details/7325124/)
 - [CHANGE MASTER TO Syntax](http://dev.mysql.com/doc/refman/5.5/en/change-master-to.html)
 - [how to re-sync the Mysql DB if Master and slave have different database incase of Mysql replication?](http://stackoverflow.com/questions/2366018/how-to-re-sync-the-mysql-db-if-master-and-slave-have-different-database-incase-o)
+- [MySQL学习笔记--复制建立新Slave的方法：克隆Master\Slave](http://blog.csdn.net/lichangzai/article/details/50440328)
+- [为什么mysql的binlog-do-db选项是危险的](http://coolnull.com/3145.html)
+- [Binary Logging Options and Variables](http://dev.mysql.com/doc/refman/5.7/en/replication-options-binary-log.html)
+- Mycat权威指南v1.6.0

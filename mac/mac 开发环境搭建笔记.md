@@ -36,7 +36,12 @@ idea15激活
 选择license server
 http://15.idea.lanyus.com
 
-为了使得能自动加载本地的包，需要配置idea,执行更新maven的Repositories.
+- 智能提示忽略大小写 [Editor]|[Code Completion]，选择`Case sensitive completion`为`None`；
+- 为了使得能自动加载本地的包，需要配置idea,执行更新maven的Repositories. [Build, Execution, Deployment]|[Build Tools]|[Maven]|[Repositories]，选择本地的repository，点击`update`按钮。
+- 查看注释：Win: Ctrl+Q, Mac: Control+J
+- 统计代码函数，安装插件statistics，之后【View】|【Tool Windows】|【statistics】
+- 为java程序设置 -D command-line option：【Run】|【Edit Configurations...】，在“VM options"中输入参数，如"-Daction=baidu"
+
 
 ## 插件
 GsonFormat
@@ -122,6 +127,16 @@ JDK7，JDK8则需要自己到Oracle官网下载安装对应的版本。自己安
         export JAVA_HOME=$JAVA_8_HOME
         export CLASSPATH="$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$CLASSPATH"
         export PATH=$JAVA_HOME/bin:$PATH
+
+问题：
+
+- 代码编译报错
+
+```
+ no suitable method found for collect(java.util.stream.Collector<java.lang.Object,capture#1 of ?,java.util.List<java.lang.Object>>)
+```
+
+解决办法，升级jdk 到版本8u40及以上 [Bogus "no suitable method found" error from javac](https://bugs.openjdk.java.net/browse/JDK-8051443)
 
 # maven
 在mac中使用brew安装，配置文件没有找到，因此采用下载安装包的方式。

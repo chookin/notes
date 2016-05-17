@@ -27,6 +27,7 @@ cat /proc/meminfo
 ```
 
 # 文件操作
+
 ## 权限
 
 ```shell
@@ -50,13 +51,21 @@ ls -l |grep -v "^d"    只显示文件
 
 ## 文件查找
 查找指定类型的文件，并进而查找包含指定字符的
-```find . -type f -name *.java | xargs grep -r common.Logger```
+```shell
+find . -type f -name *.java | xargs grep -r common.Logger
+find . -type f -name "*.sh" | xargs grep -r "merged.data"
+```
 
 ## 文件删除
 - 删除除指定文件外的其它文件
 `ls | grep -v jpg | xargs rm -rf`
 
 说明：ls列出当前目录下的所有文件（不包括以 . 开头的隐含文件），然后是管道（|）传给过滤器，然后通过过滤器grep -v（-v表示反检索，只显示不匹配的行，类似windows下的反选，注意是小写的v），然后再是管道（|）传给xargs（xargs是给命令传递参数的一个过滤器），到这儿也就说，xargs会把前面管道传来输入作为后面rm -rf命令执行的参数。
+
+执行命令`$ rm -rf *`时报错，`-bash: /bin/rm: Argument list too long`。解决办法：`find . -name "*" | xargs rm -rf '*'`
+
+## 文件树
+查看文件树使用命令`tree`.若系统中没有该命令，需要安装之 `yum install -y tree`
 
 # grep常用用法
 
@@ -88,3 +97,10 @@ pgrep appname | xargs kill -9
 chookin - nofile 655360
 ```
 就配置了用户chookin最多打开的文件数。到用户chookin环境下执行`ulimit -n`校验该配置是否生效。
+
+# mail
+清空mail消息
+
+```shell
+echo '' > /var/spool/mail/`whoami` 
+```

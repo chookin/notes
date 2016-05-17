@@ -39,7 +39,9 @@ mongod --config /usr/local/etc/mongod.conf &
 ```
 或者
 ```shell
-mongod --dbpath=/data/mongodb/data/ --logpath=/data/mongodb/logs/mongod.log --logappend &
+mkdir -p ${HOME}/data/mongo/data
+mkdir -p ${HOME}/data/mongo/logs
+mongod --dbpath=${HOME}/data/mongo/data/ --logpath=${HOME}/data/mongo/logs/mongod.log --logappend &
 ```
 
 # 使用自带客户端连接

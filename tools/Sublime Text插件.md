@@ -92,6 +92,11 @@ body {
 将markdown转换为pdf应该有很多种方法的。我没有再折腾，直接用谷歌浏览器虚拟打印功能生成。
 利用Markdown Preview的Preview in Browser功能可以在浏览器上看到htm效果。在页面右键->打印->另存为pdf->调节页边距即可将pdf文件下载下来。
 
+# Colorpicker
+使用一个取色器改变颜色
+
+使用方法 : ctrl + shift + c 
+
 # SidebarEnhancements
 为左侧sidebar增加功能。
 怎么让左侧显示目录树？
@@ -112,8 +117,14 @@ body {
 代码对齐，按照=对齐
 ctrl + alt + a
 
-## Trmmer
-删除不必要的空格
+## HTML-CSS-JS Prettify
+需要先按照node.js.
+
+确认Node.js安装路径:
+
+鼠标右键HTML/CSS/JS Prettify > Set Plugin Options保证插件路径与Node.js安装路径一致，Ctrl+s保存。
+
+格式化html，`cmd + shift +h`
 
 ## JsFormat：代码格式化
 
@@ -121,17 +132,13 @@ JsFormat 基于 JS Beautifier，可以帮助你自动格式化 JavaScript和JSON
 快捷键：Ctrl + Alt + f 或者，你也可以使用菜单栏。
 可定制喜欢的格式：在 SublimeText 3 中 Preferences -> Package Settings -> JsFormat -> Settings - Default 可以调整这些配置。
 
-
-## HTML-CSS-JS Prettify
-需要先按照node.js.
-
-确认Node.js安装路径:
-
-鼠标右键HTML/CSS/JS Prettify > Set Plugin Options保证插件路径与Node.js安装路径一致，Ctrl+s保存。
-格式化html，`cmd + shift +h`
-
 ## Pretty Json
-格式化`cmd + cntr + j`
+json文本格式化`cmd + cntr + j`
+
+## Trimmer
+删除不必要的空格.
+
+`cmd + shift + p` 输入`trimmer`...
 
 # Terminal
 用于从当前位置打开终端。

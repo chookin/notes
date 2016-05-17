@@ -239,7 +239,7 @@ Engine容器中可以包含Realm、Host、Listener和Valve子容器。
 ```
 
 常用属性说明：
-1) appBase：此Host的webapps目录，即存放非归档的web应用程序的目录或归档后的WAR文件的目录路径；可以使用基于$CATALINA_HOME的相对路径；
+1) appBase：这个目录下面的子目录将自动被部署为应用;这个目录下面的.war文件将被自动解压缩并部署为应用.
 2) autoDeploy：在Tomcat处于运行状态时放置于appBase目录中的应用程序文件是否自动进行deploy；默认为true；
 3) unpackWars：在启用此webapps时是否对WAR格式的归档文件先进行展开；默认为true；
 
@@ -281,7 +281,7 @@ reloadable=”true”>
 
 在Tomcat6中，每一个context定义也可以使用一个单独的XML文件进行，其文件的目录为`$CATALINA_HOME/conf//`。可以用于Context中的XML元素有Loader，Manager，Realm，Resources和WatchedResource。
 常用的属性定义有：
-1) docBase：相应的Web应用程序的存放位置；也可以使用相对路径，起始路径为此Context所属Host中appBase定义的路径；切记，docBase的路径名不能与相应的Host中appBase中定义的路径名有包含关系，比如，如果appBase为deploy，而docBase绝不能为deploy-bbs类的名字；
+1) docBase：相应Web应用程序的存放位置；也可以使用相对路径，起始路径为此Context所属Host中appBase定义的路径；切记，docBase的路径名不能与相应的Host中appBase中定义的路径名有包含关系，比如，如果appBase为deploy，而docBase绝不能为deploy-bbs类的名字；
 2) path：相对于Web服务器根路径而言的URI；如果为空“”，则表示为此webapp的根路径；如果context定义在一个单独的xml文件中，此属性不需要定义，有可能是别名；
 3) reloadable：是否允许重新加载此context相关的Web应用程序的类；默认为false；
 

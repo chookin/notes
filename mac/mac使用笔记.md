@@ -1,3 +1,8 @@
+设置root初始密码,以管理员账户执行如下命令
+```shell
+sudo passwd root
+```
+
 # DS_Store
 DS_Store是Mac OS保存文件夹的自定义属性的隐藏文件，如文件的图标位置或背景色，相当于Windows的desktop.ini。
 1，禁止.DS_store生成：打开   “终端” ，复制黏贴下面的命令，回车执行，重启Mac即可生效。
@@ -68,7 +73,7 @@ win7密钥 KH2J9-PC326-T44D4-39H6V-TVPBY
 虚机连接USB设备：首先需要在宿主机中”推出“，之后，在虚机的菜单栏【设备】|【USB】勾选相应的USB即可。
 
 # 翻墙
-不需要使用翻墙软件，配置hosts即可。
+访问google,不需要使用翻墙软件，配置hosts即可。之后就可以正常访问https://www.google.com.hk
 https://github.com/highsea/Hosts/blob/master/hosts
 https://github.com/racaljk/hosts/blob/master/hosts#L2
 
@@ -91,6 +96,7 @@ https://github.com/racaljk/hosts/blob/master/hosts#L2
     截取任意窗口：快捷键（Shift＋Command＋4）
         ▲直接按“Shift＋Command＋4“快捷键组合，出现十字架的坐标图标；
         ▲拖动坐标图标，选取任意区域后释放鼠标，图片会自动保存在桌面。
+    dock在多屏幕间移动 想要在哪个屏幕使用dock，就在这个屏幕把鼠标移动到最底部即可。
 # note
 不好用的软件
 foxmail

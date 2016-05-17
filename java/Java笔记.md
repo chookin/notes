@@ -1,3 +1,5 @@
+[TOC]
+
 # 基础语法
 ## enum
 enum定义了特殊的类别，继承自`java.lang.Enum`，不过这是由编译器处理，直接继承Enum类别会被编译器拒绝。
@@ -21,6 +23,18 @@ Enum.valueOf // 从枚举常量的字符串值解析得到enum
 #name // 获取枚举常量的名称
 #compareTo // 按照枚举常量的声明次序做比较
 ```
+
+# 流
+
+## 常见问题
+- `java.util.Properties`读取中文乱码
+解决办法，明确指定文件的编码
+```java
+Properties prop=new Properties();         
+prop.load(new InputStreamReader(Client.class.getClassLoader().getResourceAsStream("config.properties"), "UTF-8"));   
+```
+
+# 连接池
 
 # 技术点
 ## json序列化
@@ -99,3 +113,26 @@ JMX由三部分组成：
 JDK提供了一个工具在jdk/bin目录下面，这就是JConsole。使用JConsole可以远程或本地连接JMX agent。
 ### jvisualvm
 主要用来监控JVM的运行情况，可以用它来查看和浏览Heap Dump、Thread Dump、内存对象实例情况、GC执行情况、CPU消耗以及类的装载情况。
+
+## sdk
+
+### 问题
+- Error: java: javacTask: source release 8 requires target release 1.8
+
+```
+In order to compile your code you should add maven build section:
+
+<build>
+    <plugins>
+        <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.2</version>
+            <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+Also you can go to File | Settings | Build, Execution, Deployment | Compiler | Java Compiler and change it there, but it will cause other developers failures as they need to modify IDE before build
+```

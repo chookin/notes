@@ -108,6 +108,14 @@
     db.category.update({site:'yhd', tag:'食品/休闲零食/糖类'}, {$set: {crawlTime:ISODate("1970-01-01T00:00:00Z")}}, false, true)
     db.category.update({site:'yhd'}, {$set: {crawlTime:ISODate("1970-01-01T00:00:00Z")}}, false, true)
 
+# 重命名列名
+
+```js
+db.apps.update({time:{$ne:null}}, {$rename : {"time" : "acquTime"}}, false, true)
+db.comments.update({},{$set: {"acquTime":ISODate("2016-04-20T07:27:11.683Z")}}, false, true)
+db.comments.update({versionCode:{$ne:null}}, {$rename : {"versionCode" : "version"}}, false, true)
+```
+
 # 删除
 
     db.dropDatabase(); # 删除database

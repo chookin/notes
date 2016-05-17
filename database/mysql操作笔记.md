@@ -29,6 +29,13 @@ mysql> update mysql.user set password = password ( 'new-password' ) WHERE user =
 ```
 随后，再把刚添加的“skip-grant-tables”给注释掉，最后重启msql，OK！
 
+问题：
+```sql
+mysql> select user, host, password from mysql.user;
+ERROR 1054 (42S22): Unknown column 'password' in 'field list'
+```
+原来是mysql5.7数据库下已经没有password这个字段了，password字段改成了authentication_string
+
 # mysql 操作
 ```sql
 <!-- 创建数据库 -->
@@ -132,6 +139,8 @@ InnoDB和MyISAM是许多人在使用MySQL时最常用的两个表类型，这两
 - InnoDB支持外键，MyISAM不支持。
 - InnoDB的主键范围更大，最大是MyISAM的2倍。
 - InnoDB不支持全文索引，而MyISAM支持。
+- InnoDB is mush slow on LOAD Data INFILE
+- 不要联合查询innodb 表和myisam表 [Joining InnoDB tables with MyISAM tables](http://stackoverflow.com/questions/5475283/joining-innodb-tables-with-myisam-tables)
 
 mysql> show variables like '%storage_engine%';
 +------------------------+--------+

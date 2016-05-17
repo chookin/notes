@@ -30,6 +30,9 @@
     ....
     elif ....; then
     ....
+    elif [ a > b] || [ a < 0]
+    then
+    ....
     else
     ....
     fi
@@ -39,7 +42,8 @@
       echo 'Please set $NATIVE_SO_PATH to the directory containing libnativetask.so'
       exit 1
     fi
-用"[]"来表示条件测试，要确保方括号的空格。 [  ....  -a  ..... ] 相当于 "与"，-o表示 或。
+用"[]"来表示条件测试，要<b>确保方括号的空格</b>。 [  ....  -a  ..... ] 相当于 "与"，-o表示 或。当然也可以用 && 或者 ||
+
 shell中条件判断if中的-z到-d的意思：
 
     [ -a FILE ] 如果 FILE 存在则为真。
@@ -73,6 +77,45 @@ shell中条件判断if中的-z到-d的意思：
     [ STRING1 < STRING2 ] 如果 “STRING1” sorts before “STRING2” lexicographically in the current locale则为真。
     [ STRING1 > STRING2 ] 如果 “STRING1” sorts after “STRING2” lexicographically in the current locale则为真。
 
+## 函数
+Shell函数返回值，常用的两种方式：return，echo
+
+- return 语句
+
+shell函数的返回值，可以和其他语言的返回值一样，通过return语句返回。
+```shell
+#!/bin/sh  
+function test()  
+{  
+    echo "arg1 = $1"  
+    if [ $1 = "1" ] ;then  
+        return 1  
+    else  
+        return 0  
+    fi  
+} 
+
+echo   
+echo "test 1"  
+test 1  
+echo $?         # print return result   
+```
+
+- echo 返回值
+
+函数的返回值有一个非常安全的返回方式，即通过输出到标准输出返回。因为子进程会继承父进程的标准输出，因此，子进程的输出也就直接反应到父进程。
+
+```shell
+function testFunc()  
+{  
+    local_result='local value'  
+    echo $local_result  
+}  
+  
+result=$(testFunc)  
+echo $result  
+```
+
 ## 1>/dev/null 2>&1的含义
 shell中可能经常能看到：`>/dev/null 2>&1`
 
@@ -88,6 +131,58 @@ shell中可能经常能看到：`>/dev/null 2>&1`
 
     1>/dev/null 首先表示标准输出重定向到空设备文件，也就是不输出任何信息到终端，说白了就是不显示任何信息。
     2>&1 接着，标准错误输出重定向等同于 标准输出，因为之前标准输出已经重定向到了空设备文件，所以标准错误输出也重定向到空设备文件。
+
+## EOF 与 <<
+在shell脚本中，通常将EOF与 << 结合使用，表示后续的输入作为子命令或子Shell的输入，直到遇到EOF为止，再返回到主Shell。
+当shell遇到<<时，它知道下一个词是一个分界符。在该分界符以后的内容都被当作输入，直到shell又看到该分界符(位于单独的一行)。
+此分界符可以是所定义的任何字符串，其实，不一定要用EOF，只要是“内容段”中没有出现的字符串，都可以用来替代EOF，完全可以换成abcde之类的字符串，只是一个起始和结束的标志罢了。
+
+```
+$ mysql -u root -proot << EOF
+> show databases;
+> EOF
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Database
+information_schema
+mysql
+performance_schema
+sys
+var
+wom
+```
+
+特殊用法：
+```sql
+: << COMMENTBLOCK
+   shell脚本代码段
+COMMENTBLOCK
+```
+用来注释整段脚本代码。 : 是shell中的空语句。
+```sql
+echo start
+:<<COMMENTBLOCK
+echo
+echo "this is a test"
+echo
+COMMENTBLOCK
+echo end
+```
+这段脚本执行时，中间部分不会被执行：
+ 
+代码示例:
+```sql
+$ sh eof.sh
+start
+end
+```
+
+## 字符串
+
+字符串包含
+echo "remove-hadoop.sh" | grep -q "remo"
+echo $?
+
+-q 表示--quiet, --silent
 
 ## $参数说明
 

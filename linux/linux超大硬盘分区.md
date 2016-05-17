@@ -61,6 +61,6 @@ mount -a
 或者，一步到位执行如下命令：
 
 ```shell
-cp /etc/fstab /etc/fstab.bak && echo '/dev/sdb1               /data                   xfs     defaults        0 0'>> /etc/fstab && mount -a
+cur_day=`date +%Y-%m-%d` && cp /etc/fstab /etc/fstab.${cur_day}.bak && echo '/dev/sdb1               /data                   xfs     defaults        0 0'>> /etc/fstab && mount -a
 ```
 

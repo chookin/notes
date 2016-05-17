@@ -26,6 +26,21 @@ git clone git@github.com:MyCATApache/Mycat-Server.git --max-depth=1
 git clone -b release_branch https://github.com/jetty/
 ```
 
+## 撤销
+恢复某个已修改的文件（撤销未提交的修改）：
+```shell
+git checkout <commit> <file>
+```
+如
+```shell
+git checkout 9c85921cab12cd06689983bf42e7d50a8db2d4ba app/src/
+```
+
+撤销已提交的commit
+```shell
+git revert <commit>
+```
+
 ## 分支管理
 - 查看远程分支
 
@@ -63,4 +78,6 @@ $ git branch -v
     + 解决冲突，然后调用git add或git rm将解决后的文件暂存。
     + 所有冲突解决后，git commit 提交更改。
 
+# 参考
 
+- [Undoing Changes](https://www.atlassian.com/git/tutorials/undoing-changes/git-checkout)
