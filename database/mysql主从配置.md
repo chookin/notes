@@ -79,7 +79,7 @@ binlog_format=mixed
 ## 建立主库的数据库快照
 现在可以停止主数据的的更新操作，并生成主数据库的备份。我们可以将数据文件复制到从数据库，也可以通过mysqldump导出数据到从数据库。
 
-1.在导出数据之前先对主数据库进行READ LOCK，以保证数据的一致性。READ LOCK会阻塞写请求，但不会阻塞读请求。
+1.在导出数据之前先对主数据库进行READ LOCK，以保证数据的一致性。READ LOCK将导致binlog、数据文件立即刷新磁盘，且阻止writes操作提交。
 
 ```sql
 mysql> RESET MASTER;
@@ -150,6 +150,7 @@ skip-slave-start
 
 - server-id 需要是唯一的，不能与主库相同，建议取IP最后一段；
 - relay_log 配置中继日志的文件名，<b>默认是$hostname-relay-bin</b>，如果hostname改变则会出现问题；
+- relay-log-index=name File that holds the names for relay log files.
 - log-slave-updates <font color="red">用来配置从库从主库获得的更新是否写入log-bin二进制日志</font>，这个选项默认是不打开的，但是，如果这个从服务器B是服务器A的从服务器，同时还作为服务器C的主服务器，那么就需要开发这个选项，这样它的从服务器C才能获得它的二进制日志进行同步操作；
 - log-bin 配置是否写二进制日志，从库没有必要开启二进制日志,但是在一些情况下,必须设置，若该从库为其它从库的主库,则必须设置；
 - master-connect-retry 设置在和主服务器连接丢失的时候，重试的时间间隔，默认是60秒；
@@ -269,6 +270,22 @@ RESET SLAVE;
 # on slave node
 start slave;
 ```
+
+3) 使用系统自带的mysql，将其配置为从库时出错，Slave_IO_Running显示为connecting, 并有报错Last_IO_Errno: 2003.查看mysql的错误日志没有发现有价值的信息。查看系统日志/var/log/message,发现大堆报错
+```
+May 18 13:47:17 dcp kernel: type=1400 audit(1463550437.584:105): avc:  denied  { name_connect } for  pid=15433 comm="mysqld" dest=23306 scontext=unconfined_u:system_r:
+mysqld_t:s0 tcontext=system_u:object_r:port_t:s0 tclass=tcp_socket
+```
+该问题原因是`selinux`。把它禁用即可。
+
+禁用`selinux`
+setenforce 0 可以临时关闭
+再编辑文件`/etc/sysconfig/selinux`
+把里边的一行改为
+`SELINUX=disabled`
+
+- [SELinux and MySQL](https://blogs.oracle.com/jsmyth/entry/selinux_and_mysql?utm_source=tuicool&utm_medium=referral)
+
 
 # 主从同步的管理
 ## 状态监控

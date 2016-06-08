@@ -192,17 +192,14 @@ protected abstract Object determineCurrentLookupKey()
 <aop:config proxy-target-class="true">
     <aop:advisor
             advice-ref="dynamicDataSourceAdvice"
-            pointcut="execution(public * com.chinamobile.websurvey.service..*Service.*(..))"/>
-    <aop:advisor
-            advice-ref="dynamicDataSourceAdvice"
-            pointcut="execution(public * com.chinamobile.websurvey.dao..*Dao.*(..))"/>
+            pointcut="execution(public * com.chinamobile.websurvey.service.*Service.*(..))"/>
 </aop:config>
 ```
 
 注意:
 
 - 在spring3以上版本中使用spring的依赖注入(注解或者xml方式)和aop功能时，发现了一个问题，如果不设置`proxy-target-class="true"`那么在获取bean时一直报错：`no matching editors or conversion strategy found`;
-- 在dao不同的方法上切换数据源，有些不妥，主库同步数据到从库是有时延的，同一service方法里调了两个不同数据源的dao方法的话就极可能造成数据不一致。建议同一事务里还是不要切换数据源，还是在service方法上切换数据源。
+- 主库同步数据到从库是有时延的，同一service方法可能会依次调用两个不同数据源的dao方法，若选用dao方法为数据源切换的切点，将导致这些service获取到的数据紊乱。建议同一事务里还是不要切换数据源，还是在service方法上切换数据源。
 
 参考：
 

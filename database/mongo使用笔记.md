@@ -75,7 +75,7 @@
     db.goods.find({site:'tb',tag:{$ne:null}}).count()
     db.goods.find({site:'tb',"properties.品牌":{$ne:null}}).count()
 
-## sort
+## sort 排序
 
     db.book.find({c_code:'6030'}).sort({'properties.readCount':-1})
     db.book.find({c_code:'1001'}).sort({'properties.readCount':-1})
@@ -114,6 +114,27 @@
 db.apps.update({time:{$ne:null}}, {$rename : {"time" : "acquTime"}}, false, true)
 db.comments.update({},{$set: {"acquTime":ISODate("2016-04-20T07:27:11.683Z")}}, false, true)
 db.comments.update({versionCode:{$ne:null}}, {$rename : {"versionCode" : "version"}}, false, true)
+```
+
+# 重命名数据库
+
+虽然MongoDB没有renameDatabase的命令，但提供了renameCollection的命令，这个命令并不是仅仅能修改collection的名字，同时也可以修改database。
+
+```js
+ db.adminCommand({renameCollection: "db1.test1", to: "db2.test2"})
+```
+
+上述命令实现了将db1下的test1，重命名为db2下的test2，这个命令只修改元数据，开销很小，有了这个功能，要实现db1重命名为db2，只需要遍历db1下所有的集合，重命名到db2下，就实现了renameDatabase的功能，写个js脚本能很快的实现这个功能.
+
+```js
+var source = "source";
+var dest = "dest";
+var colls = db.getSiblingDB(source).getCollectionNames();
+for (var i = 0; i < colls.length; i++) {
+    var from = source + "." + colls[i];
+    var to = dest + "." + colls[i];
+    db.adminCommand({renameCollection: from, to: to});
+}    
 ```
 
 # 删除
@@ -188,8 +209,18 @@ db.comments.update({versionCode:{$ne:null}}, {$rename : {"versionCode" : "versio
     };
 ## mongo eval
 
+- 通过eval执行js脚本
+```shell
     mongo 127.0.0.1:27017/ecomm --eval 'var c = db.category.find({ tag:{ $exists: true }}); while(c.hasNext()) {printjson(c.next())}' >> test.json
     mongo 127.0.0.1:27017/ecomm --eval 'var c = db.category.find({ site:"chinaz"}); while(c.hasNext()) {printjson(c.next())}' >> chinaz.json
+```
+
+- 通过eval为js脚本传入参数
+```shell
+mongo 127.0.0.1:27017/ecomm --eval "var collection=db.book" update-domain.js
+```
+在`update-domain.js`文件中可以直接使用变量`collection`，如：`var table = collection;printjson(table);`
+
 ## mongoexport
 
     mongoexport --host localhost --db ecomm --collection category --csv --out category.csv --fields name,site,level,url
@@ -205,3 +236,6 @@ var emit = function(key, value) {
     print("emit -> key: " + key + " value: " + tojson(value));
 };
 ```
+
+# 参考
+- [MongoDB管理：如何重命名数据库](https://yq.aliyun.com/articles/7579)

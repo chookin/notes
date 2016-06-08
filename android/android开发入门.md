@@ -42,6 +42,21 @@ android studio自带gradle
 
 /Applications/Android Studio.app/Contents/gradle/gradle-2.10
 
+- gradle build running too long的解决办法：
+    - In Android Studio go to File -> Settings -> Build, Execution, Deployment -> Build Tools -> Gradle， Check the 'Offline work' under 'Global Gradle settings'. It will reduce 90% gradle build time.
+    - create a file named gradle.properties in the following directory:
+```
+/home/<username>/.gradle/ (Linux)
+/Users/<username>/.gradle/ (Mac)
+C:\Users\<username>\.gradle (Windows)
+```
+
+and then add this line to the file:
+```
+org.gradle.daemon=true
+org.gradle.parallel=true
+```
+
 # 显示
 ## 度量单位
 dip: device independent pixels(设备独立像素). 不同设备有不同的显示效果,这个和设备硬件有关，一般我们为了支持WVGA、HVGA和QVGA 推荐使用这个，不依赖像素。 
@@ -85,6 +100,7 @@ public class FirstActivity extends Activity{
 ```
 
 # 控件
+
 ## layout
 - 隐藏
 ```
@@ -167,10 +183,12 @@ dependencies {
     ...  
     compile 'com.android.support:palette-v7:21.0.+'  
 }
-``
+```
 
 # 网络
 ## volley
+https://android.googlesource.com/platform/frameworks/volley
+
 >Google I/O 2013上，Volley发布。它是Android平台上的网络通信库，能使网络通信更快，更简单，更健壮。
 
 通过 Volley 去请求网络需要分三步。
@@ -300,6 +318,13 @@ Reconnect the device
 run "adb devices"
 ```
 之后手机会提示是否允许调试，选择是即可。
+
+- 自动更新安装失败
+
+Android replace application fails to install
+
+It was cause by the apks being signed with different keys. One was debug and the other was release key. 
+
 
 # 参考
 

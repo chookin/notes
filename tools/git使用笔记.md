@@ -17,11 +17,28 @@ git config --global core.quotepath false
 # 命令
 ## git
 - 查看配置信息 `git config --list`
+- 与暂存的对比 `git diff --cached`
+
+
+
+```
+git diff
+
+Shows the changes between the working directory and the index. This shows what has been changed, but is not staged for a commit.
+
+git diff --cached
+
+Shows the changes between the index and the HEAD(which is the last commit on this branch). This shows what has been added to the index and staged for a commit.
+
+git diff HEAD
+
+Shows all the changes between the working directory and HEAD (which includes changes in the index). This shows all the changes since the last commit, whether or not they have been staged for commit or not.
+```
 
 ## 获取
 ```shell
 # 获取最新版本
-git clone git@github.com:MyCATApache/Mycat-Server.git --max-depth=1
+git clone git@github.com:MyCATApache/Mycat-Server.git --depth=1
 # 获取指定分支
 git clone -b release_branch https://github.com/jetty/
 ```

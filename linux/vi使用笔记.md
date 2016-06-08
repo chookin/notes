@@ -110,6 +110,13 @@ autocmd BufReadPost *
 \ endif
 ```
 
+#打开gb18030乱码
+
+set fileencodings=utf-8,gb2312,gb18030
+set termencoding=utf-8
+set fileformats=unix
+set encoding=prc
+
 # 参考
 [简明 Vim 练级攻略](http://coolshell.cn/articles/5426.html?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)
 [在线VIM编辑器模拟学习 - aTool在线工具](http://www.atool.org/vim.php)

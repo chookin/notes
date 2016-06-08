@@ -1,4 +1,32 @@
 [TOC]
+
+# mysql启停
+
+```shell
+# 初始化数据库
+scripts/mysql_install_db --defaults-file=etc/my.cnf
+
+# 启动，需确保相应的端口和socket没有被占用
+bin/mysqld_safe  --defaults-file=etc/my.cnf &
+
+# 初始化root密码，需要mysql已启动
+bin/mysqladmin --defaults-file=etc/my.cnf -u root password
+# 修改root密码
+bin/mysqladmin --defaults-file=etc/my.cnf -u root -p password 
+
+# 停止mysql
+bin/mysqladmin --defaults-file=etc/my.cnf -uroot -p shutdown
+
+# 访问mysql
+bin/mysql --defaults-file=etc/my.cnf -u root -p
+```
+
+选用mysqld_safe启动的好处。
+1、mysqld_safe增加了一些安全特性，例如当出现错误时重启服务器并向错误日志文件写入运行时间信息。
+2、如果有的选项是mysqld_safe 启动时特有的，那么可以终端指定，如果在配置文件中指定需要放在[mysqld_safe]组里面，放在其他组不能被正确解析。
+3、mysqld_safe启动能够指定内核文件大小`ulimit -c $core_file_size`以及打开的文件的数量`ulimit -n $size`。
+4、MySQL程序首先检查环境变量，然后检查配置文件，最后检查终端的选项，说明终端指定选项优先级最高。
+
 # 权限
 
 ## 登录
@@ -18,6 +46,18 @@ mysql> create database if not exists `snapshot` default character set utf8;
 mysql> grant all on snapshot.* to 'snap'@'localhost' identified by 'snap_cm';
 mysql> flush privileges;
 ```
+
+## 查看权限
+```sql
+mysql> show grants for slave@lab51;
++------------------------------------------------------------------------------+
+| Grants for slave@lab51                                                       |
++------------------------------------------------------------------------------+
+| GRANT REPLICATION SLAVE ON *.* TO 'slave'@'lab51' IDENTIFIED BY PASSWORD '*6DC19EACC9C42A3CD9FC667F1B606F12423CAB84' |
++------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+```
+
 ## 忘记密码
 在my.cnf 里面的[mysqld]下面加上一行：
 ```
@@ -142,6 +182,7 @@ InnoDB和MyISAM是许多人在使用MySQL时最常用的两个表类型，这两
 - InnoDB is mush slow on LOAD Data INFILE
 - 不要联合查询innodb 表和myisam表 [Joining InnoDB tables with MyISAM tables](http://stackoverflow.com/questions/5475283/joining-innodb-tables-with-myisam-tables)
 
+```sql
 mysql> show variables like '%storage_engine%';
 +------------------------+--------+
 | Variable_name          | Value  |
@@ -150,6 +191,7 @@ mysql> show variables like '%storage_engine%';
 | storage_engine         | InnoDB |
 +------------------------+--------+
 2 rows in set (0.00 sec)
+```
 
 # 导出
 ```shell
@@ -205,6 +247,118 @@ mysql_bin_dir=/home/work/local/mysql/bin
 ${mysql_bin_dir}/mysql -u${db_user} -p${db_passwd} -P${db_port} -h${db_host} -D${db_dbname} -e "show tables;"
 ```
 
+# 性能剖析
+分析SQL执行带来的开销是优化SQL的重要手段。在MySQL数据库中，可以通过配置profiling参数来启用SQL剖析。该参数可以在全局和session级别来设置。对于全局级别则作用于整个MySQL实例，而session级别紧影响当前session。该参数开启后，后续执行的SQL语句都将记录其资源开销，诸如IO，上下文切换，CPU，Memory等等。根据这些开销进一步分析当前SQL瓶颈从而进行优化与调整。
+
+## 有关profile的描述
+
+```sql
+-- 当前版本
+mysql> show variables like 'version';
++---------------+------------+
+| Variable_name | Value      |
++---------------+------------+
+| version       | 5.5.48-log |
++---------------+------------+
+-- 查看profiling系统变量
+mysql> show variables like '%profil%';
++------------------------+-------+
+| Variable_name          | Value |
++------------------------+-------+
+| have_profiling         | YES   |
+| profiling              | OFF   |
+| profiling_history_size | 15    |
++------------------------+-------+
+-- 获取profile的帮助
+mysql> help profile;
+Name: 'SHOW PROFILE'
+Description:
+Syntax:
+SHOW PROFILE [type [, type] ... ]
+    [FOR QUERY n]
+    [LIMIT row_count [OFFSET offset]]
+ 
+type:
+    ALL                --显示所有的开销信息
+  | BLOCK IO           --显示块IO相关开销
+  | CONTEXT SWITCHES   --上下文切换相关开销
+  | CPU                --显示CPU相关开销信息
+  | IPC                --显示发送和接收相关开销信息
+  | MEMORY             --显示内存相关开销信息
+  | PAGE FAULTS        --显示页面错误相关开销信息
+  | SOURCE             --显示和Source_function，Source_file，Source_line相关的开销信息
+  | SWAPS              --显示交换次数相关开销的信息 
+```
+
+## 开启porfiling
+
+```sql
+-- 开启session级的profiling
+mysql> set profiling=1;
+-- 验证修改后的结果
+mysql> show variables like '%profil%';
++------------------------+-------+
+| Variable_name          | Value |
++------------------------+-------+
+| have_profiling         | YES   |
+| profiling              | ON    |
+| profiling_history_size | 15    |
++------------------------+-------+
+--停止profile,可以设置profiling参数，或者在session退出之后,profiling会被自动关闭  
+mysql> set profiling=off;  
+```
+
+## 获取SQL语句的开销信息
+
+```sql
+--发布SQL查询
+mysql> select count(*) from treenode; 
+-- 可以直接使用show profile来查看上一题sql语句的开销信息
+mysql> show profile; 
++--------------------------------+----------+
+| Status                         | Duration |
++--------------------------------+----------+
+| starting                       | 0.000010 |
+| Waiting for query cache lock   | 0.000003 |
+| checking query cache for query | 0.000029 |
+| checking permissions           | 0.000006 |
+| Opening tables                 | 0.000017 |
+| System lock                    | 0.000009 |
+| Waiting for query cache lock   | 0.000028 |
+| init                           | 0.000006 |
+| optimizing                     | 0.000004 |
+| executing                      | 0.000003 |
+| end                            | 0.000002 |
+| query end                      | 0.000002 |
+| closing tables                 | 0.000006 |
+| freeing items                  | 0.000002 |
+| Waiting for query cache lock   | 0.000001 |
+| freeing items                  | 0.000005 |
+| Waiting for query cache lock   | 0.000001 |
+| freeing items                  | 0.000001 |
+| storing result in query cache  | 0.000001 |
+| logging slow query             | 0.000001 |
+| cleaning up                    | 0.000001 |
++--------------------------------+----------+
+--查看当前session所有已产生的profile
+mysql> show profiles;
++----------+------------+--------------------------------+
+| Query_ID | Duration   | Query                          |
++----------+------------+--------------------------------+
+|        1 | 0.00028400 | show variables like '%profil%' |
+|        2 | 0.00010325 | SELECT DATABASE()              |
+|        3 | 0.00013600 | select count(*) from treenode  |
++----------+------------+--------------------------------+
+--获取指定查询的开销  
+mysql> show profile for query 2;
+--查看特定部分的开销，如下为CPU部分的开销  
+mysql show profile cpu for query 2 ; 
+--同时查看不同资源开销  
+mysql> show profile block io,cpu for query 2;
+--查看是否有报警
+mysql> show warnings;
+```
+
 # Notice
 
 * Tinyint,占用1字节的存储空间,取值范围是：带符号的范围是-128到127.
@@ -215,3 +369,14 @@ ${mysql_bin_dir}/mysql -u${db_user} -p${db_passwd} -P${db_port} -h${db_host} -D$
 * BIGINT[(M)] [UNSIGNED] [ZEROFILL] 大整数。带符号的范围是-9223372036854775808到9223372036854775807。无符号的范围是0到18446744073709551615。M指示最大显示宽度。最大有效显示宽度是255。显示宽度与存储大小或类型包含的值的范围无关
 
 # 常见问题
+
+- 错误日志中could not be resolved: Temporary failure in name resolution处理办法
+
+配置问中添加
+```
+--skip-host-cache
+--skip-name-resolve
+```
+
+# 参考
+- [MySQL SQL剖析(SQL profile)](http://blog.csdn.net/leshami/article/details/39988527)

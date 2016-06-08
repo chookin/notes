@@ -1,3 +1,10 @@
+
+Status codes in the 100x range (from 100-199) are informational, and describe the processing for the request.
+Status codes in the 200x range (from 200-299) indicate the action requested by the client was received, understood, accepted and processed successfully
+Status codes in the 300x range (from 300-399) indicate that the client must take additional action to complete the request, such as following a redirect
+Status codes in the 400x range (from 400-499) is intended for cases in which the client seems to have erred and must correct the request before continuing. The aforementioned 404 is an example of this.
+Status codes in the 500x range (from 500-599) is intended for cases where the server failed to fulfill an apparently valid request.
+
 一些常见的状态码为：
 　　200 - 服务器成功返回网页
 　　404 - 请求的网页不存在
@@ -56,3 +63,6 @@
 　　503(服务不可用)服务器目前无法使用(由于超载或停机维护)。通常，这只是暂时状态。
 　　504(网关超时)服务器作为网关或代理，但是没有及时从上游服务器收到请求。
 　　505(HTTP 版本不受支持)服务器不支持请求中所用的 HTTP 协议版本。
+
+# 参考
+- [Building REST services with Spring](http://spring.io/guides/tutorials/bookmarks/)

@@ -1,3 +1,5 @@
+[TOC]
+
 # 远程执行命令
 ```shell
 ssh -t -p $port $user@$ip 'cmd'
@@ -11,6 +13,7 @@ ssh -t -p $port $user@$ip 'cmd'
 
 ```shell
 ssh -t -p 21022 lab08 'hostname > /home/mtag/share/`hostname`.txt'
+ssh lab09 'su - work -c "/home/work/local/mfs/sbin/mfschunkserver stop"'
 ```
 
 # 无密码访问

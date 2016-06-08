@@ -36,6 +36,8 @@ idea15激活
 选择license server
 http://15.idea.lanyus.com
 
+http://idea.qinxi1992.cn
+
 - 智能提示忽略大小写 [Editor]|[Code Completion]，选择`Case sensitive completion`为`None`；
 - 为了使得能自动加载本地的包，需要配置idea,执行更新maven的Repositories. [Build, Execution, Deployment]|[Build Tools]|[Maven]|[Repositories]，选择本地的repository，点击`update`按钮。
 - 查看注释：Win: Ctrl+Q, Mac: Control+J
@@ -258,6 +260,9 @@ npm was installed at
 Make sure that /usr/local/bin is in your $PATH.
 ```
 
+# 抓包
+charles
+
 # 代码托管
 ## git.oschina
 
@@ -286,7 +291,7 @@ https://git.oschina.net/oschina/git-osc/wikis/%E5%B8%AE%E5%8A%A9#ssh-keys
 
 # 常见问题
 （1）mac下~/.bashrc不起作用
-新建了 .bash_profile加载一次.bashrc就ok啦
+新建 ~/.bash_profile，在其中加载一次.bashrc
 
 ```shell
 if [ "${BASH-no}" != "no" ]; then  

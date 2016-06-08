@@ -28,6 +28,9 @@ Wunderlist is a simple to­do list and task manager app that helps you get stuff
 
 # 文件操作
 
+## 更改文件的默认打开方式
+右键点击你要修改地文件显示简介打开方式选择了新的程序之后全部更改.
+
 ## 打开mht文件
 在MAC下查看MHT文件About how to open mht files on a mac. MHT是IE (PC)下保存网页的文件，有很多人说直接拖到OPERA下就行，但由于很多页面不兼容OPERA内容可能无法显示。后来找到FIREFOX和SAFARI的插件，用起来更顺手一些。
 
@@ -58,6 +61,24 @@ Wunderlist is a simple to­do list and task manager app that helps you get stuff
 - 首先使用sublime打开该csv文件，将文件转为GBK编码（需要sublime装convert to utf8插件），【File】|【Set File Encoding to】|【Chinese Simplified(GBK)】。
 - 之后，打开office excel，新建一个空白文档，选择【文件】|【导入...】，选择已转码后的csv文件，在“文件原始格式”处，选择Chinese(GB 18030)。
 
+还有一种更好的方法，利用iconv把文件转为GB18030格式：
+```shell
+iconv  -f UTF-8 -t GB18030 apps_2016-06-04.csv  > apps.csv
+```
+
+iconv有如下选项可用:
+
+    -f, --from-code=名称 原始文本编码
+    -t, --to-code=名称 输出编码
+
+    -l, --list 列举所有已知的字符集
+
+    -c 从输出中忽略无效的字符
+    -o, --output=FILE 输出文件
+    -s, --silent 关闭警告
+    --verbose 打印进度信息
+
+
 # VirtualBox
 [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 安装virtualbox和VirtualBox Extension Pack。
@@ -76,8 +97,6 @@ win7密钥 KH2J9-PC326-T44D4-39H6V-TVPBY
 访问google,不需要使用翻墙软件，配置hosts即可。之后就可以正常访问https://www.google.com.hk
 https://github.com/highsea/Hosts/blob/master/hosts
 https://github.com/racaljk/hosts/blob/master/hosts#L2
-
-参考：
 
 - [mac修改host文件，让你的mac轻松上google](http://www.liubingyang.com/like/host-google-mac.html)
 
@@ -101,3 +120,10 @@ https://github.com/racaljk/hosts/blob/master/hosts#L2
 不好用的软件
 foxmail
 数据文件夹 /Users/你的用户/Library/Containers/com.tencent.Foxmail/Data/Library/Foxmail/Profiles/
+
+# 小众软件
+## LICEcap – 灵活好用，GIF 屏幕录制工具
+[LICEcap](http://www.cockos.com/licecap/) 是一款屏幕录制工具，支持导出 GIF 动画图片格式，轻量级、使用简单，录制过程中可以随意改变录屏范围。
+
+免费的。
+

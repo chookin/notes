@@ -22,33 +22,6 @@ mkdir etc
 cp support-files/my-large.cnf etc/my.cnf
 ```
 
-## mysql启停
-
-```shell
-# 初始化数据库
-scripts/mysql_install_db --defaults-file=etc/my.cnf
-
-# 启动，需确保相应的端口和socket没有被占用
-bin/mysqld_safe  --defaults-file=etc/my.cnf &
-
-# 初始化root密码，需要mysql已启动
-bin/mysqladmin --defaults-file=etc/my.cnf -u root password
-# 修改root密码
-bin/mysqladmin --defaults-file=etc/my.cnf -u root -p password 
-
-# 停止mysql
-bin/mysqladmin --defaults-file=etc/my.cnf -uroot -p shutdown
-
-# 访问mysql
-bin/mysql --defaults-file=etc/my.cnf -u root -p
-```
-
-选用mysqld_safe启动的好处。
-1、mysqld_safe增加了一些安全特性，例如当出现错误时重启服务器并向错误日志文件写入运行时间信息。
-2、如果有的选项是mysqld_safe 启动时特有的，那么可以终端指定，如果在配置文件中指定需要放在[mysqld_safe]组里面，放在其他组不能被正确解析。
-3、mysqld_safe启动能够指定内核文件大小`ulimit -c $core_file_size`以及打开的文件的数量`ulimit -n $size`。
-4、MySQL程序首先检查环境变量，然后检查配置文件，最后检查终端的选项，说明终端指定选项优先级最高。
-
 ## 常见问题
 （1）invalid conversion from ‘size_socket*’ to ‘socklen_t*’
 删除解压后的源文件包，重新解压缩编译安装。

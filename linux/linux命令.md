@@ -62,6 +62,9 @@ find . -type f -name "*.sh" | xargs grep -r "merged.data"
 
 说明：ls列出当前目录下的所有文件（不包括以 . 开头的隐含文件），然后是管道（|）传给过滤器，然后通过过滤器grep -v（-v表示反检索，只显示不匹配的行，类似windows下的反选，注意是小写的v），然后再是管道（|）传给xargs（xargs是给命令传递参数的一个过滤器），到这儿也就说，xargs会把前面管道传来输入作为后面rm -rf命令执行的参数。
 
+- 删除svn文件
+`find . -name ".svn" -type d | xargs rm -rf`
+
 执行命令`$ rm -rf *`时报错，`-bash: /bin/rm: Argument list too long`。解决办法：`find . -name "*" | xargs rm -rf '*'`
 
 ## 文件树
@@ -80,6 +83,24 @@ $ grep [-acinv] [--color=auto] '搜寻字符串' filename
 --color=auto ：可以将找到的关键词部分加上颜色的显示喔！
 ```
 
+# 压缩
+
+- 创建压缩包
+```
+tar czvf  xxx.tar.gz  要打包的目录  --exclude=dir1   --exclude=file1  ......
+```
+
+# 切换用户
+切换用户执行命令
+```shell
+su --session-command="/home/mfs/local/mfs/sbin/mfschunkserver start &" work
+su - root -c 'ls /var/root'
+```
+
+# 开机自启动
+/etc/rc.local
+该脚本是在系统初始化级别脚本运行之后再执行的，因此可以安全地在里面添加你想在系统启动之后执行的脚本。
+
 # 进程
 ## 结束进程
 
@@ -89,6 +110,9 @@ ps aux | grep appname | awk '{print $2}' | xargs kill -9
 pgrep appname | xargs kill -9
 ```
 
+# 安全
+查看历史登录`last -nx 10`
+查看系统日志 `cat /var/log/messages`
 # 系统配置
 ## 配置最多打开的文件数
 

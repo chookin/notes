@@ -116,6 +116,19 @@ JDK提供了一个工具在jdk/bin目录下面，这就是JConsole。使用JCons
 
 ## sdk
 
+major version number of the class file format being used.
+
+J2SE 8 = 52
+J2SE 7 = 51
+J2SE 6.0 = 50
+J2SE 5.0 = 49
+JDK 1.4 = 48
+JDK 1.3 = 47
+JDK 1.2 = 46
+JDK 1.1 = 45
+
+[Java class file](https://en.wikipedia.org/wiki/Java_class_file)
+
 ### 问题
 - Error: java: javacTask: source release 8 requires target release 1.8
 

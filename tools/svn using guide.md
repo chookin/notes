@@ -1,4 +1,4 @@
-# 配置http访问
+    # 配置http访问
 假定svn的版本管理的根路径为/var/www/svn
 ## 安装
 ### 安装必须包
@@ -169,10 +169,37 @@ yum install mod_dav_svn subversion httpd
 
     svn checkout http://111.13.47.167/repos/tagbase/ tagbase/
 不会覆盖本地的tagbase文件夹中文件。
-## 撤消 revert
+## 撤消未提交的修改
+```shell
+svn revert --recursive example_folder
+# 示例
+svn revert -R .
+```
 
-    svn revert --recursive example_folder
-    svn info
+## 撤销已提交的修改
+分为三步操作：
+1. svn update，svn log，找到最新版本（latest revision）
+2. 找到自己想要回滚的版本号（rollbak revision）
+3. 用svn merge来回滚： svn merge -r : something
+
+具体示例
+
+1、保证我们拿到的是最新代码： 
+ svn update 
+ 假设最新版本号是28。 
+2、然后找出要回滚的确切版本号： 
+ svn log [something]
+ 假设根据svn log日志查出要回滚的版本号是25，此处的something可以是文件、目录或整个项目
+ 如果想要更详细的了解情况，可以使用svn diff -r 28:25 [something]
+3、回滚到版本号25：
+   svn merge -r 28:25 something
+ 为了保险起见，再次确认回滚的结果：
+   svn diff [something]
+ 发现正确无误，提交。
+4、提交回滚：
+ svn commit -m "Revert revision from r28 to r25,because of ..." 
+ 提交后版本变成了29。
+
 ## 导入文件
 
     svn import project/hadoop-2.2.0-cdh5.0.0-beta-2/src/ svn://localhost/hadoop-2.2.0-cdh5.0.0-beta-2 -F svn-commit.tmp
@@ -195,6 +222,24 @@ svn copy http://svn_server/xxx_repository/trunk http://svn_server/xxx_repository
 svn rm http://svn_server/xxx_repository/branches/br_feature001
 svn rm http://svn_server/xxx_repository/tags/release-1.0
 
+## 忽略文件
+Use the following command to create a list not under version control files.
+
+```shell
+svn status | grep "^\?" | awk "{print \$2}" > ignoring.txt
+```
+Then edit the file to leave just the files you want actually to ignore. Then use this one to ignore the files listed in the file:
+```shell
+svn propset svn:ignore -F ignoring.txt .
+```
+Note the dot at the end of the line. It tells SVN that the property is being set on the current directory.
+
+或者
+```shell
+export SVN_EDITOR=/usr/bin/vi
+svn propedit svn:ignore .
+```
+
 ## 提交文件
 
     svn commit  [path...]
@@ -214,6 +259,10 @@ svn rm http://svn_server/xxx_repository/tags/release-1.0
 ## 与指定版本做对比，生成diff
 
     svn diff -x --ignore-all-space -r 276 > a.patch
+## 修改仓库地址
+
+svn relocate $new_repository_address
+
 # 常见问题
 
 1)

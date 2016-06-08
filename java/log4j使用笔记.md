@@ -20,6 +20,12 @@
      3)%.30c:指定输出category的名称，最大的宽度是30，如果category的名称大于30的话，就会将左边多出的字符截掉，但小于30的话也不会有空格。
      4)%20.30c:如果category的名称小于20就补空格，并且右对齐，如果其名称长于30字符，就从左边较远输出的字符截掉。
 
+# 中文乱码
+```
+#设置输出日志文件编码（可以控制乱码情况）
+log4j.appender.file.encoding=UTF-8
+```
+
 # 示例
 ```shell
 log4j.rootLogger=TRACE, stdout, logfile
