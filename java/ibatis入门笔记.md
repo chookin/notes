@@ -83,7 +83,8 @@ PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
     + lazyLoadingEnabled 是否启用延迟加载机制，建议设为"true"
     + maxRequests 最大并发请求数（Statement 并发数）
     + maxTransactions 最大并发事务数
-    + maxSessions 最大Session 数。即当前最大允许的并发 SqlMapClient 数。 maxSessions设定必须介于maxTransactions和maxRequests之间.
+    + maxSessions 最大Session 数。即当前最大允许的并发 SqlMapClient 数。 maxSessions设定必须介于maxTransactions和maxRequests之间，即 `maxTransactions<maxSessions=<maxRequestsuse`
+    + useStatementNamespaces  是否使用Statement命名空间。这里的命名空间指的是映射文件中，sqlMap节的namespace属性
 
 2. sqlMap
     - sqlMap元素的resource属性告诉Spring去哪找POJO映射文件.
@@ -115,6 +116,17 @@ PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
     <select id="queryAllActionName" resultClass="String">
         SELECT ActionName FROM tb_sys_action  
     </select>
+    <select id="queryUsers" resultMap="usersMap" parameterClass="usersDto">
+        SELECT  *   FROM tb_d_users
+        <dynamic prepend="where">
+            <isNotEmpty  prepend="and" property="u_Name">
+                U_Name  = #u_Name#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="u_Password">
+                U_Password  = #u_Password#
+            </isNotEmpty>
+        </dynamic>
+    </select>    
 </sqlMap>
 ```
 
@@ -123,7 +135,8 @@ PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
 - parameterClass 指定了操作的输入参数类型,必须是值对象、；
 - typeAlias 定义了类的别名;
 - resultMap用来提供数据库查询结果和java对象属性之间的映射，該例中，查詢`queryAction`的結果被映射為java对象`actionDto`,其中，数据表列`actionId`映射为对象`actionDto`的属性`actionId`,数据表列`actionName`被映射为属性`actionName`;
-- \#actionName#将在运行期由传入的actionDto对象的actionName属性填充。
+- \#actionName#将在运行期由传入的actionDto对象的actionName属性填充;
+- `isNotEmpty`意思则为当此条件不为空时执行其中语句 prepend="" 依赖约束, 值可以是 AND 也可以是OR, property="" 就是对于这个条件所判定的取值字段 例如"u_Name"
 
 ```java
 public class ActionDto implements Serializable {

@@ -141,6 +141,28 @@ COMMIT
 ```
 
 ## dns
+
 ```
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
+```
+
+## 添加.so等文件的搜索路径
+
+很多时候，我们的.h/.so/.a/bin文件都不在Linux发行版所指定的默认路径下，这时可以通过~/.bashrc来增加搜索路径。
+
+```
+#增加.so搜索路径
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/liheyuan/soft/lib
+
+#增加.a搜索路径
+LIBRARY_PATH=$LIBRARY_PATH:/home/liheyuan/soft/lib
+
+#增加bin搜索路径
+export PATH=$PATH:/home/liheyuan/soft/bin
+
+#增加GCC的include文件搜索路径
+export C_INCLUDE_PATH=$C_INCLUDE_PATH:/home/liheyuan/soft/include
+
+#增加G++的include文件搜索路径
+export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/home/liheyuan/soft/inc
 ```

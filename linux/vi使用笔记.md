@@ -111,11 +111,23 @@ autocmd BufReadPost *
 ```
 
 #打开gb18030乱码
+编辑文件~/.vimrc，添加如下内容
 
+```shell
 set fileencodings=utf-8,gb2312,gb18030
 set termencoding=utf-8
 set fileformats=unix
 set encoding=prc
+```
+
+# 查看修改文件编码
+
+```shell
+# 查看
+:set fileencoding
+# 设置编码
+:set encoding=utf-8
+```
 
 # 参考
 [简明 Vim 练级攻略](http://coolshell.cn/articles/5426.html?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)

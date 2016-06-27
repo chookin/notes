@@ -129,6 +129,14 @@ JDK 1.1 = 45
 
 [Java class file](https://en.wikipedia.org/wiki/Java_class_file)
 
+# 调试
+Java supports a convenient wildcard syntax for directories containing jar files.
+
+java -cp "$LIB/*"
+(Notice that the * is inside the quotes.)
+
+- [Using bash, how do you make a classpath out of all files in a directory](http://stackoverflow.com/questions/4729863/using-bash-how-do-you-make-a-classpath-out-of-all-files-in-a-directory)
+
 ### 问题
 - Error: java: javacTask: source release 8 requires target release 1.8
 

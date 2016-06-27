@@ -184,3 +184,7 @@ AppBarLayout is a vertical LinearLayout which implements many of the features of
 Children should provide their desired scrolling behavior through setScrollFlags(int) and the associated layout xml attribute: app:layout_scrollFlags.
 
 This view depends heavily on being used as a direct child within a CoordinatorLayout. If you use AppBarLayout within a different ViewGroup, most of it‘s functionality will not work.
+
+# 自定义控件
+Custom view must have the 2-arg constructor (Context, AttributeSet) that is required for layout inflation
+

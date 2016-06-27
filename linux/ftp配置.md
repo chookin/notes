@@ -243,3 +243,4 @@ setenforce 0 可以临时关闭
 - [让Vsftp支持虚拟用户 ](http://blog.chinaunix.net/uid-317994-id-2133014.html)
 - [vsftp 多用户不同访问权限配置](http://centilinux.blog.51cto.com/1454781/1241768)
 - [vsftpd 配置:chroot_local_user与chroot_list_enable详解](http://blog.csdn.net/bluishglc/article/details/42398811)
+- [vsftpd配置文件详解](http://yuanbin.blog.51cto.com/363003/108262/)

@@ -97,11 +97,16 @@ CREATE TABLE table_name (column_name column_type);
 ## 数据库状态
 
 ```sql
-查看目前处理的列表
+-- 查看目前处理的列表
 show processlist;
-查看存储过程有哪些
+-- 杀死连接
+kill process_id;
+
+-- 查看存储过程有哪些
 show procedure status\G;
 
+-- 清空缓存
+reset query cache;
 ```
 
 ## 数据表操作

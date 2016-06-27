@@ -3,6 +3,15 @@
 sudo passwd root
 ```
 
+# 基本操作
+
+- 打开蓝牙共享
+- 修改计算机名称
+
+```
+系统偏好设置 -> 共享
+```
+
 # DS_Store
 DS_Store是Mac OS保存文件夹的自定义属性的隐藏文件，如文件的图标位置或背景色，相当于Windows的desktop.ini。
 1，禁止.DS_store生成：打开   “终端” ，复制黏贴下面的命令，回车执行，重启Mac即可生效。
@@ -20,11 +29,21 @@ DS_Store是Mac OS保存文件夹的自定义属性的隐藏文件，如文件的
 # 移动硬盘的挂载路径
 /Volumes/
 
+# finder
+直接在 Finder 中按快捷键 command+/。这个快捷键其实就相当于点击菜单栏中的显示——显示状态栏，按下这个快捷键之后，你会发现 Finder 的最下面多除了一条“状态栏”，其中就会显示剩余磁盘空间（左侧边栏不要选择“我的所有文件”和“AirDrop”）。
+
+配置为打开finder时不打开“我的所有文件”：
+
+- Finder偏好设置 | 通用 | 开启新Finder窗口时打开“” 调整为其他的，例如“文稿”即可。
+
 # rar解压缩软件
 iZip unarchiver app store安装。
 
 # Wunderlist
 Wunderlist is a simple to­do list and task manager app that helps you get stuff done. Whether you’re sharing a grocery list with a loved one, working on a project, or planning a vacation, Wunderlist makes it easy to capture, share, and complete your to­dos. Wunderlist instantly syncs between your phone, tablet and computer, so you can access all your tasks from anywhere.
+
+注册账号 469308668@qq.com
+
 
 # 文件操作
 
@@ -127,3 +146,47 @@ foxmail
 
 免费的。
 
+## cheatsheet
+用于长按command键调出当前软件的快捷键列表。
+
+## mindnode
+http://xclient.info/s/mind-node-pro.html
+本站所有dmg、zip 打开密码均为 xclient.info
+
+打开时提示文件已损坏的解决办法：
+修改系统偏好设置，允许安装其他来源的app.
+
+## paw
+http://xclient.info/s/paw.html
+Paw 是一款Mac上实用的HTTP/REST服务测试工具，完美兼容最新的OS X El Capitan系统，Paw可以让Web开发者设置各种请求Header和参数，模拟发送HTTP请求，测试响应数据，支持OAuth, HTTP Basic Auth, Cookies，JSONP等，这对于开发Web服务的应用很有帮助，非常实用的一款Web开发辅助工具。
+
+## Timing 1.7 时间分析统计工具
+Timing 的使用方法很简单，你只需要开着它它就会在后台默默的记录着你的操作。当你需要查看汇总时它会列出你在每个程序上的使用时间，而且可以显示出具体在哪些时间段以及对应的时长，而浏览器的话更可以显示你在哪个网站上的浏览时间。
+
+Timing 的左侧是各种程序分类，其默认已经对系统内置程序进行了分类，你可以自行再创建、整理这些分类，使用不同的颜色显示令其更容易查看。
+http://xclient.info/s/timing.html
+
+## 番茄土豆
+番茄工作法。
+
+## macdown
+导出的html中，代码段无法自动换行，解决办法：
+
+若使用css 'Github2'，则通过点击 Preferences | Rendering | CSS Reveal, 打开Styles/Github2.css文件，在文件末尾追加如下内容并保存，重启macdown即可。
+
+```css
+div pre code {
+    white-space: pre-line !important;
+}
+```
+
+# android studio
+
+[Android ButterKnife Zelezny插件的安装与使用
+](http://blog.csdn.net/dreamlivemeng/article/details/51261170)
+
+[ButterKnifeZelezny](https://github.com/avast/android-butterknife-zelezny)插件功用：一键从布局文件中生成对于的 View 声明和 ButterKnife 注解。
+
+在线安装：File-->settings-->Plugins-->Browse repositories-->然后再输入框输入ButterKnife Zelezny并搜索-->install-->restart Android studio（安装后重启生效）
+
+在需要导入注解的Activity或者fragment或者ViewHolder资源片段的layout地方（例如Activity里面，一定要把鼠标移到oncreate的 setContentView(R.layout.activity_main);的R.layout.activity_main这个位置,把鼠标光标移到上去。右击选择Generate 再选择Generate ButterKnife Injections

@@ -262,6 +262,18 @@ Make sure that /usr/local/bin is in your $PATH.
 
 # 抓包
 charles
+## 使用
+打开Charles的代理设置：Proxy->Proxy Settings，设置一下端口号，默认的是8888，这个只要不和其他程序的冲突即可,并且勾选Enable transparent HTTP proxying
+
+手机连接上和电脑在同一局域网的wifi上，设置wifi的HTTP代理。代理地址是电脑的ip，端口号就是刚刚在Charles上设置的那个。
+查看mac电脑ip
+```shell
+$ ifconfig | grep broadcast
+  inet 192.168.1.101 netmask 0xffffff00 broadcast 192.168.1.255
+```
+
+## 参考
+- [抓包工具Charles的使用心得](http://www.jianshu.com/p/fdd7c681929c)
 
 # 代码托管
 ## git.oschina
