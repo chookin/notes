@@ -35,6 +35,12 @@ git diff HEAD
 Shows all the changes between the working directory and HEAD (which includes changes in the index). This shows all the changes since the last commit, whether or not they have been staged for commit or not.
 ```
 
+## 暂存区
+删除暂存区中的内容
+```shell
+git rm -r --cached <path>
+```
+
 ## 获取
 ```shell
 # 获取最新版本

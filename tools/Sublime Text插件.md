@@ -4,10 +4,14 @@
 安装插件之前，我们需要首先安装一个Sublime 中最不可缺少的插件 Package Control, 以后我们安装和管理插件都需要这个插件的帮助。
 
 使用快捷键 " ctrl + `" 打开Sublime的控制台 ,或者选择 View > Show Console 。
-在控制台的命令行输入框，把下面一段代码粘贴进去，回车 就可以完成Pacakge Control 的安装了。
+在控制台的命令行输入框，把下面一段代码粘贴进去，回车 就可以完成Pacakge Control 的安装了。安装后需重启sublime.
 ```python
-import  urllib.request,os;pf='Package Control.sublime-package';ipp=sublime.installed_packages_path();urllib.request.install_opener(urllib.request.build_opener(urllib.request.ProxyHandler()));open(os.path.join(ipp,pf),'wb').write(urllib.request.urlopen('http://sublime.wbond.net/'+pf.replace(' ','%20')).read())
+import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)
 ```
+
+#  参考
+
+- [Package Control installation](https://packagecontrol.io/installation#st3)
 
 # markdown
 ## MarkdownEditing
@@ -101,7 +105,7 @@ body {
 为左侧sidebar增加功能。
 怎么让左侧显示目录树？
 
-* View ->Side Bar ->Show Side Bar
+* View ->Side Bar ->Show Side Barb
 * 打开sublime text3程序，然后点击file->open folder打开你要显示的目录就行。
 
 # 使用BracketHighlighter高亮括号配对
@@ -229,3 +233,62 @@ Preference → Key Bindings - User:
 ]
 ```
 3 此时使用快捷键"ctrl+shift+."即可在当前光标处插入当前时间.
+
+# sublime 配置
+
+settings user:
+
+```js
+{
+  "auto_find_in_selection": true,
+  "bold_folder_labels": true,
+  "color_scheme": "Packages/Theme - Brogrammer/brogrammer.tmTheme",
+  "disable_tab_abbreviations": true,
+  "draw_minimap_border": true,
+  "ensure_newline_at_eof_on_save": true,
+  "fade_fold_buttons": false,
+  "font_size": 15,
+  "highlight_line": true,
+  "ignored_packages":
+  [
+    "Markdown",
+    "Vintage"
+  ],
+  "save_on_focus_lost": true,
+  "tab_size": 4,
+  "theme": "Brogrammer.sublime-theme",
+  "translate_tabs_to_spaces": true,
+  "trim_trailing_white_space_on_save": true,
+  "word_separators": "./\\()\"':,.;<>~!@#$%^&*|+=[]{}`~?、，。！？：（）“”＋",
+  "word_wrap": true
+}
+```
+
+key bingdings user:
+
+```js
+[{
+  "command": "add_current_time",
+  "keys": [
+    "ctrl+shift+."
+  ]
+}, {
+  "keys": ["alt+m"],
+  "command": "markdown_preview",
+  "args": {
+    "target": "browser"
+  }
+}, {
+  "keys": ["ctrl+shift+t"],
+  "command": "open_terminal_project_folder",
+  "args": {
+    "parameters": ["-T", "Working in directory %CWD%"]
+  }
+}, {
+  "keys": ["ctrl+alt+t"],
+  "command": "open_terminal",
+  "args": {
+    "parameters": ["-T", "Working in directory %CWD%"]
+  }
+}]
+```
