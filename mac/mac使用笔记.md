@@ -170,14 +170,6 @@ win7密钥 KH2J9-PC326-T44D4-39H6V-TVPBY
 foxmail
 数据文件夹 /Users/你的用户/Library/Containers/com.tencent.Foxmail/Data/Library/Foxmail/Profiles/
 
-# 小众软件
-## LICEcap – 灵活好用，GIF 屏幕录制工具
-[LICEcap](http://www.cockos.com/licecap/) 是一款屏幕录制工具，支持导出 GIF 动画图片格式，轻量级、使用简单，录制过程中可以随意改变录屏范围。
-
-免费的。
-
-## cheatsheet
-用于长按command键调出当前软件的快捷键列表。
 
 ## mindnode
 http://xclient.info/s/mind-node-pro.html
@@ -186,9 +178,6 @@ http://xclient.info/s/mind-node-pro.html
 打开时提示文件已损坏的解决办法：
 修改系统偏好设置，允许安装其他来源的app.
 
-## paw
-http://xclient.info/s/paw.html
-Paw 是一款Mac上实用的HTTP/REST服务测试工具，完美兼容最新的OS X El Capitan系统，Paw可以让Web开发者设置各种请求Header和参数，模拟发送HTTP请求，测试响应数据，支持OAuth, HTTP Basic Auth, Cookies，JSONP等，这对于开发Web服务的应用很有帮助，非常实用的一款Web开发辅助工具。
 
 ## Timing 1.7 时间分析统计工具
 Timing 的使用方法很简单，你只需要开着它它就会在后台默默的记录着你的操作。当你需要查看汇总时它会列出你在每个程序上的使用时间，而且可以显示出具体在哪些时间段以及对应的时长，而浏览器的话更可以显示你在哪个网站上的浏览时间。
@@ -199,24 +188,5 @@ http://xclient.info/s/timing.html
 ## 番茄土豆
 番茄工作法。
 
-## macdown
-导出的html中，代码段无法自动换行，解决办法：
 
-若使用css 'Github2'，则通过点击 Preferences | Rendering | CSS Reveal, 打开Styles/Github2.css文件，在文件末尾追加如下内容并保存，重启macdown即可。
 
-```css
-div pre code {
-    white-space: pre-line !important;
-}
-```
-
-# android studio
-
-[Android ButterKnife Zelezny插件的安装与使用
-](http://blog.csdn.net/dreamlivemeng/article/details/51261170)
-
-[ButterKnifeZelezny](https://github.com/avast/android-butterknife-zelezny)插件功用：一键从布局文件中生成对于的 View 声明和 ButterKnife 注解。
-
-在线安装：File-->settings-->Plugins-->Browse repositories-->然后再输入框输入ButterKnife Zelezny并搜索-->install-->restart Android studio（安装后重启生效）
-
-在需要导入注解的Activity或者fragment或者ViewHolder资源片段的layout地方（例如Activity里面，一定要把鼠标移到oncreate的 setContentView(R.layout.activity_main);的R.layout.activity_main这个位置,把鼠标光标移到上去。右击选择Generate 再选择Generate ButterKnife Injections

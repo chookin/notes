@@ -49,6 +49,16 @@ git clone git@github.com:MyCATApache/Mycat-Server.git --depth=1
 git clone -b release_branch https://github.com/jetty/
 ```
 
+## 提交
+
+```shell
+# 提交所有修改
+git commit -a
+
+# 提交指定文件的修改
+git commit <file>
+```
+
 ## 撤销
 恢复某个已修改的文件（撤销未提交的修改）：
 ```shell

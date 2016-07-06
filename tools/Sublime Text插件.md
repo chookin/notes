@@ -164,20 +164,20 @@ iTerm on OS X with tabs
 
 默认快捷键使用不太方便，因此，修改如下：
 ```js
-  {
-    "keys": ["ctrl+shift+t"],
-    "command": "open_terminal_project_folder",
-    "args": {
-      "parameters": ["-T", "Working in directory %CWD%"]
-    }
-  },
-  {
-    "keys": ["ctrl+alt+t"],
-    "command": "open_terminal",
-    "args": {
-      "parameters": ["-T", "Working in directory %CWD%"]
-    }
+{
+  "keys": ["ctrl+shift+t"],
+  "command": "open_terminal_project_folder",
+  "args": {
+    "parameters": ["-T", "Working in directory %CWD%"]
   }
+},
+{
+  "keys": ["ctrl+alt+t"],
+  "command": "open_terminal",
+  "args": {
+    "parameters": ["-T", "Working in directory %CWD%"]
+  }
+}
 ```
 
 # 版本管理
