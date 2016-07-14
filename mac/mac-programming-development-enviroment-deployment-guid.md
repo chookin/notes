@@ -319,6 +319,39 @@ ulimit -c unlimited
 
 # DB
 
+## mysql
+
+### 采用brew安装
+
+```shell
+brew install mysql # brew方式安装后的软件路径是/usr/local/opt/mysql/，数据文件夹是/usr/local/var/mysql
+```
+### 配置
+
+```shell
+mysqld --help --verbose | more # (查看帮助, 按空格下翻)
+```
+你会看到开始的这一行(表示配置文件默认读取顺序)
+
+    Default options are read from the following files in the given order:
+    /etc/my.cnf /etc/mysql/my.cnf /usr/local/etc/my.cnf ~/.my.cnf
+通常这些位置是没有配置文件的, 所以要自己建一个
+
+```shell
+# 用这个可以找到样例.cnf
+ls $(brew --prefix mysql)/support-files/my-*
+# 拷贝到第一个默认读取目录
+cp /usr/local/opt/mysql/support-files/my-default.cnf /etc/my.cnf
+# 此后按需修改my.cnf
+```
+
+### mysql启停
+可用使用mysql的脚本启停,也可借助brew
+
+    mysql.server start
+    brew services start mysql
+    brew services stop mysql
+
 ## memcached
 
 安装

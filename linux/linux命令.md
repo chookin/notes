@@ -70,6 +70,12 @@ find . -type f -name "*.sh" | xargs grep -r "merged.data"
 ## 文件树
 查看文件树使用命令`tree`.若系统中没有该命令，需要安装之 `yum install -y tree`
 
+## 常见问题
+
+提示 readonly file system
+解决办法：
+/bin/mount -o remount,rw /
+
 # grep常用用法
 
 ```shell
@@ -127,4 +133,12 @@ chookin - nofile 655360
 
 ```shell
 echo '' > /var/spool/mail/`whoami` 
+```
+
+# 网络
+
+多次连接测指定url的可访问性
+
+```shell
+httping -c10000 -g  http://111.13.47.169:8001/sv/24/316/1241/6?v=1 
 ```

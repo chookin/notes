@@ -131,6 +131,15 @@ http {
     server {
         listen 80;
         server_name  ~^(?<user>.+)\.example\.net$;
+        access_log  logs/track.cm-analysis.com-access.log;
+        location / {
+                proxy_pass         http://track.cm-analysis.com;
+                # 用于将客户端的真实ip和域名传递到应用程序中。
+                proxy_set_header   Host             $host;
+                proxy_set_header   X-Real-IP        $remote_addr;
+                proxy_set_header   REMOTE-HOST      $remote_addr;
+                proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+        }
         ...
     }
 }
@@ -166,7 +175,7 @@ http {
 - upstream 用于定义一组反向代理/负载均衡后端服务器池。服务器池可以使用域名，也可以使用服务器的IP地址。负载均衡默认采用轮询方式。参考[Using nginx as HTTP load balancer](http://nginx.org/en/docs/http/load_balancing.html)
 - server 服务组，通过端口或server_name区分。nginx在确定用哪个server处理来处理接收到的request后，将进一步从该server block中所定义的location directives中，选择能匹配该请求URI的。参考nginx [beginner's guide](http://nginx.org/en/docs/beginners_guide.html).
 - server_name 虚拟主机的域名,可以写多个域名,类似于别名,比如说你可以配置成
-server_name b.ttlsa.com c.ttlsa.com d.ttlsa.com,这样的话,访问任何一个域名,内容都是一样的。支持通配符*（例如*.domain.com）或正则表达式（例如~^(?.+)\.domain\.com$）。参考关于Nginx的[server names](http://nginx.org/en/docs/http/server_names.html)
+  server_name b.ttlsa.com c.ttlsa.com d.ttlsa.com,这样的话,访问任何一个域名,内容都是一样的。支持通配符*（例如*.domain.com）或正则表达式（例如~^(?.+)\.domain\.com$）。参考关于Nginx的[server names](http://nginx.org/en/docs/http/server_names.html)
 - proxy_pass 用于指定反向代理的服务器池
 - expires起到控制页面缓存的作用，合理的配置expires可以减少很多服务器的请求.
 
@@ -178,8 +187,9 @@ server_name b.ttlsa.com c.ttlsa.com d.ttlsa.com,这样的话,访问任何一个�
 其他操作
 
     nginx -s stop                快速关闭Nginx，可能不保存相关信息，并迅速终止web服务。
-    nginx -s quit                平稳关闭Nginx，保存相关信息，有安排的结束web服务。 
-    nginx -s reload              修改配置后重启。 
+    nginx -s quit                平稳关闭Nginx，保存相关信息，有安排的结束web服务。
+    nginx -t 					 检查nginx配置的语法,操作前都要检查一下,很重要,发现错误可及时修正.
+    nginx -s reload              重新加载配置文件，建议配合nginx -t使用。 
     nginx -s reopen              重新打开日志文件。 
     从容停止   kill -QUIT 主进程号
     快速停止   kill -TERM 主进程号
