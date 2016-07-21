@@ -25,7 +25,7 @@
 # 安装Git
 
 Mac：`brew install git`
-Redhat/Centos：`sudo yum install git`
+Redhat/Centos：`yum install git`
 Windows：下载安装[Git SCM](https://git-scm.com/download/win)
 对于Windows用户，安装后如果希望在全局的cmd中使用git，需要把git.exe加入PATH环境变量中。
 
@@ -170,13 +170,13 @@ $ git branch -v
 * master
 ```
 
-- 创建分支 `git branch brach_name`
-- 切换分支 `git checkout branch_name`
-- 删除分支
+-   创建分支 `git branch brach_name`
+-   切换分支 `git checkout branch_name`
+-   删除分支
     + `git branch -d branch_name` 如果该分支没有合并到主分支会报错
     + `git branch -D branch_name` 强制删除
-- 分支合并
-      比如，如果要将开发中的分支（develop），合并到稳定分支（master），
+-   分支合并
+        比如，如果要将开发中的分支（develop），合并到稳定分支（master），
     + 首先切换的master分支：git checkout master。
     + 然后执行合并操作：git merge develop。
     + 如果有冲突，会提示你，调用git status查看冲突文件。

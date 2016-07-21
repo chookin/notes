@@ -105,3 +105,35 @@ GSSAPI ( Generic Security Services Application Programming Interface) 是一套�
 参考
 
 - [ssh登录很慢解决方法](https://blog.linuxeye.com/420.html)
+
+# 禁止root登录
+
+2016.07.21下午发现183服务器的`/var/log/secure`文件中有大量的登录错误信息。
+
+```
+Jul 17 04:25:21 DATIBA-001 unix_chkpwd[139897]: password check failed for user (root)
+Jul 17 04:25:23 DATIBA-001 sshd[139894]: Failed password for root from 222.186.130.243 port 3557 ssh2
+Jul 17 04:25:23 DATIBA-001 unix_chkpwd[139898]: password check failed for user (root)
+Jul 17 04:25:25 DATIBA-001 sshd[139894]: Failed password for root from 222.186.130.243 port 3557 ssh2
+Jul 17 04:25:25 DATIBA-001 unix_chkpwd[139899]: password check failed for user (root)
+Jul 17 04:25:27 DATIBA-001 sshd[139894]: Failed password for root from 222.186.130.243 port 3557 ssh2
+```
+
+服务器被暴力ssh尝试了，解决办法：
+
+1，修改ssh端口，禁止root登录，然后重新启动ssh服务
+
+```shell
+vi /etc/ssh/sshd_config
+Port 4484 #一个别人猜不到的端口号
+PermitRootLogin no
+```
+
+2，限制登录ip，即ssh登录必须通过指定服务器跳转登录。这需要配置防火墙，示例：
+
+```shell
+-A INPUT -s 218.206.179.52 -p tcp -m tcp --dport 22 -j ACCEPT
+-A INPUT -s 218.206.179.52 -p tcp -m tcp --dport 21022 -j ACCEPT
+```
+
+3，安装denyhosts

@@ -498,29 +498,6 @@ npm was installed at
 Make sure that /usr/local/bin is in your $PATH.
 ```
 
-
-
-# 代码托管
-
-## git.oschina
-
-https://git.oschina.net/oschina/git-osc/wikis/%E5%B8%AE%E5%8A%A9#ssh-keys
-
-    ssh-keygen -t rsa -C "xxxxx@xxxxx.com"# Creates a new ssh key using the provided email
-    # Generating public/private rsa key pair...
-
-查看你的public key，并把他添加到 Git @ OSC http://git.oschina.net/keys
-
-    cat ~/.ssh/id_rsa.pub
-    # ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6eNtGpNGwstc....
-添加后，在终端（Terminal）中输入
-
-    ssh -T git@git.oschina.net
-若返回
-
-    Welcome to Git@OSC, yourname!
-则证明添加成功。
-
 # 常用网址
 
 - [google的镜像站](http://guge.suanfazu.com)
