@@ -2,8 +2,8 @@
 ## ssh
 升级ssh
 ```shell
-wget http://mirror.team-cymru.org/pub/OpenBSD/OpenSSH/portable/openssh-6.9p1.tar.gz
-tar zxvf openssh-6.9p1.tar.gz
+wget http://mirrors.evowise.com/pub/OpenBSD/OpenSSH/portable/openssh-7.2p2.tar.gz
+tar zxvf openssh-*.tar.gz
 # 需要先安装一些基础包，否则报错 configure: error: *** zlib.h missing - please install first or check config.log ***
 yum install -y gcc zlib-devel openssl-devel
 ./configure && make && make install
@@ -14,7 +14,7 @@ OpenSSH_6.9p1, OpenSSL 1.0.1e-fIPs 11 Feb 2013
 
 ## Linux幽灵(Ghost)漏洞CVE-201500235
 
-yum update glibc
+yum update -y glibc
 
 测试脚本 `ghost-test.sh`
 ```shell
@@ -57,8 +57,7 @@ exit $rv
 ```
 
 ## 其他
-yum update openssl
-yum update bash
+yum update -y openssl bash
 
 # 端口扫描
 ## nc

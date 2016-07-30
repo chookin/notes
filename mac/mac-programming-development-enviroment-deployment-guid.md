@@ -155,13 +155,13 @@ JDK7，JDK8则需要自己到Oracle官网下载安装对应的版本。自己安
 
 2. 在用户目录下的bash配置文件.bashrc中配置JAVA_HOME的路径（具体路径与实际版本号有关）
 
-   ```
-    export JAVA_7_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home
-    export JAVA_8_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_73.jdk/Contents/Home
-    export JAVA_HOME=$JAVA_8_HOME
-    export CLASSPATH="$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$CLASSPATH"
-    export PATH=$JAVA_HOME/bin:$PATH
-   ```
+```shell
+export JAVA_7_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home
+export JAVA_8_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_73.jdk/Contents/Home
+export JAVA_HOME=$JAVA_8_HOME
+export CLASSPATH="$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$CLASSPATH"
+export PATH=$JAVA_HOME/bin:$PATH
+```
 
 问题：
 
@@ -228,6 +228,12 @@ JDK7，JDK8则需要自己到Oracle官网下载安装对应的版本。自己安
 在线安装：File-->settings-->Plugins-->Browse repositories-->然后再输入框输入ButterKnife Zelezny并搜索-->install-->restart Android studio（安装后重启生效）
 
 在需要导入注解的Activity或者fragment或者ViewHolder资源片段的layout地方（例如Activity里面，一定要把鼠标移到oncreate的 setContentView(R.layout.activity_main);的R.layout.activity_main这个位置,把鼠标光标移到上去。右击选择Generate 再选择Generate ButterKnife Injections
+
+代码统计：
+最近想查看Android studio项目的代码行数，查看了半天发现了一个比较不错的android studio插件：statistic；
+官方网址：https://plugins.jetbrains.com/plugin/4509
+在官网上下载jar包就好了，然后打开android studio-->setting->Plugins->Install plugin from disk....
+
 
 # 实用工具
 

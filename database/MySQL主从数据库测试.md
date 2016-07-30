@@ -26,7 +26,7 @@ CRUD的不同级别记录量的用时。
 
 - QPS(每秒Query量)
 
-```
+```sql
 QPS = Questions(or Queries) / seconds
 mysql > show /*50000 global */ status like 'Question';
 ```
@@ -44,6 +44,9 @@ mysql > show status like 'Com_rollback';
 ```
 key_buffer_read_hits = (1-key_reads / key_read_requests) * 100%
 key_buffer_write_hits = (1-key_writes / key_write_requests) * 100%
+```
+
+```
 mysql> show status like 'Key%';
 ```
 
@@ -112,13 +115,11 @@ mysql > show status like 'innodb_log_waits';
 ## 绘图工具
 gnuplot
 
-
-
 ## 关于压力测试的其他几个方面
 
-1、如何避免压测时受到缓存的影响
+### 1、避免压测时受到缓存的影响
 
-【老叶建议】有2点建议
+有2点建议
 
 1. 填充测试数据比物理内存还要大，至少超过 [innodb_buffer_pool_size](http://dev.mysql.com/doc/refman/5.6/en/innodb-parameters.html#sysvar_innodb_buffer_pool_size) 值，不能将数据全部装载到内存中，除非你的本意就想测试全内存状态下的MySQL性能。
 2. 每轮测试完成后，都重启mysqld实例，并且用下面的方法删除系统cache，释放swap（如果用到了swap的话），甚至可以重启整个OS。
@@ -129,22 +130,24 @@ gnuplot
 [root@imysql.com]# swapoff -a && swapon -a
 ```
 
-2、如何尽可能体现线上业务真实特点
+### 2、尽可能体现线上业务真实特点
 
-【老叶建议】有2点建议
+有2点建议
 
 1. 其实上面已经说过了，就是自行开发测试工具或者利用 [tcpcopy](https://github.com/session-replay-tools/tcpcopy)（或类似交换机的mirror功能） 将线上实际用户请求导向测试环境，进行仿真模拟测试。
-2. 利用 [http_load](http://acme.com/software/http_load/) 或 [siege](https://github.com/JoeDog/siege) 工具模拟真实的用户请求URL进行压力测试，这方面我不是太专业，可以请教企业内部的压力测试同事。
+2. 利用 [http_load](http://acme.com/software/http_load/) 或 [siege](https://github.com/JoeDog/siege) 工具模拟真实的用户请求URL进行压力测试。
 
-3、压测结果如何解读
+### 3、压测结果如何解读
 
-【老叶建议】压测结果除了tps/TpmC指标外，还应该关注压测期间的系统负载数据，尤其是 iops、iowait、svctm、%util、每秒I/O字节数(I/O吞吐)、事务响应时间(tpcc-mysql/sysbench 打印的测试记录中均有)。另外，如果I/O设备能提供设备级 IOPS、读写延时 数据的话，也应该一并关注。
+压测结果除了tps/TpmC指标外，还应该关注压测期间的系统负载数据，尤其是 iops、iowait、svctm、%util、每秒I/O字节数(I/O吞吐)、事务响应时间(tpcc-mysql/sysbench 打印的测试记录中均有)。另外，如果I/O设备能提供设备级 IOPS、读写延时 数据的话，也应该一并关注。
 
 假如两次测试的tps/TpmC结果一样的话，那么谁的 事务响应时间、iowait、svctm、%util、读写延时 更低，就表示那个测试模式有更高的性能提升空间。
 
-4、这里需要注意的几点，一个不管怎么oltp的应用多少会存在热点数据，所以除非测试特殊性否则尽量不用uniform这种非热点数据模式，热点数据比例就需要你自己定。另线程数也不宜太大除非压力测试，一般100以内。初始化数据方式最好随机--rand-init=on。表的数量这个参数感觉意义不大，因为测试过程中每个表的结构一模一样。
+### 4、其他
 
-5、真实测试场景中，数据表建议不低于10个，单表数据量不低于500万行，当然了，要视服务器硬件配置而定。如果是配备了SSD或者PCIE SSD这种高IOPS设备的话，则建议单表数据量最少不低于1亿行。
+这里需要注意的几点，一个不管怎么oltp的应用多少会存在热点数据，所以除非测试特殊性否则尽量不用uniform这种非热点数据模式，热点数据比例就需要你自己定。另线程数也不宜太大除非压力测试，一般100以内。初始化数据方式最好随机--rand-init=on。表的数量这个参数感觉意义不大，因为测试过程中每个表的结构一模一样。
+
+真实测试场景中，数据表建议不低于10个，单表数据量不低于500万行，当然了，要视服务器硬件配置而定。如果是配备了SSD或者PCIE SSD这种高IOPS设备的话，则建议单表数据量最少不低于1亿行。
 
 # 附录
 
@@ -174,7 +177,7 @@ make
 make install
 ```
 
-对于版本0.5，需要拷贝oltp测试脚本到安装目录。
+对于版本0.5，需要从源码中拷贝oltp测试脚本到安装目录。
 
 ```shell
 cp -r sysbench/tests/tests /home/`whoami`/local/sysbench/
@@ -314,8 +317,6 @@ Threads fairness:
 
 > transactions代表测试结果的评判标准是`transactions`(tps, 每秒事务数)，可以对数据库进行调优后，再使用sysbench对OLTP进行测试，看看TPS是不是会有所提高。
 
-
-
 ### 优缺点
 
 sysbench支持的测试对象较多，提供可调参数也较多，但是它有一个巨大的缺陷---表结构太简单：
@@ -328,12 +329,10 @@ CREATE TABLE `sbtest1` (
   `pad` char(60) NOT NULL DEFAULT '',  
   PRIMARY KEY (`id`),  
   KEY `k_1` (`k`)  
-) ENGINE=InnoDB AUTO_INCREMENT=300000001 DEFAULT CHARSET=utf8 MAX_ROWS=1000000 | 
+) ENGINE=InnoDB AUTO_INCREMENT=300000001 DEFAULT CHARSET=utf8 MAX_ROWS=1000000;
 ```
 
 仅仅三个字段，所以很多时候它并不能模拟实际线上的一些应用。但是它还是有很多用处的。第一，利用它做对比测试还不错，因为两个东西都用它测至少测试标准是一样的。第二，测产品稳定性、抗压性，假如你做了一个存储引擎，或是对MySQL打了补丁，那么利用sysbench跑上几天甚至几星期看是否会挂掉。
-
-
 
 ### 常见问题
 

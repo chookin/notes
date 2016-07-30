@@ -4,7 +4,7 @@
 
 语法
 
-使用 SSH 界面登录 iDRAC
+使用 SSH 登录 iDRAC
 
 >ssh 192.168.0.120 
 >login: root 
