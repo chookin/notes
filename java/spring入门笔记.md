@@ -15,6 +15,16 @@ aop框架具有的两个特征：
 1.各个步骤之间的良好隔离性
 2.源代码无关性 
 
+注意：
+
+Spring AOP only supports method execution join points for Spring beans。 通过`this.*`调用该对象的方法，则被调用的方法不能被aop。
+
+Spring AOP only traps a method call when the call is done through a bean handle (because the interceptor is applied through the use of a proxy object) and not when the method is called directly.
+
+参考： 
+
+- http://stackoverflow.com/questions/9223310/why-is-this-spring-aop-pointcut-not-triggered
+
 # 基本语法
 ## Spring中的FactoryBean
 Spring中有两种类型的Bean，一种是普通Bean，一种是工厂Bean，即FactoryBean，这两种Bean都被容器管理，但工厂Bean跟普通Bean不同，其返回的对象不是指定类的一个实例，其返回的是该FactoryBean的getObject方法所返回的对象。在

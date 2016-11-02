@@ -1,17 +1,3 @@
-# MySQL主从数据库性能测试
-
-(2016-06-13 11:37:29, created by [Zhu Yin](mailto:zhuyin@chinamobile.com))
-
-# 功能测试
-
-## 读写分离测试
-
-测试标记为readOnly的请求走从库，而没有标记的走主库。
-
-## 故障切换测试
-
-测试一个从库宕掉后，程序读写正常。
-
 # 数据库性能测试
 
 ## 性能测试指标
@@ -110,7 +96,7 @@ mysql > show status like 'innodb_log_waits';
 
 ## 性能测试工具
 
-比较常用的MySQL基准压力hi测试工具有 [tpcc-mysql](https://github.com/Percona-Lab/tpcc-mysql)、[sysbench](https://github.com/akopytov/sysbench)、[mysqlslap](http://dev.mysql.com/doc/refman/5.6/en/mysqlslap.html) 等几个。本次性能测试选用sysbench.
+比较常用的MySQL基准压力测试工具有 [tpcc-mysql](https://github.com/Percona-Lab/tpcc-mysql)、[sysbench](https://github.com/akopytov/sysbench)、[mysqlslap](http://dev.mysql.com/doc/refman/5.6/en/mysqlslap.html) 等几个。本次性能测试选用sysbench.
 
 ## 绘图工具
 gnuplot
@@ -365,3 +351,4 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/`whoami`/local/mysql/lib
 - [sysbench 0.5 oltp测试笔记](http://my.oschina.net/anthonyyau/blog/290030)
 - [MySQL 性能比较测试：MySQL 5.6 GA -vs- MySQL 5.5](http://www.oschina.net/translate/mysql-performance-compare-between-5-6-and-5-5?p=1#comments)
 - [使用sysbench对mysql压力测试](http://seanlook.com/2016/03/28/mysql-sysbench/)
+

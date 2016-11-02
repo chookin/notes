@@ -1,0 +1,1703 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>body {
+  width: 72em;
+  border: 1px solid #ddd;
+  outline: 1300px solid #fff;
+  margin: 16px auto;
+}
+
+body .markdown-body
+{
+  padding: 30px;
+}
+
+@font-face {
+  font-family: fontawesome-mini;
+  src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+
+@font-face {
+  font-family: octicons-anchor;
+  src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+
+.markdown-body {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  color: #333333;
+  overflow: hidden;
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+
+.markdown-body a {
+  background: transparent;
+}
+
+.markdown-body a:active,
+.markdown-body a:hover {
+  outline: 0;
+}
+
+.markdown-body b,
+.markdown-body strong {
+  font-weight: bold;
+}
+
+.markdown-body mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.markdown-body sub,
+.markdown-body sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+.markdown-body sup {
+  top: -0.5em;
+}
+.markdown-body sub {
+  bottom: -0.25em;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+.markdown-body img {
+  border: 0;
+}
+
+.markdown-body hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+
+.markdown-body pre {
+  overflow: auto;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre,
+.markdown-body samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+.markdown-body input {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+.markdown-body html input[disabled] {
+  cursor: default;
+}
+
+.markdown-body input {
+  line-height: normal;
+}
+
+.markdown-body input[type="checkbox"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.markdown-body table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.markdown-body td,
+.markdown-body th {
+  padding: 0;
+}
+
+.markdown-body .codehilitetable {
+  border: 0;
+  border-spacing: 0;
+}
+
+.markdown-body .codehilitetable tr {
+  border: 0;
+}
+
+.markdown-body .codehilitetable pre,
+.markdown-body .codehilitetable div.codehilite {
+  margin: 0;
+}
+
+.markdown-body .linenos,
+.markdown-body .code,
+.markdown-body .codehilitetable td {
+  border: 0;
+  padding: 0;
+}
+
+.markdown-body td:not(.linenos) .linenodiv {
+  padding: 0 !important;
+}
+
+.markdown-body .code {
+  width: 100%;
+}
+
+.markdown-body .linenos div pre,
+.markdown-body .linenodiv pre,
+.markdown-body .linenodiv {
+  border: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.markdown-body .code div pre,
+.markdown-body .code div {
+  border: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-border-top-right-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  -moz-border-radius-topright: 3px;
+  -moz-border-radius-bottomright: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.markdown-body * {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.markdown-body input {
+  font: 13px Helvetica, arial, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 1.4;
+}
+
+.markdown-body a {
+  color: #4183c4;
+  text-decoration: none;
+}
+
+.markdown-body a:hover,
+.markdown-body a:focus,
+.markdown-body a:active {
+  text-decoration: underline;
+}
+
+.markdown-body hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.markdown-body hr:before,
+.markdown-body hr:after {
+  display: table;
+  content: " ";
+}
+
+.markdown-body hr:after {
+  clear: both;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  line-height: 1.1;
+}
+
+.markdown-body h1 {
+  font-size: 30px;
+}
+
+.markdown-body h2 {
+  font-size: 21px;
+}
+
+.markdown-body h3 {
+  font-size: 16px;
+}
+
+.markdown-body h4 {
+  font-size: 14px;
+}
+
+.markdown-body h5 {
+  font-size: 12px;
+}
+
+.markdown-body h6 {
+  font-size: 11px;
+}
+
+.markdown-body blockquote {
+  margin: 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ul ul ol,
+.markdown-body ul ol ol,
+.markdown-body ol ul ol,
+.markdown-body ol ol ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+  margin-left: 0;
+}
+
+.markdown-body code,
+.markdown-body pre,
+.markdown-body samp {
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 12px;
+}
+
+.markdown-body pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body kbd {
+  background-color: #e7e7e7;
+  background-image: -moz-linear-gradient(#fefefe, #e7e7e7);
+  background-image: -webkit-linear-gradient(#fefefe, #e7e7e7);
+  background-image: linear-gradient(#fefefe, #e7e7e7);
+  background-repeat: repeat-x;
+  border-radius: 2px;
+  border: 1px solid #cfcfcf;
+  color: #000;
+  padding: 3px 5px;
+  line-height: 10px;
+  font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  display: inline-block;
+}
+
+.markdown-body>*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+.markdown-body .headeranchor-link {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  padding-right: 6px;
+  padding-left: 30px;
+  margin-left: -30px;
+}
+
+.markdown-body .headeranchor-link:focus {
+  outline: none;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 16px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+.markdown-body h1 .headeranchor,
+.markdown-body h2 .headeranchor,
+.markdown-body h3 .headeranchor,
+.markdown-body h4 .headeranchor,
+.markdown-body h5 .headeranchor,
+.markdown-body h6 .headeranchor {
+  display: none;
+  color: #000;
+  vertical-align: middle;
+}
+
+.markdown-body h1:hover .headeranchor-link,
+.markdown-body h2:hover .headeranchor-link,
+.markdown-body h3:hover .headeranchor-link,
+.markdown-body h4:hover .headeranchor-link,
+.markdown-body h5:hover .headeranchor-link,
+.markdown-body h6:hover .headeranchor-link {
+  height: 1em;
+  padding-left: 8px;
+  margin-left: -30px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.markdown-body h1:hover .headeranchor-link .headeranchor,
+.markdown-body h2:hover .headeranchor-link .headeranchor,
+.markdown-body h3:hover .headeranchor-link .headeranchor,
+.markdown-body h4:hover .headeranchor-link .headeranchor,
+.markdown-body h5:hover .headeranchor-link .headeranchor,
+.markdown-body h6:hover .headeranchor-link .headeranchor {
+  display: inline-block;
+}
+
+.markdown-body h1 {
+  padding-bottom: 0.3em;
+  font-size: 2.25em;
+  line-height: 1.2;
+  border-bottom: 1px solid #eee;
+}
+
+.markdown-body h2 {
+  padding-bottom: 0.3em;
+  font-size: 1.75em;
+  line-height: 1.225;
+  border-bottom: 1px solid #eee;
+}
+
+.markdown-body h3 {
+  font-size: 1.5em;
+  line-height: 1.43;
+}
+
+.markdown-body h4 {
+  font-size: 1.25em;
+}
+
+.markdown-body h5 {
+  font-size: 1em;
+}
+
+.markdown-body h6 {
+  font-size: 1em;
+  color: #777;
+}
+
+.markdown-body p,
+.markdown-body blockquote,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body dl,
+.markdown-body table,
+.markdown-body pre,
+.markdown-body .admonition {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.markdown-body hr {
+  height: 4px;
+  padding: 0;
+  margin: 16px 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 2em;
+}
+
+.markdown-body ul ul,
+.markdown-body ul ol,
+.markdown-body ol ol,
+.markdown-body ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body li>p {
+  margin-top: 16px;
+}
+
+.markdown-body dl {
+  padding: 0;
+}
+
+.markdown-body dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.markdown-body dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.markdown-body blockquote {
+  padding: 0 15px;
+  color: #777;
+  border-left: 4px solid #ddd;
+}
+
+.markdown-body blockquote>:first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  word-break: normal;
+  word-break: keep-all;
+}
+
+.markdown-body table th {
+  font-weight: bold;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  padding: 6px 13px;
+  border: 1px solid #ddd;
+}
+
+.markdown-body table tr {
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.markdown-body code,
+.markdown-body samp {
+  padding: 0;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(0,0,0,0.04);
+  border-radius: 3px;
+}
+
+.markdown-body code:before,
+.markdown-body code:after {
+  letter-spacing: -0.2em;
+  content: "\00a0";
+}
+
+.markdown-body pre>code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.markdown-body .codehilite {
+  margin-bottom: 16px;
+}
+
+.markdown-body .codehilite pre,
+.markdown-body pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f7f7f7;
+  border-radius: 3px;
+}
+
+.markdown-body .codehilite pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.markdown-body pre {
+  word-wrap: normal;
+}
+
+.markdown-body pre code {
+  display: inline;
+  max-width: initial;
+  padding: 0;
+  margin: 0;
+  overflow: initial;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+
+.markdown-body pre code:before,
+.markdown-body pre code:after {
+  content: normal;
+}
+
+/* Admonition */
+.markdown-body .admonition {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  position: relative;
+  border-radius: 3px;
+  border: 1px solid #e0e0e0;
+  border-left: 6px solid #333;
+  padding: 10px 10px 10px 30px;
+}
+
+.markdown-body .admonition table {
+  color: #333;
+}
+
+.markdown-body .admonition p {
+  padding: 0;
+}
+
+.markdown-body .admonition-title {
+  font-weight: bold;
+  margin: 0;
+}
+
+.markdown-body .admonition>.admonition-title {
+  color: #333;
+}
+
+.markdown-body .attention>.admonition-title {
+  color: #a6d796;
+}
+
+.markdown-body .caution>.admonition-title {
+  color: #d7a796;
+}
+
+.markdown-body .hint>.admonition-title {
+  color: #96c6d7;
+}
+
+.markdown-body .danger>.admonition-title {
+  color: #c25f77;
+}
+
+.markdown-body .question>.admonition-title {
+  color: #96a6d7;
+}
+
+.markdown-body .note>.admonition-title {
+  color: #d7c896;
+}
+
+.markdown-body .admonition:before,
+.markdown-body .attention:before,
+.markdown-body .caution:before,
+.markdown-body .hint:before,
+.markdown-body .danger:before,
+.markdown-body .question:before,
+.markdown-body .note:before {
+  font: normal normal 16px fontawesome-mini;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  line-height: 1.5;
+  color: #333;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.markdown-body .admonition:before {
+  content: "\f056\00a0";
+  color: 333;
+}
+
+.markdown-body .attention:before {
+  content: "\f058\00a0";
+  color: #a6d796;
+}
+
+.markdown-body .caution:before {
+  content: "\f06a\00a0";
+  color: #d7a796;
+}
+
+.markdown-body .hint:before {
+  content: "\f05a\00a0";
+  color: #96c6d7;
+}
+
+.markdown-body .danger:before {
+  content: "\f057\00a0";
+  color: #c25f77;
+}
+
+.markdown-body .question:before {
+  content: "\f059\00a0";
+  color: #96a6d7;
+}
+
+.markdown-body .note:before {
+  content: "\f040\00a0";
+  color: #d7c896;
+}
+
+.markdown-body .admonition::after {
+  content: normal;
+}
+
+.markdown-body .attention {
+  border-left: 6px solid #a6d796;
+}
+
+.markdown-body .caution {
+  border-left: 6px solid #d7a796;
+}
+
+.markdown-body .hint {
+  border-left: 6px solid #96c6d7;
+}
+
+.markdown-body .danger {
+  border-left: 6px solid #c25f77;
+}
+
+.markdown-body .question {
+  border-left: 6px solid #96a6d7;
+}
+
+.markdown-body .note {
+  border-left: 6px solid #d7c896;
+}
+
+.markdown-body .admonition>*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body .admonition>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* progress bar*/
+.markdown-body .progress {
+  display: block;
+  width: 300px;
+  margin: 10px 0;
+  height: 24px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #ededed;
+  position: relative;
+  box-shadow: inset -1px 1px 3px rgba(0, 0, 0, .1);
+}
+
+.markdown-body .progress-label {
+  position: absolute;
+  text-align: center;
+  font-weight: bold;
+  width: 100%; margin: 0;
+  line-height: 24px;
+  color: #333;
+  text-shadow: 1px 1px 0 #fefefe, -1px -1px 0 #fefefe, -1px 1px 0 #fefefe, 1px -1px 0 #fefefe, 0 1px 0 #fefefe, 0 -1px 0 #fefefe, 1px 0 0 #fefefe, -1px 0 0 #fefefe, 1px 1px 2px #000;
+  -webkit-font-smoothing: antialiased !important;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.markdown-body .progress-bar {
+  height: 24px;
+  float: left;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #96c6d7;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), inset 0 -1px 0 rgba(0, 0, 0, .1);
+  background-size: 30px 30px;
+  background-image: -webkit-linear-gradient(
+    135deg, rgba(255, 255, 255, .4) 27%,
+    transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%,
+    transparent 77%, transparent
+  );
+  background-image: -moz-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: -ms-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: -o-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+}
+
+.markdown-body .progress-100plus .progress-bar {
+  background-color: #a6d796;
+}
+
+.markdown-body .progress-80plus .progress-bar {
+  background-color: #c6d796;
+}
+
+.markdown-body .progress-60plus .progress-bar {
+  background-color: #d7c896;
+}
+
+.markdown-body .progress-40plus .progress-bar {
+  background-color: #d7a796;
+}
+
+.markdown-body .progress-20plus .progress-bar {
+  background-color: #d796a6;
+}
+
+.markdown-body .progress-0plus .progress-bar {
+  background-color: #c25f77;
+}
+
+.markdown-body .candystripe-animate .progress-bar{
+  -webkit-animation: animate-stripes 3s linear infinite;
+  -moz-animation: animate-stripes 3s linear infinite;
+  animation: animate-stripes 3s linear infinite;
+}
+
+@-webkit-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+@-moz-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+@keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+.markdown-body .gloss .progress-bar {
+  box-shadow:
+    inset 0 4px 12px rgba(255, 255, 255, .7),
+    inset 0 -12px 0 rgba(0, 0, 0, .05);
+}
+
+/* Multimarkdown Critic Blocks */
+.markdown-body .critic_mark {
+  background: #ff0;
+}
+
+.markdown-body .critic_delete {
+  color: #c82829;
+  text-decoration: line-through;
+}
+
+.markdown-body .critic_insert {
+  color: #718c00 ;
+  text-decoration: underline;
+}
+
+.markdown-body .critic_comment {
+  color: #8e908c;
+  font-style: italic;
+}
+
+.markdown-body .headeranchor {
+  font: normal normal 16px octicons-anchor;
+  line-height: 1;
+  display: inline-block;
+  text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.headeranchor:before {
+  content: '\f05c';
+}
+
+.markdown-body .task-list-item {
+  list-style-type: none;
+}
+
+.markdown-body .task-list-item+.task-list-item {
+  margin-top: 3px;
+}
+
+.markdown-body .task-list-item input {
+  margin: 0 4px 0.25em -20px;
+  vertical-align: middle;
+}
+
+/* Media */
+@media only screen and (min-width: 480px) {
+  .markdown-body {
+    font-size:14px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .markdown-body {
+    font-size:16px;
+  }
+}
+
+@media print {
+  .markdown-body * {
+    background: transparent !important;
+    color: black !important;
+    filter:none !important;
+    -ms-filter: none !important;
+  }
+
+  .markdown-body {
+    font-size:12pt;
+    max-width:100%;
+    outline:none;
+    border: 0;
+  }
+
+  .markdown-body a,
+  .markdown-body a:visited {
+    text-decoration: underline;
+  }
+
+  .markdown-body .headeranchor-link {
+    display: none;
+  }
+
+  .markdown-body a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  .markdown-body abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .markdown-body .ir a:after,
+  .markdown-body a[href^="javascript:"]:after,
+  .markdown-body a[href^="#"]:after {
+    content: "";
+  }
+
+  .markdown-body pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .markdown-body pre,
+  .markdown-body blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  .markdown-body .progress,
+  .markdown-body .progress-bar {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  .markdown-body .progress {
+    border: 1px solid #ddd;
+  }
+
+  .markdown-body .progress-bar {
+    height: 22px;
+    border-right: 1px solid #ddd;
+  }
+
+  .markdown-body tr,
+  .markdown-body img {
+    page-break-inside: avoid;
+  }
+
+  .markdown-body img {
+    max-width: 100% !important;
+  }
+
+  .markdown-body p,
+  .markdown-body h2,
+  .markdown-body h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  .markdown-body h2,
+  .markdown-body h3 {
+    page-break-after: avoid;
+  }
+}
+</style><style>/*github*/
+.codehilite {background-color:#fff;color:#333333;}
+.codehilite .hll {background-color:#ffffcc;}
+.codehilite .c{color:#999988;font-style:italic}
+.codehilite .err{color:#a61717;background-color:#e3d2d2}
+.codehilite .k{font-weight:bold}
+.codehilite .o{font-weight:bold}
+.codehilite .cm{color:#999988;font-style:italic}
+.codehilite .cp{color:#999999;font-weight:bold}
+.codehilite .c1{color:#999988;font-style:italic}
+.codehilite .cs{color:#999999;font-weight:bold;font-style:italic}
+.codehilite .gd{color:#000000;background-color:#ffdddd}
+.codehilite .ge{font-style:italic}
+.codehilite .gr{color:#aa0000}
+.codehilite .gh{color:#999999}
+.codehilite .gi{color:#000000;background-color:#ddffdd}
+.codehilite .go{color:#888888}
+.codehilite .gp{color:#555555}
+.codehilite .gs{font-weight:bold}
+.codehilite .gu{color:#800080;font-weight:bold}
+.codehilite .gt{color:#aa0000}
+.codehilite .kc{font-weight:bold}
+.codehilite .kd{font-weight:bold}
+.codehilite .kn{font-weight:bold}
+.codehilite .kp{font-weight:bold}
+.codehilite .kr{font-weight:bold}
+.codehilite .kt{color:#445588;font-weight:bold}
+.codehilite .m{color:#009999}
+.codehilite .s{color:#dd1144}
+.codehilite .n{color:#333333}
+.codehilite .na{color:teal}
+.codehilite .nb{color:#0086b3}
+.codehilite .nc{color:#445588;font-weight:bold}
+.codehilite .no{color:teal}
+.codehilite .ni{color:purple}
+.codehilite .ne{color:#990000;font-weight:bold}
+.codehilite .nf{color:#990000;font-weight:bold}
+.codehilite .nn{color:#555555}
+.codehilite .nt{color:navy}
+.codehilite .nv{color:teal}
+.codehilite .ow{font-weight:bold}
+.codehilite .w{color:#bbbbbb}
+.codehilite .mf{color:#009999}
+.codehilite .mh{color:#009999}
+.codehilite .mi{color:#009999}
+.codehilite .mo{color:#009999}
+.codehilite .sb{color:#dd1144}
+.codehilite .sc{color:#dd1144}
+.codehilite .sd{color:#dd1144}
+.codehilite .s2{color:#dd1144}
+.codehilite .se{color:#dd1144}
+.codehilite .sh{color:#dd1144}
+.codehilite .si{color:#dd1144}
+.codehilite .sx{color:#dd1144}
+.codehilite .sr{color:#009926}
+.codehilite .s1{color:#dd1144}
+.codehilite .ss{color:#990073}
+.codehilite .bp{color:#999999}
+.codehilite .vc{color:teal}
+.codehilite .vg{color:teal}
+.codehilite .vi{color:teal}
+.codehilite .il{color:#009999}
+.codehilite .gc{color:#999;background-color:#EAF2F5}
+</style><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+MathJax.Hub.Config({
+  config: ["MMLorHTML.js"],
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX"],
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    processEscapes: false
+  },
+  TeX: {
+    extensions: ["AMSmath.js", "AMSsymbols.js"],
+    TagSide: "right",
+    TagIndent: ".8em",
+    MultLineWidth: "85%",
+    equationNumbers: {
+      autoNumber: "AMS",
+    },
+    unicode: {
+      fonts: "STIXGeneral,'Arial Unicode MS'"
+    }
+  },
+  showProcessingMessages: false
+});
+</script>
+<title>git使用指南</title></head><body><article class="markdown-body"><div class="toc">
+<ul>
+<li><a href="#_1">简介</a><ul>
+<li><a href="#git">Git的优势</a></li>
+<li><a href="#git_1">Git的状态</a></li>
+</ul>
+</li>
+<li><a href="#_2">快速指南</a><ul>
+<li><a href="#git_2">安装Git</a></li>
+<li><a href="#_3">检出仓库</a></li>
+<li><a href="#_4">创建新仓库</a></li>
+<li><a href="#_5">添加与提交</a></li>
+<li><a href="#_6">推送改动</a></li>
+<li><a href="#_7">示例</a></li>
+</ul>
+</li>
+<li><a href="#git_3">Git配置</a><ul>
+<li><a href="#_8">配置文件</a></li>
+<li><a href="#_9">查看配置</a></li>
+<li><a href="#_10">配置文件忽略</a></li>
+<li><a href="#_11">设置用户名和邮箱</a></li>
+<li><a href="#git-status">git status显示中文</a></li>
+<li><a href="#_12">配置文件名大小写敏感</a></li>
+</ul>
+</li>
+<li><a href="#_13">基本操作</a><ul>
+<li><a href="#_14">初始化仓库</a><ul>
+<li><a href="#git-init">git init</a></li>
+</ul>
+</li>
+<li><a href="#_15">克隆已有仓库</a><ul>
+<li><a href="#git-clone">git clone</a></li>
+</ul>
+</li>
+<li><a href="#_16">保存你的更改</a><ul>
+<li><a href="#git-add">git add</a></li>
+<li><a href="#git-commit">git commit</a></li>
+</ul>
+</li>
+<li><a href="#_17">检查仓库状态</a><ul>
+<li><a href="#git-status_1">git status</a></li>
+<li><a href="#git-diff">git diff</a></li>
+<li><a href="#git-log">git log</a></li>
+</ul>
+</li>
+<li><a href="#_18">回滚错误的修改</a><ul>
+<li><a href="#_19">撤销未提交的修改</a></li>
+<li><a href="#commit">撤销已提交的commit</a></li>
+<li><a href="#git-reset">git reset</a></li>
+</ul>
+</li>
+<li><a href="#_20">删除文件</a></li>
+</ul>
+</li>
+<li><a href="#_21">远程团队协作和管理</a><ul>
+<li><a href="#_22">和远程仓库交互</a><ul>
+<li><a href="#git-remote">git remote</a></li>
+<li><a href="#git-pull">git pull</a></li>
+<li><a href="#git-push">git push</a></li>
+</ul>
+</li>
+<li><a href="#_23">分支管理</a></li>
+</ul>
+</li>
+<li><a href="#_24">标签</a><ul>
+<li><a href="#_25">创建标签</a><ul>
+<li><a href="#lightweight-tag">创建 lightweight tag</a></li>
+<li><a href="#annotated-tag">创建 annotated tag:</a></li>
+</ul>
+</li>
+<li><a href="#_26">标签发布</a></li>
+<li><a href="#_27">切换标签</a></li>
+<li><a href="#_28">查看标签</a></li>
+<li><a href="#_29">删除标签</a><ul>
+<li><a href="#_30">删除本地标签</a></li>
+<li><a href="#_31">删除远程仓库标签</a></li>
+</ul>
+</li>
+<li><a href="#tagging-later">Tagging Later</a></li>
+</ul>
+</li>
+<li><a href="#_32">参考</a></li>
+</ul>
+</div>
+<h1 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>简介</h1>
+<p>Git是目前世界上被最广泛使用的现代软件版本管理系统。Git本身亦是一个成熟并处于活跃开发状态的开源项目，它最初是由Linux操作系统内核的创造者Linus Torvalds在2005年创造。</p>
+<h2 id="git"><a name="user-content-git" href="#git" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Git的优势</h2>
+<ul>
+<li>Git是分布式的，而且Git平台比较多,GitLab, coding.net, GitHub等等；</li>
+<li>Git可以现在本地执行，可以在本地进行commit，而SVN每次commit都必须是提交到主机；</li>
+<li>Git能保证数据完整性，Git中所有数据在存储前都计算校验和，然后以校验来引用,所以你在传送过程中丢失文件，Git都知道。</li>
+</ul>
+<h2 id="git_1"><a name="user-content-git_1" href="#git_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Git的状态</h2>
+<p>本地仓库由 git 维护的三棵“树”组成。第一个是你的工作目录，它持有实际文件；第二个是暂存区或缓存区(Index)，它像个缓存区域，临时保存你的改动；最后是 HEAD，指向你最近一次提交后的结果。 </p>
+<p>三种状态:</p>
+<ul>
+<li>未修改: 没有修改</li>
+<li>已修改: 修改了,但还没放入暂存区</li>
+<li>已暂存: 如果作了修改并放入暂存区域，就属于已暂存</li>
+</ul>
+<p>其实还有二种形式可分</p>
+<ol>
+<li>未跟踪: 在本地未git add的就是未跟踪的；</li>
+<li>已跟踪: 上述三种状态都是已跟踪状态.</li>
+</ol>
+<p><img alt="git-status" src="/Users/chookin/%E5%BF%AB%E7%9B%98/notes/public-notes/tools/res/git-status.jpg" /></p>
+<h1 id="_2"><a name="user-content-_2" href="#_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>快速指南</h1>
+<h2 id="git_2"><a name="user-content-git_2" href="#git_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>安装Git</h2>
+<ul>
+<li>Mac：<code>brew install git</code></li>
+<li>Redhat/Centos：<code>yum install git</code></li>
+<li>Windows：下载安装<a href="https://git-scm.com/download/win">Git SCM</a></li>
+</ul>
+<h2 id="_3"><a name="user-content-_3" href="#_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>检出仓库</h2>
+<p>执行如下命令以创建一个本地仓库的克隆版本： <code>git clone /path/to/repository</code></p>
+<p>如果是远端服务器上的仓库，你的命令会是这个样子： <code>git clone username@host:/path/to/repository</code> （通过SSH） 或者： <code>git clone https:/path/to/repository.git</code> （通过https）</p>
+<p>比如说<code>git clone https://github.com/geeeeeeeeek/git-recipes.git</code>可以将git教程clone到你指定的目录。</p>
+<h2 id="_4"><a name="user-content-_4" href="#_4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>创建新仓库</h2>
+<p>创建新文件夹，切换路径到该文件夹，然后执行 <code>git init</code>以创建新的 git 仓库。</p>
+<h2 id="_5"><a name="user-content-_5" href="#_5" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>添加与提交</h2>
+<p>当新增文件时，使用如下命令把他们加入到暂存区：</p>
+<div class="codehilite"><pre>git add 
+</pre></div>
+
+
+<p>使用如下命令以提交修改：</p>
+<div class="codehilite"><pre>git commit -m <span class="s2">&quot;代码提交信息&quot;</span>
+</pre></div>
+
+
+<p>现在，你的改动已经提交到了 HEAD，但是还没到你的远端仓库。</p>
+<h2 id="_6"><a name="user-content-_6" href="#_6" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>推送改动</h2>
+<p>你的改动现在已经在本地仓库的 HEAD 中了。执行如下命令以将这些改动提交到远端仓库：</p>
+<div class="codehilite"><pre>git push origin master
+</pre></div>
+
+
+<p>可以把 master 换成你想要推送的任何分支。</p>
+<p>如果你还没有克隆现有仓库，并欲将你的仓库连接到某个远程服务器，你可以使用如下命令添加：</p>
+<div class="codehilite"><pre>git remote add origin &lt;server&gt;
+</pre></div>
+
+
+<p>这样你就能够将你的改动推送到所添加的服务器上去了。</p>
+<p>这里<code>origin</code>是<code>&lt; server &gt;</code>的别名。<br />
+如果你还没有git仓库，可以在码云、Github等代码托管平台上创建一个空(不要自动生成README.md)的repository，然后将代码push到远端仓库。</p>
+<h2 id="_7"><a name="user-content-_7" href="#_7" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>示例</h2>
+<div class="codehilite"><pre><span class="nv">$ </span><span class="nb">cd</span> /tmp
+<span class="nv">$ </span>mkdir samplePrj
+<span class="nv">$ </span><span class="nb">cd </span>samplePrj/
+<span class="nv">$ </span>git init <span class="c1"># 创建.git目录初始化git</span>
+Initialized empty Git repository in /private/tmp/samplePrj/.git/
+<span class="nv">$ </span>touch README.md
+<span class="nv">$ </span>git add . <span class="c1"># 添加当前目录的所有文件到git中，放入暂存区</span>
+<span class="nv">$ </span>git commit -m <span class="s1">&#39;virgin&#39;</span> <span class="c1"># 提交修改</span>
+<span class="o">[</span>master <span class="o">(</span>root-commit<span class="o">)</span> 86a264c<span class="o">]</span> virgin
+ <span class="m">1</span> file changed, <span class="m">0</span> insertions<span class="o">(</span>+<span class="o">)</span>, <span class="m">0</span> deletions<span class="o">(</span>-<span class="o">)</span>
+ create mode <span class="m">100644</span> README.md
+</pre></div>
+
+
+<h1 id="git_3"><a name="user-content-git_3" href="#git_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Git配置</h1>
+<h2 id="_8"><a name="user-content-_8" href="#_8" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>配置文件</h2>
+<p>按照配置的作用域，配置有如下三种类型:</p>
+<p>1,  全局系统配置<br />
+- 配置文件路径 <code>/etc/gitconfig</code><br />
+- 通过命令修改全局系统配置 <code>git config --system ...</code></p>
+<p>2, 当前用户配置<br />
+- 配置文件 <code>~/.gitconfig</code> 或者 <code>~/.config/git/config</code><br />
+- 通过命令修改当前用户配置 <code>git config --global ...</code></p>
+<p>3, 当前项目配置<br />
+- 配置文件 <code>./git/config</code><br />
+- 通过命令修改当前项目配置 <code>git config ...</code></p>
+<p>当这些文件中的配置项冲突时，本地仓库设置覆盖用户设置，用户设置覆盖系统设置。</p>
+<h2 id="_9"><a name="user-content-_9" href="#_9" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>查看配置</h2>
+<p>可以通过以下方式查看当前配置：</p>
+<ul>
+<li>直接打开配置文件进行查看</li>
+<li>通过命令查看 <code>git config --list</code></li>
+</ul>
+<h2 id="_10"><a name="user-content-_10" href="#_10" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>配置文件忽略</h2>
+<p>配置为忽略的文件将不会主动被git管理。在当前项目根路径下配置<code>.gitignore</code>。</p>
+<p>文件 .gitignore 的格式规范如下：</p>
+<div class="codehilite"><pre>所有空行或者以注释符号`#`开头的行都会被 Git 忽略。
+可以使用标准的 glob 模式匹配。
+要忽略指定模式以外的文件或目录，可以在模式前加上惊叹号`!`取反。
+</pre></div>
+
+
+<p>示例：</p>
+<div class="codehilite"><pre><span class="c1"># my project tmps</span>
+food/conf
+
+<span class="c1"># tmp files</span>
+dump.rdb
+
+<span class="c1"># Compiled sources</span>
+*.o
+*.class
+*.pyc
+target
+
+<span class="c1"># Package Files #</span>
+*.jar
+*.war
+*.ear
+
+<span class="c1"># virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml</span>
+hs_err_pid*
+
+<span class="c1"># project ide configs</span>
+*.iml
+.idea
+.classpath
+.mymetadata
+.project
+.settings
+
+<span class="c1"># other file types</span>
+*.log
+.svn
+diff.patch
+nohup.out
+</pre></div>
+
+
+<h2 id="_11"><a name="user-content-_11" href="#_11" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>设置用户名和邮箱</h2>
+<p>用户名和邮箱信息是提交更新必须的。</p>
+<div class="codehilite"><pre>git config --global user.name <span class="s2">&quot;404_K&quot;</span>
+git config --global user.email 404_K@example.com
+</pre></div>
+
+
+<h2 id="git-status"><a name="user-content-git-status" href="#git-status" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>git status显示中文</h2>
+<p>默认状态下，执行<code>git status</code>不能正确显示中文（当修改的文件名包含中文字符时）。为了正确显示中文，执行如下命令即可</p>
+<div class="codehilite"><pre>git config --global core.quotepath <span class="nb">false</span>
+</pre></div>
+
+
+<h2 id="_12"><a name="user-content-_12" href="#_12" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>配置文件名大小写敏感</h2>
+<p>git 默认是文件名大小写不敏感的。</p>
+<p>解决办法：</p>
+<div class="codehilite"><pre>git config --global core.ignorecase <span class="nb">false</span>
+</pre></div>
+
+
+<h1 id="_13"><a name="user-content-_13" href="#_13" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>基本操作</h1>
+<h2 id="_14"><a name="user-content-_14" href="#_14" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>初始化仓库</h2>
+<h3 id="git-init"><a name="user-content-git-init" href="#git-init" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>git init</h3>
+<p><code>git init</code>命令创建一个新的Git仓库。它用来将已存在但还没有版本控制的项目转换成一个Git仓库，或者创建一个空的新仓库。大多数Git命令在未初始化的仓库中都是无法使用的，所以这就是你运行新项目的第一个命令了。</p>
+<p>运行<code>git init</code>命令会在你项目的根目录下创建一个新的.git目录，其中包含了你项目必需的所有元数据。除了<code>.git</code>目录之外，已经存在的项目不会被改变（就像SVN一样，Git不强制每个子目录中都有一个<code>.git</code>目录）。</p>
+<p><strong>用法</strong></p>
+<div class="codehilite"><pre>git init
+</pre></div>
+
+
+<p>将当前的目录转换成一个Git仓库。它在当前的目录下增加了一个.git文件夹，于是就可以开始记录项目版本了。</p>
+<h2 id="_15"><a name="user-content-_15" href="#_15" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>克隆已有仓库</h2>
+<h3 id="git-clone"><a name="user-content-git-clone" href="#git-clone" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>git clone</h3>
+<p>如果项目在其他仓库已经设置完毕，<code>git clone</code>是用户获取开发副本最常见的方式。</p>
+<p><code>git clone</code>命令拷贝整个Git仓库。这个命令就像<code>svn checkout</code>一样，除了”工作副本“是一个完备的Git仓库——它包含自己的历史，管理自己的文件，以及环境和原仓库完全隔离。</p>
+<p>为了方便起见，clone自动创建了一个名为origin的连接，指向原有仓库。</p>
+<p><strong>用法</strong></p>
+<div class="codehilite"><pre>git clone &lt;repo&gt;
+</pre></div>
+
+
+<p>将位于<code>&lt;repo&gt;</code>的仓库克隆到本地机器。原仓库可以在本地文件系统中，或是通过HTTP或SSH连接的远程机器。</p>
+<p>示例：</p>
+<div class="codehilite"><pre><span class="c1"># 普通获取</span>
+git clone git@git.oschina.net:chookin/Pyassess.git
+
+<span class="c1"># 只获取最新版本，减少网络传输</span>
+git clone git@github.com:MyCATApache/Mycat-Server.git --depth<span class="o">=</span>1
+
+<span class="c1"># 获取指定分支</span>
+git clone -b release_branch https://github.com/jetty/
+</pre></div>
+
+
+<h2 id="_16"><a name="user-content-_16" href="#_16" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>保存你的更改</h2>
+<h3 id="git-add"><a name="user-content-git-add" href="#git-add" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>git add</h3>
+<p><code>git add</code>命令将工作目录中的变化添加到缓存区。它告诉Git你想要在下一次提交时包含这个文件的更新。但是，<code>git add</code>不会怎么影响你的仓库——在你运行<code>git commit</code>前更改都不会被记录。</p>
+<p><strong>用法</strong></p>
+<div class="codehilite"><pre>git add &lt;file&gt;
+</pre></div>
+
+
+<p>将<code>&lt;file&gt;</code>中的更改加入下次提交的缓存。</p>
+<div class="codehilite"><pre>git add &lt;directory&gt;
+</pre></div>
+
+
+<p>将<code>&lt;directory&gt;</code>下的更改加入下次提交的缓存。</p>
+<h3 id="git-commit"><a name="user-content-git-commit" href="#git-commit" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>git commit</h3>
+<p><code>git add</code>和<code>git commit</code>这两个命令组成了最基本的Git工作流。首先，你要在工作目录中编辑你的文件。当你准备备份项目的当前状态时，你通过<code>git add</code>来缓存更改。当你对缓存的快照满意之后，你通过<code>git commit</code>将它提交到你的项目历史中去。</p>
+<p><strong>用法</strong></p>
+<div class="codehilite"><pre><span class="c1"># 提交一份包含工作目录所有更改的快照。它只包含跟踪过的文件的更改（那些之前已经通过git add添加过的文件）</span>
+git commit -a
+
+<span class="c1"># 提交指定文件的修改</span>
+git commit &lt;file&gt;
+</pre></div>
+
+
+<h2 id="_17"><a name="user-content-_17" href="#_17" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>检查仓库状态</h2>
+<h3 id="git-status_1"><a name="user-content-git-status_1" href="#git-status_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>git status</h3>
+<p><code>git status</code>命令显示工作目录和暂存区的状态。你可以看到哪些更改被缓存了，哪些还没有，以及哪些还未被Git追踪。status的输出不会告诉你任何已提交到项目历史的信息。如果你想看的话，应该使用<code>git log</code>命令。</p>
+<p><strong>用法</strong></p>
+<div class="codehilite"><pre><span class="c1"># 列出已缓存、未缓存、未追踪的文件</span>
+git status
+</pre></div>
+
+
+<h3 id="git-diff"><a name="user-content-git-diff" href="#git-diff" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>git diff</h3>
+<p><code>git diff</code>命令显示工作目录和暂存区的修改。</p>
+<div class="codehilite"><pre><span class="c1"># 显示未暂存的修改(被修改的文件已被git管理)</span>
+git diff
+
+<span class="c1"># 已放入暂存区，但还没有提交的修改</span>
+git diff --cached
+
+<span class="c1"># 显示当前所有修改</span>
+git diff HEAD
+</pre></div>
+
+
+<h3 id="git-log"><a name="user-content-git-log" href="#git-log" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>git log</h3>
+<p><code>git log</code> 命令显示已提交的快照。你可以列出项目历史，筛选，以及搜索特定更改。git status 允许你查看工作目录和缓存区，而<code>git log</code>只作用于提交的项目历史。</p>
+<p><strong>用法</strong></p>
+<div class="codehilite"><pre># 使用默认格式显示完整地项目历史。如果输出超过一屏，你可以用空格键来滚动，按q退出。
+git log
+
+# 用&lt;limit&gt;限制提交的数量。比如git log -n 3只会显示3个提交。
+git log -n &lt;limit&gt;
+
+# 将每个提交压缩到一行。当你需要查看项目历史的上层情况时这会很有用。
+git log --oneline
+
+# 显示了在some-feature分支而不在master分支的所有提交的概览。
+git log --oneline master..some-feature
+
+# 除了git log信息之外，包含哪些文件被更改了，以及每个文件相对的增删行数。
+git log --stat
+
+# 显示代表每个提交的一堆信息。显示每个提交全部的差异(diff)，这也是项目历史中最详细的视图。
+git log -p
+
+# 搜索特定作者的提交。&lt;pattern&gt;可以是字符串或正则表达式。
+git log --author=&quot;&lt;pattern&gt;&quot;
+
+# 搜索提交信息匹配特定&lt;pattern&gt;的提交。&lt;pattern&gt;可以是字符串或正则表达式。
+git log --grep=&quot;&lt;pattern&gt;&quot;
+
+# 只显示发生在&lt;since&gt;和&lt;until&gt;之间的提交。两个参数可以是提交ID、分支名、HEAD或是任何一种引用。
+git log &lt;since&gt;..&lt;until&gt;
+
+# 只显示包含特定文件的提交。查找特定文件的历史这样做会很方便。
+git log &lt;file&gt;
+
+# 还有一些有用的选项。--graph标记会绘制一幅字符组成的图形，左边是提交，右边是提交信息。--decorate标记会加上提交所在的分支名称和标签。--oneline标记将提交信息显示在同一行，一目了然。
+git log --graph --decorate --oneline
+</pre></div>
+
+
+<p>说明：</p>
+<p><code>git log</code>的标准输出：</p>
+<div class="codehilite"><pre>commit 3157ee3718e180a9476bf2e5cab8e3f1e78a73b7
+Author: John Smith
+</pre></div>
+
+
+<p>commit后面40个字的字符串是提交内容的SHA-1校验总和(checksum)。它有两个作用：</p>
+<ol>
+<li>保证提交的正确性——如果它被损坏了，提交会生成一个不同的校验总和；</li>
+<li>它是提交唯一的标识ID。</li>
+</ol>
+<p>这个ID可以用于git log ..这样的命令中来引用具体的提交。比如，git log 3157e..5ab91会显示所有ID在 3157e和5ab91之间的提交。</p>
+<p>除了校验总和之外，分支名、HEAD关键字也是常用的引用提交的方法。HEAD总是指向当前的提交，无论是分支还是特定提交也好。</p>
+<p>~字符用于表示提交的父节点的相对引用。比如，3157e~1指向3157e前一个提交,HEAD~3是当前提交的回溯3个节点的提交。</p>
+<h2 id="_18"><a name="user-content-_18" href="#_18" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>回滚错误的修改</h2>
+<h3 id="_19"><a name="user-content-_19" href="#_19" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>撤销未提交的修改</h3>
+<div class="codehilite"><pre><span class="c1"># 用刚刚提交的覆盖</span>
+git checkout head &lt;file&gt;
+
+<span class="c1"># 用历史指定的commit去覆盖</span>
+git checkout &lt;commit&gt; &lt;file&gt;
+
+<span class="c1"># 示例</span>
+git checkout 9c85921cab12cd06689983bf42e7d50a8db2d4ba app/src/
+</pre></div>
+
+
+<h3 id="commit"><a name="user-content-commit" href="#commit" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>撤销已提交的commit</h3>
+<div class="codehilite"><pre><span class="c1"># 撤销刚刚的提交</span>
+git revert HEAD
+
+<span class="c1"># 撤销历史的某个commit</span>
+git revert &lt;commit&gt;
+</pre></div>
+
+
+<h3 id="git-reset"><a name="user-content-git-reset" href="#git-reset" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>git reset</h3>
+<div class="codehilite"><pre><span class="c1"># 从暂存区移除特定文件，但不改变工作目录</span>
+git reset &lt;file&gt;
+
+<span class="c1"># 重设暂存区，它会取消所有文件的缓存，而不会覆盖任何修改</span>
+git reset
+
+<span class="c1"># --hard 标记告诉Git还要重写所有工作目录中的更改。换句话说：它清除了所有未提交的更改</span>
+git reset --hard
+</pre></div>
+
+
+<h2 id="_20"><a name="user-content-_20" href="#_20" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>删除文件</h2>
+<p>删除暂存区中的内容</p>
+<div class="codehilite"><pre>git rm -r --cached &lt;path&gt;
+</pre></div>
+
+
+<h1 id="_21"><a name="user-content-_21" href="#_21" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>远程团队协作和管理</h1>
+<p>SVN使用唯一的中央仓库作为开发者之间沟通的桥梁，在开发者的工作拷贝和中央仓库之间传递变更集合(changeset)，协作得以发生。这和Git的协作模型有所不同，Git给予每个开发者一份自己的仓库拷贝，拥有自己完整的本地历史和分支结构。用户通常共享一系列的提交而不是单个变更集合。Git允许你在仓库间共享整个分支，而不是从工作副本提交一个差异集合到中央仓库。</p>
+<h2 id="_22"><a name="user-content-_22" href="#_22" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>和远程仓库交互</h2>
+<h3 id="git-remote"><a name="user-content-git-remote" href="#git-remote" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>git remote</h3>
+<p>git remote命令允许你创建、查看和删除和其它仓库之间的连接。远程连接更像是书签，而不是直接跳转到其他仓库的链接。它用方便记住的别名引用不那么方便记住的URL，而不是提供其他仓库的实时连接。</p>
+<p><strong>用法</strong></p>
+<div class="codehilite"><pre><span class="c1"># 列出你和其他仓库之间的远程连接。</span>
+git remote
+
+<span class="c1"># 和上个命令相同，但同时显示每个连接的URL。</span>
+git remote -v
+
+<span class="c1"># 创建一个新的远程仓库连接。在添加之后，你可以将作为便捷的别名在其他Git命令中使用。</span>
+git remote add &lt;name&gt; &lt;url&gt;
+
+<span class="c1">#移除名为的远程仓库的连接。</span>
+git remote rm &lt;name&gt;
+
+<span class="c1"># 将远程连接从重命名为。</span>
+git remote rename &lt;old-name&gt; &lt;new-name&gt;
+</pre></div>
+
+
+<p>当你用<code>git clone</code>克隆仓库时，它自动创建了一个名为origin的远程连接，指向被克隆的仓库。当开发者创建中央仓库的本地副本时非常有用，因为它提供了拉取上游更改和发布本地提交的快捷方式。这也是为什么大多数基于Git的项目将它们的中央仓库取名为origin。</p>
+<h3 id="git-pull"><a name="user-content-git-pull" href="#git-pull" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>git pull</h3>
+<p>拉取当前分支对应的远程副本中的更改，并立即并入本地副本</p>
+<div class="codehilite"><pre>git pull &lt;remote&gt;
+</pre></div>
+
+
+<h3 id="git-push"><a name="user-content-git-push" href="#git-push" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>git push</h3>
+<p>将本地提交同步到远程仓库。当项目是多人协作时，在<code>git push</code>之前，需要<code>git pull</code>。</p>
+<div class="codehilite"><pre>git push &lt;remote&gt; &lt;branch&gt;
+</pre></div>
+
+
+<h2 id="_23"><a name="user-content-_23" href="#_23" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>分支管理</h2>
+<p>在Git中，分支是你日常开发流程中的一部分。当你想要添加一个新的功能或是修复一个bug时——不管bug是大是小——你都应该新建一个分支来封装你的修改。这确保了不稳定的代码永远不会被提交到主代码库中，它同时给了你机会，在并入主分支前清理你feature分支的历史。</p>
+<p>git branch命令允许你创建、列出、重命名和删除分支。它不允许你切换分支或是将被fork的历史放回去。因此，git branch和git checkout、git merge这两个命令通常紧密地结合在一起使用。</p>
+<ul>
+<li>查看远程分支</li>
+</ul>
+<div class="codehilite"><pre><span class="nv">$ </span>git branch -a
+* master
+  remotes/origin/1.3.0.1
+  remotes/origin/1.4
+  remotes/origin/1.5
+  remotes/origin/1.6
+  remotes/origin/HEAD -&gt; origin/master
+  remotes/origin/master
+  remotes/origin/revert-677-1.5
+</pre></div>
+
+
+<ul>
+<li>查看当前分支</li>
+</ul>
+<div class="codehilite"><pre><span class="nv">$ </span>git branch
+<span class="nv">$ </span>git branch -v
+* master
+</pre></div>
+
+
+<ul>
+<li>
+<p>创建分支 <code>git branch &lt;brach_name&gt;</code></p>
+</li>
+<li>
+<p>切换分支 <code>git checkout &lt;branch_nam&gt;</code></p>
+</li>
+<li>
+<p>删除分支</p>
+<ul>
+<li><code>git branch -d &lt;branch_name&gt;</code> 如果该分支没有合并到主分支会报错</li>
+<li><code>git branch -D &lt;branch_name&gt;</code> 强制删除</li>
+</ul>
+</li>
+<li>
+<p>分支合并</p>
+<p>一旦你完成了分支上的工作，准备将它并入主代码库：</p>
+<ul>
+<li>首先切换到master分支：<code>git checkout master</code>。</li>
+<li>然后执行合并操作：<code>git merge &lt;branch&gt;</code>。</li>
+<li>如果有冲突，会提示你，调用<code>git status</code>查看冲突文件。</li>
+<li>处理冲突。</li>
+<li>所有冲突解决后，<code>git commit</code> 提交更改。</li>
+</ul>
+</li>
+</ul>
+<h1 id="_24"><a name="user-content-_24" href="#_24" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>标签</h1>
+<p>git标签分为两种类型：</p>
+<ul>
+<li>轻量标签(Lightweight Tags)，是指向提交对象的引用；</li>
+<li>附注标签(Annotated Tags)，包含完整的全部提交记录，包含创建 tag 人的信息（用户名，邮件等），创建 tag 的时间，还有备注信息。</li>
+</ul>
+<h2 id="_25"><a name="user-content-_25" href="#_25" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>创建标签</h2>
+<h3 id="lightweight-tag"><a name="user-content-lightweight-tag" href="#lightweight-tag" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>创建 lightweight tag</h3>
+<div class="codehilite"><pre>git tag v1.4   <span class="c1"># v1.4 可以替换为自己制定的版本</span>
+</pre></div>
+
+
+<h3 id="annotated-tag"><a name="user-content-annotated-tag" href="#annotated-tag" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>创建 annotated tag:</h3>
+<div class="codehilite"><pre>git tag -a v1.4 -m <span class="s2">&quot;my version 1.4&quot;</span> <span class="c1"># 多了一个 -a 参数</span>
+</pre></div>
+
+
+<p>参数a即annotated的缩写，后附标签名。参数m指定标签说明，说明信息会保存在标签对象中。</p>
+<h2 id="_26"><a name="user-content-_26" href="#_26" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>标签发布</h2>
+<p>通常的git push不会将标签对象提交到git服务器，我们需要进行显式的操作：</p>
+<div class="codehilite"><pre>git push origin v0.1.2 <span class="c1"># 将v0.1.2标签提交到git服务器</span>
+git push origin –tags <span class="c1"># 将本地所有标签一次性提交到git服务器</span>
+</pre></div>
+
+
+<h2 id="_27"><a name="user-content-_27" href="#_27" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>切换标签</h2>
+<p>与切换分支命令相同</p>
+<div class="codehilite"><pre>git checkout <span class="o">[</span>tagname<span class="o">]</span>
+</pre></div>
+
+
+<p>再切换回主干</p>
+<div class="codehilite"><pre>git checkout master
+</pre></div>
+
+
+<h2 id="_28"><a name="user-content-_28" href="#_28" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>查看标签</h2>
+<div class="codehilite"><pre>git tag <span class="c1"># 查看当前分支下的标签</span>
+</pre></div>
+
+
+<p><code>git show</code>命令可以查看标签的版本信息：</p>
+<div class="codehilite"><pre>git show v0.1.2
+</pre></div>
+
+
+<h2 id="_29"><a name="user-content-_29" href="#_29" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>删除标签</h2>
+<h3 id="_30"><a name="user-content-_30" href="#_30" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>删除本地标签</h3>
+<p>需要修改标签时，需要先将标签删除，再打新标签。</p>
+<div class="codehilite"><pre>git tag -d v0.1.2 <span class="c1"># 删除标签</span>
+</pre></div>
+
+
+<p>参数d即delete的缩写，意为删除其后指定的标签。</p>
+<h3 id="_31"><a name="user-content-_31" href="#_31" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>删除远程仓库标签</h3>
+<div class="codehilite"><pre>git push origin :refs/tags/v0.1.2
+</pre></div>
+
+
+<p>说明：可以直接修改远程仓库的标签名：</p>
+<div class="codehilite"><pre>git push origin refs/tags/源标签名:refs/tags/目的标签名
+</pre></div>
+
+
+<blockquote>
+<p>Pushing an empty <code>&lt;src&gt;</code> allows you to delete the<code>&lt;dst&gt;</code> ref from the remote repository.</p>
+</blockquote>
+<h2 id="tagging-later"><a name="user-content-tagging-later" href="#tagging-later" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Tagging Later</h2>
+<p>如果想给历史的某个commit打标签，则首先定位出该commit的checksum，</p>
+<div class="codehilite"><pre><span class="nv">$ </span>git log --pretty<span class="o">=</span>oneline
+15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch <span class="s1">&#39;experiment&#39;</span>
+a6b4c97498bd301d84096da251c98a07c7723e65 beginning write support
+0d52aaab4479697da7686c15f77a3d64d9165190 one more thing
+</pre></div>
+
+
+<p>之后，在打标签命令后面追加checksum(或部分checksum)即可。</p>
+<div class="codehilite"><pre>git tag -a v1.2 9fceb02
+</pre></div>
+
+
+<h1 id="_32"><a name="user-content-_32" href="#_32" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>参考</h1>
+<ul>
+<li><a href="https://github.com/mzkmzk/Read/blob/master/progit.md?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io">Git基础</a></li>
+<li><a href="https://github.com/geeeeeeeeek/git-recipes/wiki?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io">Git教程</a></li>
+<li><a href="https://www.atlassian.com/git/tutorials/undoing-changes/git-checkout">Undoing Changes</a></li>
+<li><a href="https://git-scm.com/book/en/v2/Git-Basics-Tagging">Git Basics - Tagging</a></li>
+<li><a href="http://linux.die.net/man/1/git-push">git-push(1) - Linux man page</a></li>
+</ul></article></body></html>

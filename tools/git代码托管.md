@@ -1,12 +1,10 @@
-[TOC]
-
 # 代码托管
 
 托管代码的主流平台有国内的[开源中国-码云 git.oschina](http://git.oschina.net)、国外的[github](https://github.com)。
 
 相比github，码云具有免费托管私有项目的功能。
 
-# 码云
+# git.oschina
 
 ## 入门
 
@@ -95,7 +93,7 @@ Please make sure you have the correct access rights
 
 ### 配置SSH公钥
 
-SSH key 可以让你在你的电脑和 Git@OSC 之间建立安全的加密连接。
+SSH key 可以让你在你的电脑和 Git @ OSC 之间建立安全的加密连接（git的remote要使用SSH地址）。
 
 你可以按如下命令来[生成SSH Keys](http://git.oschina.net/oschina/git-osc/wikis/帮助#ssh-keys)。
 
@@ -134,7 +132,7 @@ The key's randomart image is:
 
 注意：存储key的文件必须是`.ssh/id_rsa`，如果已存在，则选择覆盖。
 
-查看你的public key，并把他添加到 Git@OSC http://git.oschina.net/keys
+查看你的public key，并把他添加到 Git @ OSC http://git.oschina.net/keys
 
 ```shell
 $ cat ~/.ssh/id_rsa.pub

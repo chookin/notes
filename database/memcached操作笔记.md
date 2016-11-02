@@ -23,7 +23,11 @@ memcache是一个高性能的分布式的内存对象缓存系统，通过在内
 ## 启动命令
 指定监听端口，启动memcached实例：
 
-    nohup bin/memcached -m 2048 -c 8192 -p 11211 >/dev/null 2>> logs/memcached11211.log &
+```shell
+nohup bin/memcached -m 2048 -c 8192 -p 11211 >/dev/null 2>> logs/memcached11211.log &
+
+nohup bin/memcached -m 2048 -c 8192 -p 11211 > logs/memcached11211.log &
+```
 
 ## 参数说明
 参数说明如下
@@ -233,7 +237,8 @@ echo $get_value;
 # 常见问题
 （1）failed to set rlimit for open files. Try running as root or requesting smaller maxconns value.
 解决办法：编辑文件/etc/security/limits.conf,为memcached用户设置最多可以打开的文件数目（当前memcached的用户为work）。
-```
+
+```shell
 $ sudo vi /etc/security/limits.conf
 
 #"soft" for enforcing the soft limits
@@ -246,6 +251,8 @@ $ sudo vi /etc/security/limits.conf
 work       soft    nofile         65536
 work       hard    nofile         65536
 ```
+
+文件修改后，__重新打开shell__,执行命令`ulimit -a`，可发现配置已生效。
 
 参考：http://www.cyberciti.biz/faq/linux-unix-rhel-centos-memcache-failedto-setrlimit/
 （2）启动报错

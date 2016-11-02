@@ -282,6 +282,7 @@ chmod +x /etc/rc.d/init.d/svnserved
 chkconfig --add svnserved
 chkconfig svnserved on
 ```
+
 ## 常见问题
 
 1) 浏览器打开svn的http地址时，报错：
@@ -311,7 +312,8 @@ You don't have permission to access /repos/admonitor on this server.
 ## 签出
 
     svn checkout http://111.13.47.167/repos/tagbase/ tagbase/
-不会覆盖本地的tagbase文件夹中文件。
+checkout到本地的`tagbase`文件夹，不会覆盖本地的tagbase文件夹中文件。
+
 ## 撤消未提交的修改
 ```shell
 svn revert --recursive example_folder
@@ -347,10 +349,6 @@ svn revert -R .
 
     svn import project/hadoop-2.2.0-cdh5.0.0-beta-2/src/ svn://localhost/hadoop-2.2.0-cdh5.0.0-beta-2 -F svn-commit.tmp
 注意，导入后的文件需要再checkout到本地，否则会提示” is not a working copy”。
-## checkout
-
-    svn checkout svn://localhost/hadoop-2.2.0-cdh5.0.0-beta-2 src/
-checkout到本地的src文件夹（需要把原来的给删掉）。
 ## update
 
     svn update
@@ -365,7 +363,18 @@ svn copy http://svn_server/xxx_repository/trunk http://svn_server/xxx_repository
 svn rm http://svn_server/xxx_repository/branches/br_feature001
 svn rm http://svn_server/xxx_repository/tags/release-1.0
 
+## 文件锁定
+
+查看文件锁定状态
+
+```shell
+svn status | grep L
+```
+
+参考 [How to Force Lock and Unlock Files in SVN with Command Examples](http://www.thegeekstuff.com/2014/07/svn-lock-unlock-examples/)
+
 ## 忽略文件
+
 Use the following command to create a list not under version control files.
 
 ```shell
@@ -395,10 +404,36 @@ svn propedit svn:ignore .
     cd ../cmri/patches/
     svn add test.patch
     svn commit test.patch -m "test"
+新的提交不能通过svn log立马看到提交记录，需要执行svn update，才能看到刚才的提交记录。
+
 ## 打patch
 
     cd ../src
     patch -p0 < ../cmri/patches/test.patch
+## 查看指定版本的提交
+
+```shell
+svn diff -c <Revision>
+```
+
+例如：
+
+```shell
+svn diff -c 25114
+```
+
+## 查看指定文件在指定版本的修改
+
+```shell
+svn diff -c <Revision> <Item>
+```
+
+例如：
+
+```shell
+svn diff -c 25114 src/main.cpp
+```
+
 ## 与指定版本做对比，生成diff
 
     svn diff -x --ignore-all-space -r 276 > a.patch

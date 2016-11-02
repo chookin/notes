@@ -48,6 +48,9 @@ default-character-set   =utf8
 ## 忽略密码，可用于处理密码忘记的情境
 #skip-grant-tables
 
+## 决定mysql自动重启时使用那个用户去执行
+#user       = mysql
+
 local-infile    = 0
 pid-file        = /Users/chookin/data/mysql/var/mysqld.pid
 socket          = /Users/chookin/data/mysql/var/mysqld.sock
@@ -56,28 +59,55 @@ basedir         = /usr/local/opt/mysql
 datadir         =/Users/chookin/data/mysql
 tmpdir          = /tmp
 skip-external-locking
+
+##  当绑定到127.0.0.1时，将不能被远程访问
+# bind-address        = 127.0.0.1
+
+# key_buffer          = 16M
+# 限制server接受的数据包大小，决定了最大能接受的sql语句大小
 max_allowed_packet      = 16M
+# table_cache           = 64
+# thread_concurrency    = 10
 thread_stack            = 192K
 thread_cache_size       = 8
+
+## Query Caching
+# query-cache-type = 1
+
+#
+# * Query Cache Configuration
+#
 query_cache_limit       = 1M
 query_cache_size        = 16M
-expire_logs_days        = 10
-max_binlog_size         = 100M
+
+# 配置mysql最大连接数
+max_connections=3600
 
 collation-server        = utf8_unicode_ci
 init-connect            ='SET NAMES utf8'
 character-set-server    = utf8
+# Default to InnoDB
+default-storage-engine=innodb
+
 wait_timeout = 1814400
+
+# Here you can see queries with especially long duration
+#log_slow_queries   = /var/log/mysql/mysql-slow.log
+#long_query_time = 2
+#log-queries-not-using-indexes
 
 # Replication Master Server (default)
 # binary logging is required for replication
-server-id       = 1
-log-bin         = mysql-bin
+server-id               = 1
+log-bin                 = mysql-bin
+expire_logs_days        = 10
+max_binlog_size         = 100M
+#binlog_do_db       = include_database_name
+#binlog_ignore_db   = include_database_name
 
 [mysqldump]
 quick
 quote-names
-max_allowed_packet      = 16M
 ```
 
 Notice, full text replacement command of vi(如果包含字符'/'，那么需要转义'\':
@@ -103,6 +133,7 @@ CMake Error at cmake/readline.cmake:83 (MESSAGE):
 可能原因：如果安装Linux系统时，安装了系统自带的mysql，则对以后安装mysql产生影响。
 
 解决方案：启动时指定配置文件，例如
+
 ```
 bin/mysqld_safe --defaults-file=etc/my.cnf &
 ```

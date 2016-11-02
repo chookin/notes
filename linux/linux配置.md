@@ -15,6 +15,16 @@ cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 ```
 
 # 网络
+## 超时断开
+
+Linux云主机ssh自动登出的超时时间太短，如何修改？
+出于安全考虑，Linux镜像默认的超时时间为180秒。如果要临时修改，可以登录shell后执行"unset TMOUT"，或者"export TMOUT=3600"；如果要永久修改，可以注释/etc/profile中的下面两行，然后重新登录shell
+
+```shell
+TIMEOUT=180
+export TIMEOUT 
+```
+
 ## hostname
 ### 修改hostname
 
@@ -65,9 +75,9 @@ NAME="System em1"
 ```shell
 DEVICE=em1:0
 BOOTPROTO=static
-IPADDR=10.10.33.145
+IPADDR=111.13.47.168
 NETMASK=255.255.255.224
-NETWORK=10.10.33.0
+GETWAY=111.13.47.190
 ONBOOT=yes
 TYPE=Ethernet
 ```
@@ -80,15 +90,58 @@ ifup em1:0
 ifdown em1:0
 ```
 或者一步到位增加ip（网卡服务重启后失效）
+
 ```shell
 ip address add 10.10.33.145/27 broadcast + dev em1 label em1:0
 ```
 
-## 关于子网掩码
+删除新增的虚ip的方法
+```shell
+ip address delete 10.10.33.145/27 broadcast + dev em1 label em1:0
+```
+
+### 关于子网掩码
 某IP的子网掩码255.255.255.0 可以表述为***.***.***.***/24, 该子网掩码用2进制表述为11111111.11111111.11111111.0000 0000，其中二进制里有多少个“1”，24个吧。
 255.255.255.224的子网掩码用二进制表述为11111111.11111111.11111111.1110 0000，其中有27个“1”,所以"/27"等同于子网掩码255.255.255.224
 
+## 网关
+
+查看网关配置
+
+```shell
+[root@ad-check2 ~]# route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+10.1.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0
+169.254.0.0     0.0.0.0         255.255.0.0     U     1002   0        0 eth0
+0.0.0.0         10.1.0.1        0.0.0.0         UG    0      0        0 eth0
+[root@ad-check2 ~]# ip route show
+10.1.0.0/24 dev eth0  proto kernel  scope link  src 10.1.0.8 
+169.254.0.0/16 dev eth0  scope link  metric 1002 
+default via 10.1.0.1 dev eth0 
+[root@ad-check2 ~]# netstat -r
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+10.1.0.0        *               255.255.255.0   U         0 0          0 eth0
+link-local      *               255.255.0.0     U         0 0          0 eth0
+default         promote.cache-d 0.0.0.0         UG        0 0          0 eth0
+```
+
+临时添加方法 
+route add default gw ip 
+
+删除 
+route del default 
+
+
+永久添加方法 
+修改/etc/rc.local 
+
+在文件里添加命令： 
+route add default gw ip 
+
 ## nat上网
+
 ### 入口服务器
 配置iptables
 ```

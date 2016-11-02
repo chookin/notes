@@ -36,7 +36,7 @@ Struts中用包组织actions。一个struts.xml文件可以有一个或多个pac
     </package>
 </struts>
 ```
-每个package元素都必须有一个name属性；namespace属性是可选的，默认值是'/'。若某namespace属性不是默认值，那么该package里面的action被调用的URI格式是：
+每个package元素都必须有一个name属性；namespace属性是可选的，用于指定内部action的访问路径，默认值是'/'。若某namespace属性不是默认值，那么该package里面的action被调用的URI格式是：
 
 ```java
 /context/{namespace}/actionName.action

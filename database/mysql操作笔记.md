@@ -107,6 +107,9 @@ show procedure status\G;
 
 -- 清空缓存
 reset query cache;
+
+-- 查看死锁信息，执行如下命令，在打印出来的信息中找到“LATEST DETECTED DEADLOCK”一节内容，分析其中的内容，我们就可以知道最近导致死锁的事务有哪些
+show engine innodb status\G;
 ```
 
 ## 数据表操作
@@ -235,8 +238,8 @@ LOAD DATA [LOW_PRIORITY | CONCURRENT] [LOCAL] INFILE 'file_name.txt' [REPLACE | 
 
 示例：
 
-    load data infile '/home/mark/data_update.sql' replace into table test FIELDS TERMINATED BY ',' (id,name) 
-    
+    load data infile '/home/mark/data_update.txt' replace into table test FIELDS TERMINATED BY ',' (id,name) 
+​    
 
 # shell访问mysql并执行命令
 ```shell
@@ -254,6 +257,59 @@ ${mysql_bin_dir}/mysql -u${db_user} -p${db_passwd} -P${db_port} -h${db_host} -D$
 
 # 性能剖析
 分析SQL执行带来的开销是优化SQL的重要手段。在MySQL数据库中，可以通过配置profiling参数来启用SQL剖析。该参数可以在全局和session级别来设置。对于全局级别则作用于整个MySQL实例，而session级别紧影响当前session。该参数开启后，后续执行的SQL语句都将记录其资源开销，诸如IO，上下文切换，CPU，Memory等等。根据这些开销进一步分析当前SQL瓶颈从而进行优化与调整。
+
+## 查看mysql参数配置
+
+```sql
+mysql> show global variables like '%max%';
++-----------------------------------------+----------------------+
+| Variable_name                           | Value                |
++-----------------------------------------+----------------------+
+| ft_max_word_len                         | 84                   |
+| group_concat_max_len                    | 1024                 |
+| innodb_file_format_max                  | Antelope             |
+| innodb_max_dirty_pages_pct              | 75                   |
+| innodb_max_purge_lag                    | 0                    |
+| max_allowed_packet                      | 1048576              |
+| max_binlog_cache_size                   | 18446744073709547520 |
+| max_binlog_size                         | 1073741824           |
+| max_binlog_stmt_cache_size              | 18446744073709547520 |
+| max_connect_errors                      | 10                   |
+| max_connections                         | 151                  |
+| max_delayed_threads                     | 20                   |
+| max_error_count                         | 64                   |
+| max_heap_table_size                     | 16777216             |
+| max_insert_delayed_threads              | 20                   |
+| max_join_size                           | 18446744073709551615 |
+| max_length_for_sort_data                | 1024                 |
+| max_long_data_size                      | 1048576              |
+| max_prepared_stmt_count                 | 16382                |
+| max_relay_log_size                      | 0                    |
+| max_seeks_for_key                       | 18446744073709551615 |
+| max_sort_length                         | 1024                 |
+| max_sp_recursion_depth                  | 0                    |
+| max_tmp_tables                          | 32                   |
+| max_user_connections                    | 0                    |
+| max_write_lock_count                    | 18446744073709551615 |
+| myisam_max_sort_file_size               | 9223372036853727232  |
+| performance_schema_max_cond_classes     | 80                   |
+| performance_schema_max_cond_instances   | 1000                 |
+| performance_schema_max_file_classes     | 50                   |
+| performance_schema_max_file_handles     | 32768                |
+| performance_schema_max_file_instances   | 10000                |
+| performance_schema_max_mutex_classes    | 200                  |
+| performance_schema_max_mutex_instances  | 1000000              |
+| performance_schema_max_rwlock_classes   | 30                   |
+| performance_schema_max_rwlock_instances | 1000000              |
+| performance_schema_max_table_handles    | 100000               |
+| performance_schema_max_table_instances  | 50000                |
+| performance_schema_max_thread_classes   | 50                   |
+| performance_schema_max_thread_instances | 1000                 |
+| slave_max_allowed_packet                | 1073741824           |
+| sql_max_join_size                       | 18446744073709551615 |
++-----------------------------------------+----------------------+
+42 rows in set (0.00 sec)
+```
 
 ## 有关profile的描述
 
@@ -382,6 +438,23 @@ mysql> show warnings;
 --skip-host-cache
 --skip-name-resolve
 ```
+
+- com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Data source rejected establishment of connection,  message from server: "Too many connections"
+
+查看MySQL的当前最大连接数
+
+```sql
+select VARIABLE_VALUE from information_schema.GLOBAL_VARIABLES where VARIABLE_NAME='MAX_CONNECTIONS'; 
+```
+
+要彻底解决问题还是要修改my.cnf配置文件，这里使用VI来修改，输入命令：vi /usr/my.cnf 回车；打开文件后按“i”键进入编辑状态；
+在“[mysqld]”下面添加如下配置，之后重启mysql
+
+```
+max_connections=3600
+```
+
+
 
 # 参考
 - [MySQL SQL剖析(SQL profile)](http://blog.csdn.net/leshami/article/details/39988527)

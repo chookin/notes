@@ -5,30 +5,7 @@ Android apps are a bit different from ordinary Java applications, because they�
 
 Remember to start out by doing simple apps like a tip calculator or a unit conversion app. Then expand to more difficult areas like GPS or networking.
 
-# sdk
 
-api version | android sdk version
-------------| ---------------
-1           | 1.0
-2           | 1.1
-3           | 1.5
-4           | 1.6
-5           | 2.0
-6           | 2.0.1
-7           | 2.1
-8           | 2.2
-9           | 2.3
-10          | 2.3.3
-11          | 3.0
-12          | 3.1
-13          | 3.2
-14          | 4.0
-15          | 4.0.3
-16          | 4.1
-21          | 5.0
-23          | 6.0
-
-mac的安装路径为：`/Users/chookin/Library/Android/sdk`；adb的路径为：`/Users/chookin/Library/Android/sdk/platform-tools/adb`
 
 google提供了Android Support Library package 系列的包来保证来高版本sdk开发的向下兼容性.
 
@@ -37,35 +14,8 @@ google提供了Android Support Library package 系列的包来保证来高版本
 - Android Support v13  :这个包的设计是为了android 3.2及更高版本的，一般我们都不常用，平板开发中能用到。
 
 
-# gradle
-android studio自带gradle
-
-/Applications/Android Studio.app/Contents/gradle/gradle-2.10
-
-- gradle build running too long的解决办法：
-    - In Android Studio go to File -> Settings -> Build, Execution, Deployment -> Build Tools -> Gradle， Check the 'Offline work' under 'Global Gradle settings'. It will reduce 90% gradle build time.
-    - create a file named gradle.properties in the following directory:
-```
-/home/<username>/.gradle/ (Linux)
-/Users/<username>/.gradle/ (Mac)
-C:\Users\<username>\.gradle (Windows)
-```
-
-and then add this line to the file:
-```
-org.gradle.daemon=true
-org.gradle.parallel=true
-```
-
 # 显示
-## 度量单位
-dip: device independent pixels(设备独立像素). 不同设备有不同的显示效果,这个和设备硬件有关，一般我们为了支持WVGA、HVGA和QVGA 推荐使用这个，不依赖像素。 
-dp: dip是一样的
-px: pixels(像素). 不同设备显示效果相同，一般我们HVGA代表320x480像素，这个用的比较多。
-pt: point，是一个标准的长度单位，1pt＝1/72英寸，用于印刷业，非常简单易用；
-sp: scaled pixels(放大像素). 主要用于字体显示best for textsize。
 
-据px = dip * density / 160，则当屏幕密度为160时，px = dip；屏幕密度表示每英寸有多少个显示点。
 
 # 组件
 ## Application类
@@ -195,7 +145,7 @@ https://android.googlesource.com/platform/frameworks/volley
 1、通过 Volley 类来新建一个新的请求队列：
 ```java
 RequestQueue mRequestQueue = Volley.newRequestQueue(this);
-```
+```compileSdkVersion
 
 2、新建一个请求对象，并且设置好各项具体参数，比如url、http method以及监听结果的listeners
 ```java

@@ -139,6 +139,12 @@ JsFormat 基于 JS Beautifier，可以帮助你自动格式化 JavaScript和JSON
 ## Pretty Json
 json文本格式化`cmd + cntr + j`
 
+## indent xml
+格式化xml
+
+使用：cmd+shift+p，输入indent xml，即可格式化当前文件的xml。
+
+
 ## Trimmer
 删除不必要的空格.
 

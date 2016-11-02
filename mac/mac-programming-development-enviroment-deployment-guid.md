@@ -141,6 +141,10 @@ package 路径
 /Users/chookin/Library/Application\ Support/Sublime\ Text\ 3/
 ```
 
+
+
+- [Sublime Text 快捷键](https://github.com/liveNo/Sublime-Tutorial?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)
+
 # 开发工具
 
 ## jdk
@@ -156,11 +160,27 @@ JDK7，JDK8则需要自己到Oracle官网下载安装对应的版本。自己安
 2. 在用户目录下的bash配置文件.bashrc中配置JAVA_HOME的路径（具体路径与实际版本号有关）
 
 ```shell
-export JAVA_7_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home
-export JAVA_8_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_73.jdk/Contents/Home
-export JAVA_HOME=$JAVA_8_HOME
-export CLASSPATH="$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$CLASSPATH"
-export PATH=$JAVA_HOME/bin:$PATH
+jdk7() {
+    export JAVA_7_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home
+    export JAVA_HOME=$JAVA_7_HOME
+    export CLASSPATH="$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$CLASSPATH"
+    export PATH=$JAVA_HOME/bin:$PATH
+}
+
+jdk8() {
+    export JAVA_8_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home
+    export JAVA_HOME=$JAVA_8_HOME
+    export CLASSPATH="$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$CLASSPATH"
+    export PATH=$JAVA_HOME/bin:$PATH
+}
+
+jdk7
+```
+
+上述配置jdk为1.7的，若要切换到1.8，执行如下命令即可：
+
+```shell
+jdk8
 ```
 
 问题：
@@ -187,6 +207,14 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 - http://idea.qinxi1992.cn 
 
+### idea 2016激活
+
+```
+43B4A73YYJ-eyJsaWNlbnNlSWQiOiI0M0I0QTczWVlKIiwibGljZW5zZWVOYW1lIjoibGFuIHl1IiwiYXNzaWduZWVOYW1lIjoiIiwiYXNzaWduZWVFbWFpbCI6IiIsImxpY2Vuc2VSZXN0cmljdGlvbiI6IkZvciBlZHVjYXRpb25hbCB1c2Ugb25seSIsImNoZWNrQ29uY3VycmVudFVzZSI6ZmFsc2UsInByb2R1Y3RzIjpbeyJjb2RlIjoiSUkiLCJwYWlkVXBUbyI6IjIwMTctMDItMjUifSx7ImNvZGUiOiJBQyIsInBhaWRVcFRvIjoiMjAxNy0wMi0yNSJ9LHsiY29kZSI6IkRQTiIsInBhaWRVcFRvIjoiMjAxNy0wMi0yNSJ9LHsiY29kZSI6IlBTIiwicGFpZFVwVG8iOiIyMDE3LTAyLTI1In0seyJjb2RlIjoiRE0iLCJwYWlkVXBUbyI6IjIwMTctMDItMjUifSx7ImNvZGUiOiJDTCIsInBhaWRVcFRvIjoiMjAxNy0wMi0yNSJ9LHsiY29kZSI6IlJTMCIsInBhaWRVcFRvIjoiMjAxNy0wMi0yNSJ9LHsiY29kZSI6IlJDIiwicGFpZFVwVG8iOiIyMDE3LTAyLTI1In0seyJjb2RlIjoiUEMiLCJwYWlkVXBUbyI6IjIwMTctMDItMjUifSx7ImNvZGUiOiJSTSIsInBhaWRVcFRvIjoiMjAxNy0wMi0yNSJ9LHsiY29kZSI6IldTIiwicGFpZFVwVG8iOiIyMDE3LTAyLTI1In0seyJjb2RlIjoiREIiLCJwYWlkVXBUbyI6IjIwMTctMDItMjUifSx7ImNvZGUiOiJEQyIsInBhaWRVcFRvIjoiMjAxNy0wMi0yNSJ9XSwiaGFzaCI6IjMzOTgyOTkvMCIsImdyYWNlUGVyaW9kRGF5cyI6MCwiYXV0b1Byb2xvbmdhdGVkIjpmYWxzZSwiaXNBdXRvUHJvbG9uZ2F0ZWQiOmZhbHNlfQ==-keaxIkRgXPKE4BR/ZTs7s7UkP92LBxRe57HvWamu1EHVXTcV1B4f/KNQIrpOpN6dgpjig5eMVMPmo7yMPl+bmwQ8pTZaCGFuLqCHD1ngo6ywHKIQy0nR249sAUVaCl2wGJwaO4JeOh1opUx8chzSBVRZBMz0/MGyygi7duYAff9JQqfH3p/BhDTNM8eKl6z5tnneZ8ZG5bG1XvqFTqWk4FhGsEWdK7B+He44hPjBxKQl2gmZAodb6g9YxfTHhVRKQY5hQ7KPXNvh3ikerHkoaL5apgsVBZJOTDE2KdYTnGLmqxghFx6L0ofqKI6hMr48ergMyflDk6wLNGWJvYHLWw==-MIIEPjCCAiagAwIBAgIBBTANBgkqhkiG9w0BAQsFADAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIENBMB4XDTE1MTEwMjA4MjE0OFoXDTE4MTEwMTA4MjE0OFowETEPMA0GA1UEAwwGcHJvZDN5MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxcQkq+zdxlR2mmRYBPzGbUNdMN6OaXiXzxIWtMEkrJMO/5oUfQJbLLuMSMK0QHFmaI37WShyxZcfRCidwXjot4zmNBKnlyHodDij/78TmVqFl8nOeD5+07B8VEaIu7c3E1N+e1doC6wht4I4+IEmtsPAdoaj5WCQVQbrI8KeT8M9VcBIWX7fD0fhexfg3ZRt0xqwMcXGNp3DdJHiO0rCdU+Itv7EmtnSVq9jBG1usMSFvMowR25mju2JcPFp1+I4ZI+FqgR8gyG8oiNDyNEoAbsR3lOpI7grUYSvkB/xVy/VoklPCK2h0f0GJxFjnye8NT1PAywoyl7RmiAVRE/EKwIDAQABo4GZMIGWMAkGA1UdEwQCMAAwHQYDVR0OBBYEFGEpG9oZGcfLMGNBkY7SgHiMGgTcMEgGA1UdIwRBMD+AFKOetkhnQhI2Qb1t4Lm0oFKLl/GzoRykGjAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIENBggkA0myxg7KDeeEwEwYDVR0lBAwwCgYIKwYBBQUHAwEwCwYDVR0PBAQDAgWgMA0GCSqGSIb3DQEBCwUAA4ICAQC9WZuYgQedSuOc5TOUSrRigMw4/+wuC5EtZBfvdl4HT/8vzMW/oUlIP4YCvA0XKyBaCJ2iX+ZCDKoPfiYXiaSiH+HxAPV6J79vvouxKrWg2XV6ShFtPLP+0gPdGq3x9R3+kJbmAm8w+FOdlWqAfJrLvpzMGNeDU14YGXiZ9bVzmIQbwrBA+c/F4tlK/DV07dsNExihqFoibnqDiVNTGombaU2dDup2gwKdL81ua8EIcGNExHe82kjF4zwfadHk3bQVvbfdAwxcDy4xBjs3L4raPLU3yenSzr/OEur1+jfOxnQSmEcMXKXgrAQ9U55gwjcOFKrgOxEdek/Sk1VfOjvS+nuM4eyEruFMfaZHzoQiuw4IqgGc45ohFH0UUyjYcuFxxDSU9lMCv8qdHKm+wnPRb0l9l5vXsCBDuhAGYD6ss+Ga+aDY6f/qXZuUCEUOH3QUNbbCUlviSz6+GiRnt1kA9N2Qachl+2yBfaqUqr8h7Z2gsx5LcIf5kYNsqJ0GavXTVyWh7PYiKX4bs354ZQLUwwa/cG++2+wNWP+HtBhVxMRNTdVhSm38AknZlD+PTAsWGu9GyLmhti2EnVwGybSD2Dxmhxk3IPCkhKAK+pl0eWYGZWG3tJ9mZ7SowcXLWDFAk0lRJnKGFMTggrWjV8GYpw5bq23VmIqqDLgkNzuoog==
+```
+
+- [IntelliJ IDEA 2016.1破解码一枚](http://aiyougege.com/articles/022711.html)
+
 ### 配置
 
 - Appearance, UI Options, do Override default fonts by... and choose Name of 'Monaco' and size of '16'
@@ -199,24 +227,30 @@ export PATH=$JAVA_HOME/bin:$PATH
   - uncheck sort lookup items lexicographically
   - check insert selected variant by typing dot...
   - check autopopup and change to 200 ms
+- 智能提示忽略大小写 [Editor]|[Code Completion]，选择`Case sensitive completion`为`None`；
+
+如果`todo`不能自动提示添加`TODO:`那么需要做如下配置：
+- todo search 'todo', in live templates,
+  - confirm 'edit variables': 'date' expression is `date()` and 'skip if defined' is checked.
+  - 'Applicable in java', change to: statement, expression, declaration, comment and smart type completion for java.
 
 ### 常用操作
 
 - 快捷键 https://resources.jetbrains.com/assets/products/intellij-idea/IntelliJIDEA_ReferenceCard_mac.pdf
-- 智能提示忽略大小写 [Editor]|[Code Completion]，选择`Case sensitive completion`为`None`；
-
-
-
 - 为了使得能自动加载本地的包，需要配置idea,执行更新maven的Repositories. [Build, Execution, Deployment]|[Build Tools]|[Maven]|[Repositories]，选择本地的repository，点击`update`按钮。
 - 查看注释：Win: Ctrl+Q, Mac: Control+J
 - 统计代码函数，安装插件statistics，之后【View】|【Tool Windows】|【statistics】
 - 为java程序设置 -D command-line option：【Run】|【Edit Configurations...】，在“VM options"中输入参数，如"-Daction=baidu"
 
-
 ### 插件
 - GsonFormat Java开发中，经常有把json格式的内容转成Object的需求，[GsonFormat](https://plugins.jetbrains.com/plugin/7654?pr=)这款插件可以实现该功能。
 - FindBugs-IDEA
 - CheckStyle 通过检查对代码编码格式，命名约定，Javadoc，类设计等方面进行代码规范和风格的检查，从而有效约束开发人员更好地遵循代码编写规范。
+
+### 常见问题
+
+- `Error:java: Compilation failed: internal java compiler error`
+> 配置 [Preferences...]|[Build,Execution,Deployment]|[Compiler]|[Java Compiler]，为出问题的module设置`Target bytecode version`（或者设置`Project bytecode version`，然后删除具体的module配置即可）。
 
 ## android studio
 
@@ -260,6 +294,11 @@ export PATH=$JAVA_HOME/bin:$PATH
 打开secureCRT，菜单preferences--general，找到mac options。然后去掉Use KeyChain选项，这样每次连接服务器后就会自动保存密码了。不同的版本可能这个选项的位置不同，只要记住勾选掉Use keyChain选项就可以了。
 ```
 
+配置：
+
+- Terminal | Emulation, 选择为`linux`，并选中Ansi color;
+- Terminal | Appearance，选择 color scheme为`Traditional`
+
 ## vnc-veviewer
 
 用于远程连接vnc服务器。
@@ -302,6 +341,7 @@ $ ifconfig | grep broadcast
 ### 参考
 
 - [抓包工具Charles的使用心得](http://www.jianshu.com/p/fdd7c681929c)
+- [Mac下使用Charles实现对Android手机进行抓包](http://bo1.me/2015/04/01/charles-android/)
 
 ## paw
 
@@ -332,7 +372,7 @@ ulimit -c unlimited
 ```shell
 brew install mysql # brew方式安装后的软件路径是/usr/local/opt/mysql/，数据文件夹是/usr/local/var/mysql
 ```
-### 配置
+### 配置文件 my.cnf
 
 ```shell
 mysqld --help --verbose | more # (查看帮助, 按空格下翻)
@@ -352,11 +392,27 @@ cp /usr/local/opt/mysql/support-files/my-default.cnf /etc/my.cnf
 ```
 
 ### mysql启停
-可用使用mysql的脚本启停,也可借助brew
+可用使用mysql的脚本启停
 
-    mysql.server start
-    brew services start mysql
-    brew services stop mysql
+```shell
+$ mysql.server -h
+Usage: mysql.server  {start|stop|restart|reload|force-reload|status}  [ MySQL server options ]
+
+mysql.server start
+```
+
+也可借助brew
+
+```shell
+brew services start mysql
+brew services stop mysql
+```
+
+
+
+### 参考
+
+- [在 Mac 下用 Homebrew 安装 MySQL](http://blog.neten.de/posts/2014/01/27/install-mysql-using-homebrew/)
 
 ## memcached
 
@@ -401,6 +457,8 @@ cd /usr/local/opt/memcached && nohup bin/memcached -m 2048 -c 8192 -p 11211 >/de
 # web
 
 ## apache
+
+配置文件： `/etc/apache2/httpd.conf`
 
 1.启动
 
@@ -492,6 +550,8 @@ Now , try to run again , and you will not see this error .
 ## Node.js
 [Node.js](https://nodejs.org/en/) is a JavaScript runtime built on Chrome's V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient. Node.js' package ecosystem, npm, is the largest ecosystem of open source libraries in the world.
 
+从Node.js官网下载安装包，下载之后点击安装即可。安装成功后，会提示：
+
 ```
 Node.js was installed at
 
@@ -539,6 +599,27 @@ $ brew cask uninstall macdown
 ```
 
 
+# jd-gui
+jar反编译
+
+https://github.com/java-decompiler/jd-gui
+
+http://jd.benow.ca
+
+# jadx
+android apk反编译
+https://github.com/skylot/jadx
+
+[jadx 反编译apk - 简书](http://www.jianshu.com/p/b7166f196800)
+[jadx:更好的Android反编译工具](https://liuzhichao.com/2016/jadx-decompiler.html)
+
+安装
+
+```shell
+git clone https://github.com/skylot/jadx.git
+cd jadx
+./gradlew dist
+```
 
 # 常见问题
 

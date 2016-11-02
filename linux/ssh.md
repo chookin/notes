@@ -72,6 +72,8 @@ ssh user_b1@hostname_B -v
 
 OpenSSH在用户登录的时候会验证ip，它根据用户的IP使用反向DNS找到主机名，再使用DNS找到IP地址，最后匹配一下登录的IP是否合法。如果客户机的IP没有域名，或者DNS服务器很慢或不通，那么登录就会很花时间。
 
+例如：在如下消息处等待时间过长`debug1: SSH2_MSG_SERVICE_ACCEPT received`
+
 解决办法：
 
 在目标服务器上修改sshd服务器端配置,并重启sshd

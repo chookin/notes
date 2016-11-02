@@ -188,5 +188,15 @@ http://xclient.info/s/timing.html
 ## 番茄土豆
 番茄工作法。
 
+## sketch
+注册码
+SK3-3539-1641-8881-0373-1208
+
+[sketch-chinese-user-manual](http://www.sketchcn.com/sketch-chinese-user-manual.html)
+
+# 常用网站
+
+- [pc6下载站](http://www.pc6.com/mac/soft/)
+
 
 

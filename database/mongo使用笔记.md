@@ -92,6 +92,8 @@
     db.goods.find({"properties.品牌":{$regex:'other/其他'}})
     # 替换换行符
     db.comments.find({content:{$regex:'\n'}}).limit(10)
+    db.lnmopy.find( { 'name': { $regex: '*.lnmopy.com', $options: 'i' } } )
+
 # 插入
 
     db.user.insert({‘name’ : ’starlee’, ‘age’ : 25})

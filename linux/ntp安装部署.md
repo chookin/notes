@@ -101,9 +101,15 @@ chkconfig --level 3 ntpd on
 
 ### 时钟同步
 
-```
+```shell
 /usr/sbin/ntpdate myntpserver
 ```
+
+示例：
+```shell
+ntpdate 133.100.11.8
+```
+
 其中myntpserver为ntp服务端的hostname。
 
 ### 配置定时任务

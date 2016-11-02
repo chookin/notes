@@ -202,6 +202,14 @@ git 默认是文件名大小写不敏感的。
 git config --global core.ignorecase false
 ```
 
+上述配置不一定有效，进一步解决办法是使用如下脚本修改文件名。
+
+```shell
+git mv -f OldFileNameCase newfilenamecase
+```
+
+参考：http://stackoverflow.com/questions/17683458/how-do-i-commit-case-sensitive-only-filename-changes-in-git
+
 # 基本操作
 
 ## 初始化仓库
@@ -311,6 +319,13 @@ git diff --cached
 
 # 显示当前所有修改
 git diff HEAD
+
+# 查看历史修改
+# The -- is useful e.g. when you have a file named -p. Good to use in scripts, only in rare cases needed in practice.
+git diff [--options] <commit> <commit> [--] [<path>...]
+
+# You can also compare two different files in two different revisions, like this:
+git diff <revision_1>:<file_1> <revision_2>:<file_2>
 ```
 
 ### git log
@@ -319,7 +334,7 @@ git diff HEAD
 
 **用法**
 
-```shell
+```
 # 使用默认格式显示完整地项目历史。如果输出超过一屏，你可以用空格键来滚动，按q退出。
 git log
 
@@ -376,7 +391,7 @@ commit后面40个字的字符串是提交内容的SHA-1校验总和(checksum)。
 
 ## 回滚错误的修改
 
-### 撤销未提交的修改
+### git checkout撤销未提交的修改
 
 ```shell
 # 用刚刚提交的覆盖
@@ -389,24 +404,29 @@ git checkout <commit> <file>
 git checkout 9c85921cab12cd06689983bf42e7d50a8db2d4ba app/src/
 ```
 
-### 撤销已提交的commit
+### git revert撤销已提交的commit
 
 ```shell
 # 撤销刚刚的提交
 git revert HEAD
 
 # 撤销历史的某个commit
+# 撤销一个已经提交的快照。但是，它是通过如何撤销这个提交引入的更改，然后在最后加上一个撤销了更改的 新提交，而不是从项目历史中移除这个提交，这避免了Git丢失项目历史
 git revert <commit>
 ```
 
 ### git reset
 
 ```shell
+# 重设暂存区，它会取消所有文件的缓存，而不会覆盖任何修改
+git reset
+
 # 从暂存区移除特定文件，但不改变工作目录
 git reset <file>
 
-# 重设暂存区，它会取消所有文件的缓存，而不会覆盖任何修改
-git reset
+# 将当前分支的末端移到<commit>
+# 移除那个提交及其之后的所有提交，慎用
+git reset <commit>
 
 # --hard 标记告诉Git还要重写所有工作目录中的更改。换句话说：它清除了所有未提交的更改
 git reset --hard
@@ -505,7 +525,7 @@ $ git branch -v
 
 -   分支合并
 
-      一旦你完成了分支上的工作，准备将它并入主代码库：
+          一旦你完成了分支上的工作，准备将它并入主代码库：
 
     + 首先切换到master分支：`git checkout master`。
     + 然后执行合并操作：`git merge <branch>`。
@@ -611,7 +631,7 @@ a6b4c97498bd301d84096da251c98a07c7723e65 beginning write support
 之后，在打标签命令后面追加checksum(或部分checksum)即可。
 
 ```shell
-git tag -a v1.2 9fceb02
+git tag -a v1.2 1502795
 ```
 
 # 参考

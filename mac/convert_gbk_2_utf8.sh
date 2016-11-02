@@ -5,6 +5,6 @@ dir=$1
 for i in `find $dir -type f`
 do
   echo -e "$i"
-  iconv -f gbk -t utf8 $i > /tmp/iconv.tmp
+  iconv -f gb18030 -t utf8 $i > /tmp/iconv.tmp
   mv /tmp/iconv.tmp $i
 done

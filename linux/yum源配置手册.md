@@ -21,3 +21,9 @@ baseurl=http://centos.ustc.edu.cn/centos/6/updates/x86_64/
 enabled=1
 gpgcheck=0
 ```
+
+# 说明
+
+ustc 中国科学技术大学（University of Science and Technology of China）
+
+163的yum源 http://mirrors.163.com/.help/centos.html
