@@ -254,9 +254,23 @@ arptables：红帽系统上提供的程序
 
 # DR实施测试
 
+## 测试集群信息
+
+| 系统名称   | 主机名             | 内网ip     | 外网ip         |
+| ------ | --------------- | -------- | ------------ |
+| 广告管理平台 | ad_manage_test1 | 10.1.0.2 | 223.105.1.83 |
+| 广告管理平台 | ad_manage_test2 | 10.1.0.3 |              |
+
+root密码  work密码
+Zy@123456   Cmri@Ad#2016_CmcC
+
+说明：具有公网ip的虚机是禁止root的ssh登录的，需要先登录work用户，再切到root用户            
+
+## 职责分配
+
 Director 10.1.0.2		eth0:0	vip 10.1.0.102
 
-```
+```shell
 [root@ad-manage-test1 ~]# route -n
 Kernel IP routing table
 Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
@@ -264,8 +278,6 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 169.254.0.0     0.0.0.0         255.255.0.0     U     1002   0        0 eth0
 0.0.0.0         10.1.0.1        0.0.0.0         UG    0      0        0 eth0
 ```
-
-
 
 RealServer 10.1.0.3	lo:0		vip 10.1.0.102
 
@@ -277,8 +289,6 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 169.254.0.0     0.0.0.0         255.255.0.0     U     1002   0        0 eth0
 0.0.0.0         10.1.0.1        0.0.0.0         UG    0      0        0 eth0
 ```
-
-
 
 ## RealServer
 
@@ -307,11 +317,11 @@ ifconfig lo:0 10.1.0.102 broadcast 10.1.0.102 netmask 255.255.255.255 up
 echo 1 > /proc/sys/net/ipv4/conf/lo/arp_ignore
 echo 2 > /proc/sys/net/ipv4/conf/lo/arp_announce
 
-echo 1 > /proc/sys/net/ipv4/conf/all/arp_ignore
-echo 2 > /proc/sys/net/ipv4/conf/all/arp_announce
+# echo 1 > /proc/sys/net/ipv4/conf/all/arp_ignore
+# echo 2 > /proc/sys/net/ipv4/conf/all/arp_announce
 
-echo 0 > /proc/sys/net/ipv4/conf/all/arp_ignore
-echo 0 > /proc/sys/net/ipv4/conf/all/arp_announce
+# echo 0 > /proc/sys/net/ipv4/conf/all/arp_ignore
+# echo 0 > /proc/sys/net/ipv4/conf/all/arp_announce
 ```
 
 Director转发client的请求到Real Server后，Real Server通过eth0--RIP接收处理，而响应回去的源地址需要为VIP，即通过lo:0--VIP接口返回，而不是RIP接口
@@ -357,10 +367,10 @@ service httpd restart
 
 ## Director
 
-若不存在安装ipvsadm
+若不存在则安装ipvsadm
 
-```
-[root@ad-manage-test1 yum.repos.d]# vi centos.repo
+```shell
+# [root@ad-manage-test1 yum.repos.d]# vi centos.repo
 [centos6-iso]
 name=centos6-iso
 baseurl=http://centos.ustc.edu.cn/centos/6/os/x86_64/
@@ -380,7 +390,7 @@ gpgcheck=0
 yum install ipvsadm
 ```
 
-
+配置vip
 
 ```shell
 # ifconfig eth0:0 10.1.0.102 broadcast 10.1.0.255 netmask 255.255.255.0 up
@@ -391,6 +401,7 @@ ifconfig eth0:0 10.1.0.102 broadcast 10.1.0.102 netmask 255.255.255.255 up
 
 ```shell
 # route del -host 10.1.0.102 dev eth0:0
+# route add -host 10.1.0.102 255.255.255.0 dev eth0:0
 route add -host 10.1.0.102 dev eth0:0
 ```
 
