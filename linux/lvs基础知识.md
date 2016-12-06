@@ -102,7 +102,7 @@ LVS-NAT 的特性：
 
 DR 值 Direct Routing，直接路由，DR 模型中，Director 和 Realserver 处在同一网络中，对于 Director，VIP 用于接受客户端请求，DIP 用于和 Realserver 通信。对于 Realserver，**每个 Realserver 都配有和 Director 相同的 VIP（此 VIP 隐藏，关闭对 ARP 请求的响应）**，仅用于返回数据给客户端，RIP 用于和 Director 通信。
 
-当客户端请求集群服务时，请求报文发送至 Director 的 VIP（Realserver的 VIP 不会响应 ARP 请求），Director 将客户端报文的源和目标 MAC 地址进行重新封装，将报文转发至 Realserver。**Realserver 接收转发的报文，此时报文的源 IP 和目标 IP 都没有被修改，因此 Realserver 接受到的请求报文的目标 IP 地址为本机配置的 VIP，它将使用自己的 VIP 直接响应客户端**。
+当客户端请求集群服务时，请求报文发送至 Director 的 VIP（Realserver的 VIP 不会响应 ARP 请求），Director 将客户端报文的目标 MAC 地址进行重新封装，将报文转发至 Realserver。**Realserver 接收转发的报文，此时报文的源 IP 和目标 IP 都没有被修改，因此 Realserver 接受到的请求报文的目标 IP 地址为本机配置的 VIP，它将使用自己的 VIP 直接响应客户端**。
 
 LVS-DR 模型中，客户端的响应报文不会经过 Director，因此 Director 的并发能力有很大提升。
 
@@ -449,6 +449,7 @@ tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 65535 byte
 - [负载均衡集群 LVS 详解](http://liaoph.com/lvs/)
 - http://www.linuxvirtualserver.org/zh/index.html
 - http://www.austintek.com/LVS/LVS-HOWTO/HOWTO/LVS-HOWTO.LVS-NAT.html#one_network
+- http://www.austintek.com/LVS/LVS-HOWTO/HOWTO/LVS-HOWTO.LVS-DR.html#lvs_dr_how_it_works
 - [LINUX集群--均衡负载 LVS（二） NAT和DR的应用配置](http://blog.csdn.net/tjiyu/article/details/52493597?locationNum=5&fps=1)
 - [LINUX集群--均衡负载 LVS（三） LVS后端服务健康状态检查](http://blog.csdn.net/tjiyu/article/details/52497674)
 - [keepalived 及 keepalived配置LVS高可用集群](http://blog.csdn.net/tjiyu/article/details/52891835)

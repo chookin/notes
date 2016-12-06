@@ -22,8 +22,47 @@ enabled=1
 gpgcheck=0
 ```
 
-# 说明
+说明：ustc 中国科学技术大学（University of Science and Technology of China）
 
-ustc 中国科学技术大学（University of Science and Technology of China）
+# 其他
+## 配置本地源
 
-163的yum源 http://mirrors.163.com/.help/centos.html
+```shell
+cd /etc/yum.repos.d/ && vi rhel-source.repo
+```
+
+```shell
+[rhel6.5-iso]
+name=rhel6.5
+baseurl=file:///data/repos/rhel6.5/
+
+#是否用该yum源，0为禁用，1为使用
+enabled=1
+
+#检查GPG-KEY，0为不检查，1为检查
+gpgcheck=0
+```
+
+## 下载epel源
+
+```shell
+mkdir -p epel/6/x86_64
+
+nohup wget -e robots=off -r -p -k -np --proxy=off -nc -P epel/6/x8664 http://mirrors.yun-idc.com/epel/6/x8664/ &
+```
+
+## 下载centos updates源
+
+```shell
+mkdir -p centos/6/updates/x86_64
+
+nohup wget -e robots=off -r -p -k -np --proxy=off -nc -P centos/6/updates/x8664 http://mirrors.163.com/centos/6/updates/x8664/ &
+```
+
+## 下载redhat6.5
+
+http://rhnproxy1.uvm.edu/pub/redhat/rhel6-x86_64/isos/
+
+## 163的yum源
+
+ http://mirrors.163.com/.help/centos.html

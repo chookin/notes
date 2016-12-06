@@ -12,7 +12,7 @@ OpenSSH_6.9p1, OpenSSL 1.0.1e-fIPs 11 Feb 2013
 ```
 
 
-## Linux幽灵(Ghost)漏洞CVE-201500235
+## 幽灵(Ghost)漏洞CVE-201500235
 
 yum update -y glibc
 
@@ -57,20 +57,7 @@ exit $rv
 ```
 
 ## 其他
-yum update -y openssl bash
-
-# 端口扫描
-## nc
-netcat是网络工具中的瑞士军刀，它能通过TCP和UDP在网络中读写数据。通过与其他工具结合和重定向，你可以在脚本中以多种方式使用它。使用netcat命令所能完成的事情令人惊讶。
-`yum install nc`
-
-`nc -z -v -n 172.31.100.7 21-25`
-
-- 可以运行在TCP或者UDP模式，默认是TCP，-u参数调整为udp.
-- z 参数告诉netcat使用0 IO,连接成功后立即关闭连接， 不进行数据交换(谢谢@jxing 指点)
-- v 参数指使用冗余选项（译者注：即详细输出）
-- n 参数告诉netcat 不要使用DNS反向查询IP地址的域名
-
 ```shell
-nohup nc -z -v -n 111.13.47.164 1-65535 > 164.log &
+yum update -y openssl bash
 ```
+

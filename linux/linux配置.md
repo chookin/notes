@@ -34,9 +34,9 @@ $ sudo vi /etc/sysconfig/network
 NETWORKING=yes
 HOSTNAME=myserver.domain.com
 ```
-1. Change the host that is associated to your main IPaddress for your server, this is for internal networking (found at /etc/hosts):
-2. The 'hostname' command will let you change the hostname on the server that the commandline remembers, but it will not actively update all programs that are running under the old hostname.
-3. reconnect the shell connection, or restart network.
+2. Change the host that is associated to your main IPaddress for your server, this is for internal networking (found at /etc/hosts):
+3. The 'hostname' command will let you change the hostname on the server that the commandline remembers, but it will not actively update all programs that are running under the old hostname.
+4. reconnect the shell connection.
 
 ## 查看网卡是否连接网线
 
@@ -70,7 +70,9 @@ NAME="System em1"
 ```
 
 `HWADDR`即为mac地址，mac地址
-### 增加ip
+### 增加虚网卡IP
+
+
 若网卡为em1,则创建文件`/etc/sysconfig/network-scripts/ifcfg-em1:0`,编辑文件内容
 ```shell
 DEVICE=em1:0
@@ -81,14 +83,23 @@ GETWAY=111.13.47.190
 ONBOOT=yes
 TYPE=Ethernet
 ```
-之后，启动该网卡项
+注意：**若需要在其他网段访问该ip，则必须配置网关`GATEWAY`.**
+
+之后，启动该网卡
+
 ```shell
 ifup em1:0
 ```
-若有停掉该网卡，命令是
+若要停掉该网卡，命令是
 ```shell
 ifdown em1:0
 ```
+若提示找不到设备，则使用命令：
+
+```shell
+ifconfig em1:0 up
+```
+
 或者一步到位增加ip（网卡服务重启后失效）
 
 ```shell
@@ -128,17 +139,39 @@ default         promote.cache-d 0.0.0.0         UG        0 0          0 eth0
 ```
 
 临时添加方法 
-route add default gw ip 
+
+```shell
+route add -net default netmask 0.0.0.0 gw 10.1.0.1
+route add -net 10.1.0.0 netmask 255.255.255.0 dev eth0
+```
 
 删除 
-route del default 
+
+```shell
+route del -net default netmask 0.0.0.0 gw 10.1.0.1
+route del -net 10.1.0.0 netmask 255.255.255.0 dev eth0
+```
 
 
 永久添加方法 
-修改/etc/rc.local 
+把命令追加到`/etc/rc.local` 
 
-在文件里添加命令： 
-route add default gw ip 
+## 查看局域网内所有ip
+
+1.进行ping扫描，打印出对扫描做出响应的主机　
+
+nmap -sP 192.168.1.0/24　　
+2.使用UDP ping探测主机
+
+nmap -PU 192.168.1.0/24　　
+3.使用频率最高的扫描选项（SYN扫描，又称为半开放扫描）执行得很快
+
+nmap -sS 192.168.1.0/24
+4.扫描之后查看arp缓存表获取局域网主机IP地址
+
+cat /proc/net/arp
+
+
 
 ## nat上网
 
@@ -199,11 +232,41 @@ COMMIT
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 ```
 
+## 端口扫描 nc
+
+netcat是网络工具中的瑞士军刀，它能通过TCP和UDP在网络中读写数据。通过与其他工具结合和重定向，你可以在脚本中以多种方式使用它。使用netcat命令所能完成的事情令人惊讶。
+`yum install nc`
+
+`nc -z -v -n <host> <port1-portn>`
+
+- 可以运行在TCP或者UDP模式，默认是TCP，-u参数调整为udp.
+- z 参数告诉netcat使用0 IO,连接成功后立即关闭连接， 不进行数据交换(谢谢@jxing 指点)
+- v 参数指使用冗余选项（译者注：即详细输出）
+- n 参数告诉netcat 不要使用DNS反向查询IP地址的域名
+
+```shell
+nohup nc -z -v -n 111.13.47.164 1-65535 > 164.log &
+```
+
+## 压测工具 httping
+
+多次连接测指定url的可访问性
+
+```shell
+httping -c10000 -g  http://111.13.47.169:8001/sv/24/316/1241/6?v=1 
+```
+
+## 抓包工具 tcpdump
+
+```shell
+tcpdump src <src_host> or dst <dst_host> -n -vv
+```
+
 ## 添加.so等文件的搜索路径
 
 很多时候，我们的.h/.so/.a/bin文件都不在Linux发行版所指定的默认路径下，这时可以通过~/.bashrc来增加搜索路径。
 
-```
+```shell
 #增加.so搜索路径
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/liheyuan/soft/lib
 

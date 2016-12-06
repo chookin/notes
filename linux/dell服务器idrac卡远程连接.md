@@ -10,25 +10,24 @@
 >login: root 
 >password:
 
- 
-
 关闭服务器的电源
 
 ->stop /system1 
 system1 已成功停止
-
- 
 
 将服务器从电源关闭状态打开
 
 ->start /system1 
 system1 已成功启动
 
- 
-
 重新引导服务器
 
 ->reset /system1 
 system1 已成功重设
 
+
+
 完成！
+
+
+双十二 migu

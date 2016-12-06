@@ -10,7 +10,7 @@ python -m Web服务器模块 [端口号，默认8000]
 例如：
 
 ```shell
-python -m SimpleHTTPServer 8080
+python -m SimpleHTTPServer 8089
 ```
 
 然后就可以在浏览器中输入如下路径来访问服务器资源。 

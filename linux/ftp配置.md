@@ -235,7 +235,7 @@ Jun  8 22:34:27 localhost vsftpd[140750]: pam_succeed_if(vsftpd:auth): error ret
 - Login failed: 500 OOPS: cannot change directory
 禁用selinux
 setenforce 0 可以临时关闭
-再编辑文件`/etc/sysconfig/selinux`
+再编辑文件`/etc/selinux/config`
 把里边的一行改为`SELINUX=disabled`
 
 # 参考

@@ -1,9 +1,7 @@
 # 基本环境准备
+```shell
 yum install gcc gcc-c++ cmake zlib-devel openssl-devel
-
-# 图形界面切换到命令行
-从Linux的图形界面切换到命令界面可以按Ctrl+Alt+Fn（n=1,2,3,4,5,6）
-从Linux的命令介面切换到图形界面可以按Alt+F1(或者F1--F7,根据个人电脑设置不同.可能不一样)(也可以输入命令startx进入图形界面)。
+```
 
 # 查看系统信息
 
@@ -28,6 +26,33 @@ cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c
 ## 查看内存信息
 ```shell
 cat /proc/meminfo
+```
+
+htop命令显示了每个进程的内存实时使用率。它提供了所有进程的常驻内存大小、程序总内存大小、共享库大小等的报告。列表可以水平及垂直滚动。
+
+## 查看当前系统资源使用
+
+使用`top`命令，可以查看当前的cpu及内存使用。
+
+```shell
+top
+```
+
+```
+top - 15:39:56 up 70 days,  7:23,  1 user,  load average: 0.05, 0.01, 0.00
+Tasks: 522 total,   1 running, 519 sleeping,   2 stopped,   0 zombie
+Cpu(s):  0.0%us,  0.1%sy,  0.0%ni, 99.9%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
+Mem:  32966148k total,  7218392k used, 25747756k free,   608400k buffers
+Swap:   104412k total,        0k used,   104412k free,  5462120k cached
+
+  PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND                                     
+ 4590 root      15   0 13012 1444  840 R  1.3  0.0   0:00.57 top                                          
+ 4549 root      16   0 10236  680  584 S  0.3  0.0  38:32.96 hald-addon-stor                              
+    1 root      15   0 10356  672  564 S  0.0  0.0   0:06.75 init                                         
+    2 root      RT  -5     0    0    0 S  0.0  0.0   0:01.64 migration/0                                  
+    3 root      34  19     0    0    0 S  0.0  0.0   0:00.00 ksoftirqd/0                                  
+    4 root      RT  -5     0    0    0 S  0.0  0.0   0:00.00 watchdog/0                                   
+    5 root      RT  -5     0    0    0 S  0.0  0.0   0:00.01 migration/1     
 ```
 
 # 文件操作
@@ -74,11 +99,60 @@ find . -type f -name "*.sh" | xargs grep -r "merged.data"
 ## 文件树
 查看文件树使用命令`tree`.若系统中没有该命令，需要安装之 `yum install -y tree`
 
-## 常见问题
+## 转变文件编码
 
-提示 readonly file system
-解决办法：
-/bin/mount -o remount,rw /
+使用iconv命令，例如把文件从utf8转为GB18030格式：
+
+```shell
+iconv  -f UTF-8 -t GB18030 apps_2016-06-04.csv  > apps.csv
+```
+
+iconv有如下选项可用:
+```
+    -f, --from-code=名称 原始文本编码
+    -t, --to-code=名称 输出编码
+    -l, --list 列举所有已知的字符集
+    -c 从输出中忽略无效的字符
+    -o, --output=FILE 输出文件
+    -s, --silent 关闭警告
+    --verbose 打印进度信息
+```
+
+## 挂载iso
+
+```shell
+mount -o loop filename.iso /cdrom
+```
+
+## gz文件解压缩
+
+```shell
+gzip -d back.sql.gz
+```
+
+不解压缩的情况查看
+
+```shell
+zcat back.sql.gz
+```
+
+# 磁盘
+
+## iostat
+
+查看或监控磁盘的读写性能，可以用到iostat命令
+
+```shell
+iostat -d -k 1 10
+```
+
+```
+-d：显示某块具体硬盘，这里没有给出硬盘路径就是默认全部了
+-k：以KB为单位显示
+1：统计间隔为1秒
+10：共统计10次的
+tps：该设备每秒的传输次数（Indicate the number of transfers per second that were issued to the device.）。“一次传输”意思是“一次I/O请求”。多个逻辑请求可能会被合并为“一次I/O请求”。“一次传输”请求的大小是未知的。
+```
 
 # alias
 
@@ -109,7 +183,7 @@ The second solution allows you to use arguments.
 
 [Multiple commands in an alias for bash](http://stackoverflow.com/questions/756756/multiple-commands-in-an-alias-for-bash)
 
-# grep常用用法
+# grep
 
 ```shell
 $ grep [-acinv] [--color=auto] '搜寻字符串' filename
@@ -155,7 +229,10 @@ sed -i "s/home\/work/home\/${username}/g" `grep home/work -rl ${SRC_PATH}`
 
 sed -i 's#".#"com.xjkj.psyassess.#g' `grep "\"\." -rl --include="*.xml" src`
 
+# 使用分隔符‘#’替换'/'
 sed -i s#".#"com.xjkj.psyassess.#g `find src -name *.xml | xargs grep "\"\." -rl`
+
+sed -i "s/user\/hadoop/user\/chama/g" `grep user/hadoop -rl .`
 ```
 
 # 压缩
@@ -173,7 +250,7 @@ su - root -c 'ls /var/root'
 ```
 
 # 开机自启动
-/etc/rc.local
+把操作命令写到`/etc/rc.local`文件。
 该脚本是在系统初始化级别脚本运行之后再执行的，因此可以安全地在里面添加你想在系统启动之后执行的脚本。
 
 # 进程
@@ -211,13 +288,7 @@ chookin           -       noproc          65536
 echo '' > /var/spool/mail/`whoami` 
 ```
 
-# 网络
 
-多次连接测指定url的可访问性
-
-```shell
-httping -c10000 -g  http://111.13.47.169:8001/sv/24/316/1241/6?v=1 
-```
 
 # 其他
 
