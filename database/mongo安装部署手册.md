@@ -1,37 +1,5 @@
 MongoDB是一个高性能，开源，无模式的文档型数据库，是当前NoSql数据库中比较热门的一种。它在许多场景下可用于替代传统的关系型数据库或键/值存储方式。Mongo使用C++开发。Mongo的官方网站地址是：http://www.mongodb.org。
 
-# mac
-安装
-```
-brew install mongodb
-```
-查看安装信息
-```
-$ brew info mongo
-==> Options
---with-boost
-    Compile using installed boost, not the version shipped with mongodb
---with-openssl
-    Build with openssl support
---with-sasl
-    Compile with SASL support
-==> Caveats
-To have launchd start mongodb at login:
-  ln -sfv /usr/local/opt/mongodb/*.plist ~/Library/LaunchAgents
-Then to load mongodb now:
-  launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist
-Or, if you don't want/need launchctl, you can just run:
-  mongod --config /usr/local/etc/mongod.conf &
-```
-
-## 问题
-（1） “WARNING: soft rlimits too low” in MongoDB with Mac OS X
-
-Amongodd this to the /etc/launchd.conf file:
-`launchctl limit maxfiles 1024 1024`
-
-Now reboot to make changes effective.
-
 
 # 启动服务
 ```shell

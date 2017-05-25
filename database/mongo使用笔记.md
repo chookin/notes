@@ -15,6 +15,8 @@
     db.category.find({site:'amazon', name:'红葡萄酒'})	
 ## 查询指定项
 
+默认是显示_id的，需要加'_id':0来隐藏它。
+
     db.goods.find({site:'jd'},{tag:1,"properties.品牌":1, "_id":0} )
     db.goods.find({site:'jd', "properties.品牌":{"$ne":null}},{tag:1,"properties.品牌":1, "_id":0} )
 ## distinct
@@ -110,11 +112,16 @@
     db.category.update({site:'yhd', tag:'食品/休闲零食/糖类'}, {$set: {crawlTime:ISODate("1970-01-01T00:00:00Z")}}, false, true)
     db.category.update({site:'yhd'}, {$set: {crawlTime:ISODate("1970-01-01T00:00:00Z")}}, false, true)
 
+更新列值
+
+```js
+db.comments.update({},{$set: {"acquTime":ISODate("2016-04-20T07:27:11.683Z")}}, false, true)
+```
+
 # 重命名列名
 
 ```js
 db.apps.update({time:{$ne:null}}, {$rename : {"time" : "acquTime"}}, false, true)
-db.comments.update({},{$set: {"acquTime":ISODate("2016-04-20T07:27:11.683Z")}}, false, true)
 db.comments.update({versionCode:{$ne:null}}, {$rename : {"versionCode" : "version"}}, false, true)
 ```
 
@@ -153,7 +160,6 @@ for (var i = 0; i < colls.length; i++) {
 ## 创建索引
 
     db.goods.ensureIndex({'site':1}) # 使用ensureIndex来创建索引，1为升序，-1为倒序
-    db.runCommand({“dropIndexes”: “goods”, “index”: “site”}) # dropIndexes后面跟的参数是集合名称，index后面跟的参数是索引名称，如果需要删除所有索引，使用”*”即可
 
 ## 创建稀疏索引
 `db.collection.ensureIndex({a:1},{sparse:true})`
@@ -172,6 +178,8 @@ for (var i = 0; i < colls.length; i++) {
 ... "version" : 1});
 { "nIndexesWas" : 3, "ok" : 1 }
 ```
+
+    db.runCommand({“dropIndexes”: “goods”, “index”: “site”}) # dropIndexes后面跟的参数是集合名称，index后面跟的参数是索引名称，如果需要删除所有索引，使用”*”即可
 
 # group
 

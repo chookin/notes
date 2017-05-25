@@ -24,7 +24,7 @@ Information: You may need to update /etc/fstab.
 ```
 
 ## xfs格式化
-### 安装xfsprogs
+### 安装 xfsprogs
 挂载rhel的iso安装盘，从其中找到xfsprogs的安装包，安装即可。
 或者直接从网络下载安装。
 

@@ -1,3 +1,16 @@
+# 颜色
+
+vim没有高亮显示
+在vim配置文件，如/etc/vimrc或者`~/.vimrc`中配置
+```shell
+syntax on
+```
+
+设置如下变量（可以增加到/etc/profile）
+```shell
+export TERM=linux
+```
+
 # 基本使用
 
     set nu  设置行号
@@ -80,6 +93,12 @@ y^复制光标所在位置到行首内容到缓存区
 
 ggyG        全部复制
 set paste   粘贴取消自动缩进
+```
+
+# 替换
+
+```
+:g/old_words/s//new_words/g
 ```
 
 # 删除

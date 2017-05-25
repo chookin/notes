@@ -47,6 +47,16 @@ mysql> grant all on snapshot.* to 'snap'@'localhost' identified by 'snap_cm';
 mysql> flush privileges;
 ```
 
+## 修改密码
+
+```
+set password for 'root'@'localhost' =password('biT1G7KknSIMu3lw');
+```
+或者
+```
+UPDATE mysql.user SET password = password ( 'biT1G7KknSIMu3lw' ) WHERE user = 'root' ; 
+```
+
 ## 查看权限
 ```sql
 mysql> show grants for slave@lab51;
@@ -454,6 +464,12 @@ select VARIABLE_VALUE from information_schema.GLOBAL_VARIABLES where VARIABLE_NA
 max_connections=3600
 ```
 
+- mysql 5.5.56的编译
+
+```shell
+cmake -DCMAKE_INSTALL_PREFIX=/home/work/local/mysql -DMYSQL_DATADIR=/home/work/local/mysql/data -DSYSCONFDIR=/home/work/local/mysql/etc -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_MEMORY_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DMYSQL_UNIX_ADDR=/home/work/local/mysql/var/mysql.sock -DMYSQL_TCP_PORT=1127 -DENABLED_LOCAL_INFILE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci
+make && make install
+```
 
 
 # 参考

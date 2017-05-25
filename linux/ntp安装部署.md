@@ -8,7 +8,7 @@ NTP（Network Time Protocol，网络时间协议）是由RFC 1305定义的时
 若服务器可以访问公网，则可以直接配置如下：
 
 ```shell
-0 0,6,12,18 * * * /usr/sbin/ntpdate -u 192.43.244.18 210.72.145.44 210.0.235.14 59.124.196.84 118.163.81.61 &>/dev/null
+0 0,6,12,18 * * * /usr/sbin/ntpdate -u 202.112.29.82 210.72.145.44 202.120.2.101 133.100.11.8 210.0.235.14 59.124.196.84 118.163.81.61 &>/dev/null
 ```
 
 若服务器不能访问公网，则需要部署C/S模式，一台服务器作为服务端，其他服务器作为客户端，客户端的时钟与服务端的同步。
@@ -118,6 +118,20 @@ ntpdate 133.100.11.8
 ```
 
 其中myntpserver为ntp服务端的hostname。
+
+调试
+```shell
+ntpdate -d myntpserver
+```
+
+若报错`Server dropped: strata too high`，则在ntpserver的`/etc/ntp.conf`中配置
+
+```shell
+server 127.127.1.0
+fudge 127.127.1.0 stratum 8 
+```
+
+然后，重启ntpd服务。
 
 ### 配置定时任务
 ```

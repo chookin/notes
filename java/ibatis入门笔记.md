@@ -163,6 +163,25 @@ public class ActionDto implements Serializable {
 }
 ```
 
+## 什么时候用$，什么时候 用 # 
+
+```
+1. #将传入的数据都当成一个字符串，会对自动传入的数据加一个双引号。如：order by #user_id#，如果传入的值是111,那么解析成sql时的值为order by "111", 如果传入的值是id，则解析成的sql为order by "id".
+2. $将传入的数据直接显示生成在sql中。如：order by $user_id$，如果传入的值是111,那么解析成sql时的值为order by user_id,  如果传入的值是id，则解析成的sql为order by id.
+3. #方式能够很大程度防止sql注入。
+4. $方式无法防止Sql注入。
+5. $方式一般用于传入数据库对象，例如传入表名.
+6. 一般能用#的就别用$.
+```
+
+对于变量部分，应当使用#，这样可以有效的防止sql注入，#都是用到了prepareStement，这样对效率也有一定的提升 
+
+$只是简单的字符拼接而已，对于非变量部分，那只能使用$，实际上，在很多场合，$也是有很多实际意义的 
+例如 
+select * from $tableName$ 对于不同的表执行统一的查询 
+update $tableName$ set status = #status# 每个实体一张表，改变不用实体的状态 
+特别提醒一下， $只是字符串拼接， 所以要特别小心sql注入问题。
+
 ## SqlMapClient
 SqlMapClient对象是ibatis持久层操作的基础，相当于hibernate中的session，提供对SQL映射的方法。 
 

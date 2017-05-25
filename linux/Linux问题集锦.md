@@ -7,6 +7,35 @@ A: 重新挂载为读写
 /bin/mount -o remount,rw /
 ```
 
+# 系统软件
+
+**Q: 使用yum时提示Segmentation fault**
+
+A: 
+> zlib惹的祸
+
+```shell
+cd /usr/local/lib
+# 查看当前的lib版本
+ll libz.*
+# 例如是
+-rw-r--r-- 1 root root 125206 2013-04-19 libz.a
+lrwxrwxrwx 1 root root     22 02-15 12:02 libz.so -> /usr/lib/libz.so.1.2.7
+lrwxrwxrwx 1 root root     17 02-15 12:03 libz.so.1 -> libz.so.1.2.7
+-rwxr-xr-x 1 root root  96705 2013-04-19 libz.so.1.2.7
+# 则
+rm libz.so.1.2.7
+ln -fs /usr/lib/libz.so.1.2.3 libz.so
+ln -fs /usr/lib/libz.so.1.2.3 libz.so.1
+# 检查libz信息
+ldconfig -v|grep libz
+```
+
+参考 
+- http://bjjasonzhao.blog.51cto.com/609461/821701
+- http://blog.chinaunix.net/uid-26202633-id-3757439.html
+- http://www.geedoo.info/yum-prompt-segmentation-fault-core-dumped.html
+
 # 软件
 
 **Q: 编译jpeg-6b时，在`./configure` 时发生错误**
@@ -57,6 +86,39 @@ strings /lib64/libc.so.6 |grep GLIBC_
 参考：
 
 - [解决libc.so.6: version `GLIBC_2.14' not found问题](http://blog.csdn.net/cpplang/article/details/8462768)
+
+> /usr/lib64/libstdc++.so.6: version `GLIBCXX_3.4.9' not found
+
+A: 查看系统glibc支持的版本：
+
+```shell
+strings /usr/lib64/libstdc++.so.6 |grep GLIBC_
+```
+
+执行`ls -l /usr/lib/libstdc++.so.6`
+发现`/usr/lib/libstdc++.so.6 -> /usr/lib/libstdc++.so.6.0.8`，其实这里需要使用`libstdc++.so.6.0.10`
+
+分析得知：RHEL5自带的libstdc++.so.6指向的是libstdc++.so.6.0.8，版本太低。
+
+A: 下载RPM包：http://kojipkgs.fedoraproject.org/packages/gcc/4.3.2/7/x86_64/libstdc++-4.3.2-7.x86_64.rpm
+
+2、提取包并将生成的libstdc++库文件考到到/usr/lib
+```shell
+#rpm2cpio libstdc++-4.3.2-7.i386.rpm | cpio -idv
+```
+则在当前目录下生成./usr/lib64目录，包含：libstdc++.so.6.0.10、软连接和 libstdc++.so.6
+将生成的libstdc++.so.6.0.10 、软连接和 libstdc++.so.6拷贝到/usr/lib64下：
+```shell
+#cp libstdc++* /usr/lib64 -a
+```
+查看：
+```shell
+ls -l libstdc++.so.6
+/usr/lib/libstdc++.so.6 -> /usr/lib/libstdc++.so.6.0.10
+```
+
+3、执行`strings /usr/lib/libstdc++.so.6 | grep GLIBC`查看是否包含
+
 
 # 网络
 

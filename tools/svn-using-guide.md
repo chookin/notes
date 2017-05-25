@@ -1,5 +1,75 @@
-# 配置http访问
-## 安装 Apache, Subversion
+# 安装subversion
+
+## 编译安装subversion
+
+http://subversion.apache.org/download.cgi#recommended-release
+
+### 安装apr及apr-utils
+
+http://apr.apache.org/download.cgi
+下载、编译、安装http://mirror.bit.edu.cn/apache//apr/apr-util-1.5.4.tar.gz
+
+```shell
+./configure --prefix=/usr/local/apr
+make & make install
+./configure --prefix=/usr/local/apr-util --with-apr=/usr/local/apr
+make & make install
+```
+
+### 安装serf
+
+Subversion 1.8中http客户端基于neon已经被移除，改用self。如果要支持http方式需要在安装svn前安装serf，安装serf推荐用serf-1.2.1
+
+```shell
+wget http://serf.googlecode.com/files/serf-1.2.1.tar.bz2 #serf-1.2.1.zip是win版有问题
+tar xjf serf-1.2.1.tar.bz2
+cd serf-1.2.1./configure --prefix=/usr/local/serf --with-apr=/usr/local/apache --with-apr-util=/usr/local/apache
+make && make install
+```
+
+### 安装svn
+
+```shell
+tar xzf subversion-1.8.1.tar.gz
+cd subversion-1.8.1./get-deps.sh
+./configure --prefix=/usr/local/subversion --with-apxs=/usr/local/apache/bin/apxs \
+--with-apr=/usr/local/apache --with-apr-util=/usr/local/apache --with-zlib \
+--with-openssl --enable-maintainer-mode --with-serf=/usr/local/serf --enable-mod-activation
+make && make install
+```
+
+### 检查是否安装成功
+
+安装成功会在`/usr/local/apache/conf/httpd.conf`自己加入下面2行
+
+```
+LoadModule dav_svn_module     /usr/local/subversion/libexec/mod_dav_svn.so
+LoadModule authz_svn_module   /usr/local/subversion/libexec/mod_authz_svn.so
+```
+
+检查svn是否支持http方式：
+
+```
+# svn --version
+svn, version 1.8.1 (r1503906)
+   compiled Aug  2 2013, 11:36:48 on x86_64-unknown-linux-gnu
+Copyright (C) 2013 The Apache Software Foundation.This software consists of contributions made by many people;
+see the NOTICE file for more information.Subversion is open source software, see http://subversion.apache.org/
+The following repository access (RA) modules are available:
+* ra_svn : Module for accessing a repository using the svn network protocol.
+  - with Cyrus SASL authentication
+  - handles 'svn' scheme
+* ra_local : Module for accessing a repository on local disk.
+  - handles 'file' scheme
+* ra_serf : Module for accessing a repository via WebDAV protocol using serf.
+  - handles 'http' scheme
+  - handles 'https' scheme
+```
+
+## 通过yum安装Subversion
+
+### 安装apache
+
 ```shell
 yum install httpd
 ```
@@ -11,7 +81,7 @@ service httpd start
 chkconfig httpd on
 ```
 
-## 安装Subversion
+### 安装Subversion
 
 ```shell
 yum install subversion mod_dav_svn
@@ -27,9 +97,9 @@ ll modules/ | grep svn
 
 在`/etc/httpd/conf.d/`文件下生成`subversion.conf`。
 
-## 项目示例
+# 项目示例
 
-### 情景一 共用权限管理
+## 情景一 共用权限管理
 
 处于同一路径的多个项目共用一套权限管理，该路径下的项目不用再配置权限。
 
@@ -41,7 +111,7 @@ ll modules/ | grep svn
 vim /etc/httpd/conf.d/subversion.conf
 ```
 
-```
+```conf
 LoadModule dav_svn_module     modules/mod_dav_svn.so
 LoadModule authz_svn_module   modules/mod_authz_svn.so
 
@@ -305,6 +375,16 @@ You don't have permission to access /repos/admonitor on this server.
 
 # svn 客户端
 
+## 配置保存密码
+
+编辑`~/.subversion/config`，重点配置如下
+
+```shell
+store-passwords = yes
+store-auth-creds = yes
+password-stores =
+```
+
 ## 代理配置
 编辑文件~/.subversion/servers，修改http-proxy-host，http-proxy-port等信息。
 注意：只能连接http协议的svn。
@@ -362,6 +442,17 @@ svn copy http://svn_server/xxx_repository/trunk http://svn_server/xxx_repository
 删除分支或tags
 svn rm http://svn_server/xxx_repository/branches/br_feature001
 svn rm http://svn_server/xxx_repository/tags/release-1.0
+
+## svn status
+
+A：add，新增
+C：conflict，冲突
+D：delete，删除
+M：modify，本地已经修改
+G：modify and merGed，本地文件修改并且和服务器的进行合并
+U：update，从服务器更新
+R：replace，从服务器替换
+I：ignored，忽略
 
 ## 文件锁定
 
@@ -434,16 +525,20 @@ svn diff -c <Revision> <Item>
 svn diff -c 25114 src/main.cpp
 ```
 
+查看具体改动
+
+```shell
+svn diff -r r6453:r6452 src
+```
+
 ## 与指定版本做对比，生成diff
 
     svn diff -x --ignore-all-space -r 276 > a.patch
-## 修改仓库地址
 
-svn relocate $new_repository_address
 
 # 常见问题
 
-1)
+Q1: 
     svn: Could not use external editor to fetch log message; consider setting the $SVN_EDITOR environment variable or using the --message (-m) or --file (-F) options
     svn: None of the environment variables SVN_EDITOR, VISUAL or EDITOR are set, and no 'editor-cmd' run-time configuration option was found
 问题原因：
@@ -461,11 +556,47 @@ export SVN_EDITOR=vi
 
     source /etc/profile
 
-2) idea打开svn版本管理的项目报错：
+Q2: idea打开svn版本管理的项目报错：
 ```
 svn: E155021: This client is too old to work with the working copy at '/Users/chookin/project/DaTiBa' (format 31). You need to get a newer Subversion client. 
 ```
 
 查看当前用户下的svn版本，发现版本挺高的啊。问题原因是，idea使用的系统自带的svn，配置idea中的svn路径为当前用户所使用的较高版本的svn路径即可。
+
+Q3: 查看本地代码的仓库地址
+
+> How to get the url of the current svn repo?
+
+A: 使用命令`svn info`
+
+Q4: 修改仓库地址
+
+A: 使用命令
+
+`svn relocate $new_repository_address`
+
+# 端口
+
+Subversion有两种不同的配置方式，一种基于它自带的轻量级服务器svnserve，一种基于非常流行的Web服务器Apache。
+
+根据不同的配置方式，Subversion使用不同的端口对外提供服务。
+
+基于svnserve的，默认端口为3690，
+
+基于Apache的，默认端口为Apache的默认端口80。
+
+有时候，我们会因为防火墙或其它原因，需要修改这些默认端口。
+
+下面根据不同的配置讲讲如何改变这些默认端口。
+
+1、通过svnserve -d -r d:\svn来提供服务 （假设d:\svn为你的版本库所在目录）
+
+为svnserve 加上--listen-port参数，比如svnserve -d -r d:\svn --listen-port 81(注：--listen-port中间无隔)
+
+2、通过Apache来提供服务
+
+在httpd.conf中，查找Listen 80，将80修改为你想要的端口
+
 # 总结
+
 在这篇文章中介绍了如何部署svn的服务端软件subversion、客户端软件TortoiseSVN、eclipse svn插件以及在eclipse中使用svn。

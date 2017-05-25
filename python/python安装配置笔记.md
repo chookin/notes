@@ -154,5 +154,5 @@ ImportError: libmysqlclient.so.15: cannot open shared object file: No such file 
 解决办法:
 ```shell
 vi ~/.bash_profile
-LD_LIBRARY_PATH=/home/work/local/mysql/lib/mysql:/usr/lib:$LD_LIBRARY_PATH:/home/work/local/zlib/lib
+export LD_LIBRARY_PATH=/home/work/local/mysql/lib:/usr/lib:$LD_LIBRARY_PATH
 ```

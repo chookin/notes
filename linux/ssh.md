@@ -19,20 +19,62 @@ ssh lab09 'su - work -c "/home/work/local/mfs/sbin/mfschunkserver stop"'
 # 无密码访问
 <b>配置ssh使得服务器A的用户user_a1可以无密码访问服务器B的用户user_b1</b>
 
-操作：
+采用rsa方式。
+```
+https://www.gentoo.org/support/news-items/2015-08-13-openssh-weak-keys.html
+
+Starting with the 7.0 release of OpenSSH, support for ssh-dss keys has
+been disabled by default at runtime due to their inherit weakness.  If
+you rely on these key types, you will have to take corrective action or
+risk being locked out.
+
+Your best option is to generate new keys using strong algos such as rsa
+or ecdsa or ed25519.  RSA keys will give you the greatest portability
+with other clients/servers while ed25519 will get you the best security
+with OpenSSH (but requires recent versions of client & server).
+
+If you are stuck with DSA keys, you can re-enable support locally by
+updating your sshd_config and ~/.ssh/config files with lines like so:
+    PubkeyAcceptedKeyTypes=+ssh-dss
+
+Be aware though that eventually OpenSSH will drop support for DSA keys
+entirely, so this is only a stop gap solution.
+```
+
+## 前提条件
+
+确保配置文件/etc/ssh/sshd_config中的`RSAAuthentication`和`PubkeyAuthentication`的值必须是yes（默认值即使yes，除非配置文件中明确设定了这两个参数的值，否则不用修改）。
+
+```shell
+# 启用 RSA 认证
+RSAAuthentication yes
+# 启用公钥私钥配对认证方式
+g yes
+# 公钥文件路径
+AuthorizedKeysFile .ssh/authorized_keys 
+```
+
+如果修改了配置文件，需重启ssh.
+
+```shell
+service sshd restart
+```
+
+
+## 具体操作
 1）在A服务器的用户user_a1上执行如下命令，将在.ssh路径下自动生成id_dsa.pub文件
 ```shell
-cd && ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa && chmod 700 ~/.ssh
+cd && ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa && chmod 700 ~/.ssh
 ```
 
 2）配置B服务器
 登录B服务器的用户user_b1。
 如果路径~/.ssh/不存在，则执行命令
 ```shell
-cd && ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa && chmod 700 ~/.ssh
+cd && ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa && chmod 700 ~/.ssh
 ```
 
-拷贝步骤1生成的`id_dsa.pub`文件内容并追加到服务器B的`.ssh/authorized_keys`文件中（如果`.ssh/authorized_keys`不存在，创建之），并执行如下命令
+拷贝步骤1生成的`id_dsa.pub`文件内容并追加到服务器B的`.ssh/c`文件中（如果`.ssh/authorized_keys`不存在，创建之），并执行如下命令
 ```shell
 chmod 600 $HOME/.ssh/authorized_keys;
 ```
@@ -65,7 +107,16 @@ ssh user_b1@hostname_B -v
 
 如果可以成功访问，OK
 
+## 常见问题
+
+若无密码登录配置不成功，请检查：
+
+1. ssh配置文件
+2. .ssh相关文件权限
+3. `/home/whomai`文件夹权限，建议该文件夹权限为755.
+
 # ssh登录慢
+
 使用ssh客户端（如：putty）连接Linux服务器，可能会等待10-30秒才有提示输入密码，严重影响工作效率。登录很慢，登录上去后速度正常，这种情况主要有两种可能的原因：
 
 1) DNS反向解析问题
@@ -88,6 +139,15 @@ UseDNS no
 ```
 debug1: Next authentication method: gssapi-with-mic
 debug1: Unspecified GSS failure. Minor code may provide more information
+Unknown code krb5 195
+
+debug1: Unspecified GSS failure.  Minor code may provide more information
+Unknown code krb5 195
+
+debug1: Unspecified GSS failure.  Minor code may provide more information
+Unknown code krb5 195
+
+debug1: Next authentication method: publickey
 ```
 
 注：`ssh -vvv user@server`可以看到更细的debug信息
@@ -97,7 +157,13 @@ debug1: Unspecified GSS failure. Minor code may provide more information
 修改sshd服务器端配置
 ```shell
 vi /etc/ssh/ssh_config
+
+
+# GSSAPI options
 GSSAPIAuthentication no
+#GSSAPIAuthentication yes
+GSSAPICleanupCredentials no
+#GSSAPICleanupCredentials yes
 ```
 
 可以使用ssh -o GSSAPIAuthentication=no user@server登录
@@ -107,6 +173,7 @@ GSSAPI ( Generic Security Services Application Programming Interface) 是一套�
 参考
 
 - [ssh登录很慢解决方法](https://blog.linuxeye.com/420.html)
+- [ssh 配置讲解大全](http://blog.chinaunix.net/uid-20395453-id-3264845.html)
 
 # 禁止root登录
 

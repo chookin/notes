@@ -157,3 +157,13 @@ In order to compile your code you should add maven build section:
 </build>
 Also you can go to File | Settings | Build, Execution, Deployment | Compiler | Java Compiler and change it there, but it will cause other developers failures as they need to modify IDE before build
 ```
+
+- Error Information:java: javacTask: 源发行版 1.8 需要目标发行版 1.8
+
+1，Project Structure里确认两个地方:Project sdk以及project language level
+
+2，Project Structure->Modules里Sources里的Language level
+
+3，Preferences->java Compiler->Per-module bytecode Version 
+
+这三个地方需要一致。

@@ -75,7 +75,7 @@ make: * [test] Error 2
 yum install -y tcl
 ```
 
-或者：按照官网[http://www.linuxfromscratch.org/blfs/view/cvs/general/tcl.html](http://www.linuxfromscratch.org/blfs/view/cvs/general/tcl.html)上的安装。
+或者：按照官网[tcl.html](http://www.linuxfromscratch.org/blfs/view/cvs/general/tcl.html)上的安装。
 
 ## 在mac上安装
 
@@ -83,9 +83,10 @@ yum install -y tcl
 ```shell
 brew install redis
 ```
+
 ### view software info
 
-```shell
+```
 $ brew info redis
 redis: stable 3.0.7 (bottled), HEAD
 Persistent key-value database, with built-in net interface
@@ -106,6 +107,7 @@ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
 Or, if you don't want/need launchctl, you can just run:
 redis-server /usr/local/etc/redis.conf
 ```
+
 ## 配置
 
 redis的配置参数说明如下。一般只需配置`daemonize`,`port`,`dir`，`dbfilename`即可。

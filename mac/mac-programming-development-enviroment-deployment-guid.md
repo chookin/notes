@@ -1,4 +1,5 @@
 [TOC]
+os max os 10.12.2
 
 # brew
 
@@ -11,10 +12,46 @@ brew 安装的软件存放在 /usr/local/Cellar 中，同时会在 /usr/local/bi
 brew install wget
 ```
 
+卸载
+
+```shell
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)"
+```
+
+常见问题
+1，
+
+```
+$ brew update
+Error: /usr/local must be writable!
+```
+
+解决办法
+
+```shell
+sudo chown -R $(whoami) /usr/local
+```
+
+2, `brew update`慢
+删了brew，再重装
+
+3,brew install 下载慢
+找到brew下载文件的目录，将刚才下载的文件移动到目录
+
+```
+# cd `brew --cache`
+ //进入brew的下载目录
+# rm go-1.6.2.el_capitan.bottle.tar.gz
+ //删除刚才下载一半的文件
+# mv /Downloads/go-1.6.2.el_capitan.bottle.tar.gz ./
+//将下载好的压缩包放到brew下载目录
+```
+
 # vi
 
 ## 配置文件
 编辑文件~/.vimrc，添加如下内容
+
 ```
 set nu
 set ai                  " auto indenting
@@ -85,8 +122,8 @@ export GRADLE_HOME=$HOME/local/gradle
 export PATH=$GRADLE_HOME/bin:$PATH
 
 # configure terminal color
-export CLICOLOR=1 
-export LSCOLORS=gxfxaxdxcxegedabagacad 
+export CLICOLOR=1
+export LSCOLORS=gxfxaxdxcxegedabagacad
 
 # 历史命令最大条数
 HISTFILESIZE=100000
@@ -105,8 +142,8 @@ export HOMEBREW_GITHUB_API_TOKEN=4f6d2a0066f2c9de121c9ba775e8be5b8596f0e7
 新建` ~/.bash_profile`，在其中加载一次`.bashrc`
 
 ```shell
-if [ "${BASH-no}" != "no" ]; then  
-    [ -r ~/.bashrc ] && . ~/.bashrc  
+if [ "${BASH-no}" != "no" ]; then
+    [ -r ~/.bashrc ] && . ~/.bashrc
 fi
 ```
 # sublime text
@@ -201,17 +238,19 @@ jdk8
 
 ### idea15激活
 
+下面的已不可用，可用访问 http://idea.lanyus.com 获取激活码
+
+```
+CNEKJPQZEX-eyJsaWNlbnNlSWQiOiJDTkVLSlBRWkVYIiwibGljZW5zZWVOYW1lIjoibGFuIHl1IiwiYXNzaWduZWVOYW1lIjoiIiwiYXNzaWduZWVFbWFpbCI6IiIsImxpY2Vuc2VSZXN0cmljdGlvbiI6IkZvciBlZHVjYXRpb25hbCB1c2Ugb25seSIsImNoZWNrQ29uY3VycmVudFVzZSI6ZmFsc2UsInByb2R1Y3RzIjpbeyJjb2RlIjoiQUMiLCJwYWlkVXBUbyI6IjIwMTgtMDEtMzAifSx7ImNvZGUiOiJETSIsInBhaWRVcFRvIjoiMjAxOC0wMS0zMCJ9LHsiY29kZSI6IklJIiwicGFpZFVwVG8iOiIyMDE4LTAxLTMwIn0seyJjb2RlIjoiUlMwIiwicGFpZFVwVG8iOiIyMDE4LTAxLTMwIn0seyJjb2RlIjoiV1MiLCJwYWlkVXBUbyI6IjIwMTgtMDEtMzAifSx7ImNvZGUiOiJEUE4iLCJwYWlkVXBUbyI6IjIwMTgtMDEtMzAifSx7ImNvZGUiOiJSQyIsInBhaWRVcFRvIjoiMjAxOC0wMS0zMCJ9LHsiY29kZSI6IlBTIiwicGFpZFVwVG8iOiIyMDE4LTAxLTMwIn0seyJjb2RlIjoiREMiLCJwYWlkVXBUbyI6IjIwMTgtMDEtMzAifSx7ImNvZGUiOiJEQiIsInBhaWRVcFRvIjoiMjAxOC0wMS0zMCJ9LHsiY29kZSI6IlJNIiwicGFpZFVwVG8iOiIyMDE4LTAxLTMwIn0seyJjb2RlIjoiUEMiLCJwYWlkVXBUbyI6IjIwMTgtMDEtMzAifSx7ImNvZGUiOiJDTCIsInBhaWRVcFRvIjoiMjAxOC0wMS0zMCJ9XSwiaGFzaCI6IjUxOTU1OTMvMCIsImdyYWNlUGVyaW9kRGF5cyI6MCwiYXV0b1Byb2xvbmdhdGVkIjpmYWxzZSwiaXNBdXRvUHJvbG9uZ2F0ZWQiOmZhbHNlfQ==-QOxwjWvRwJz6vo6J6adC3CJ4ukQHosbPYZ94URUVFna/Rbew8xK/M5gP3kAaPh6ZDveFdtMR1UBoumq3eCwXtXM3U3ls5noB4LIr+QplVlCj2pK5uNq7g/feyNyQcHpSXtvhIOnXDBLOecB05DOsxzm0p7ulGGJoAInmHeb9mc0eYjqc4RPpUQfh6HSYBnvEnKMlLF5bz4KEtzmsvvgA55CwzwQ3gRitm5Q/wUT7AQCBdjmBfNUjKVQL6TSjSDPp56FUdEs4Aab8LqstA2DIMbxocO64rvytmcUeIwu8Mi5uq87KQP5AQMSMYb59Inbd+dmVfx5cJo3fRS4/5s3/Hg==-MIIEPjCCAiagAwIBAgIBBTANBgkqhkiG9w0BAQsFADAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIENBMB4XDTE1MTEwMjA4MjE0OFoXDTE4MTEwMTA4MjE0OFowETEPMA0GA1UEAwwGcHJvZDN5MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxcQkq+zdxlR2mmRYBPzGbUNdMN6OaXiXzxIWtMEkrJMO/5oUfQJbLLuMSMK0QHFmaI37WShyxZcfRCidwXjot4zmNBKnlyHodDij/78TmVqFl8nOeD5+07B8VEaIu7c3E1N+e1doC6wht4I4+IEmtsPAdoaj5WCQVQbrI8KeT8M9VcBIWX7fD0fhexfg3ZRt0xqwMcXGNp3DdJHiO0rCdU+Itv7EmtnSVq9jBG1usMSFvMowR25mju2JcPFp1+I4ZI+FqgR8gyG8oiNDyNEoAbsR3lOpI7grUYSvkB/xVy/VoklPCK2h0f0GJxFjnye8NT1PAywoyl7RmiAVRE/EKwIDAQABo4GZMIGWMAkGA1UdEwQCMAAwHQYDVR0OBBYEFGEpG9oZGcfLMGNBkY7SgHiMGgTcMEgGA1UdIwRBMD+AFKOetkhnQhI2Qb1t4Lm0oFKLl/GzoRykGjAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIENBggkA0myxg7KDeeEwEwYDVR0lBAwwCgYIKwYBBQUHAwEwCwYDVR0PBAQDAgWgMA0GCSqGSIb3DQEBCwUAA4ICAQC9WZuYgQedSuOc5TOUSrRigMw4/+wuC5EtZBfvdl4HT/8vzMW/oUlIP4YCvA0XKyBaCJ2iX+ZCDKoPfiYXiaSiH+HxAPV6J79vvouxKrWg2XV6ShFtPLP+0gPdGq3x9R3+kJbmAm8w+FOdlWqAfJrLvpzMGNeDU14YGXiZ9bVzmIQbwrBA+c/F4tlK/DV07dsNExihqFoibnqDiVNTGombaU2dDup2gwKdL81ua8EIcGNExHe82kjF4zwfadHk3bQVvbfdAwxcDy4xBjs3L4raPLU3yenSzr/OEur1+jfOxnQSmEcMXKXgrAQ9U55gwjcOFKrgOxEdek/Sk1VfOjvS+nuM4eyEruFMfaZHzoQiuw4IqgGc45ohFH0UUyjYcuFxxDSU9lMCv8qdHKm+wnPRb0l9l5vXsCBDuhAGYD6ss+Ga+aDY6f/qXZuUCEUOH3QUNbbCUlviSz6+GiRnt1kA9N2Qachl+2yBfaqUqr8h7Z2gsx5LcIf5kYNsqJ0GavXTVyWh7PYiKX4bs354ZQLUwwa/cG++2+wNWP+HtBhVxMRNTdVhSm38AknZlD+PTAsWGu9GyLmhti2EnVwGybSD2Dxmhxk3IPCkhKAK+pl0eWYGZWG3tJ9mZ7SowcXLWDFAk0lRJnKGFMTggrWjV8GYpw5bq23VmIqqDLgkNzuoog==
+```
+
 选择license server
 
 - http://15.idea.lanyus.com 已不可用
 
-- http://idea.qinxi1992.cn 
+- http://idea.qinxi1992.cn
 
-### idea 2016激活
 
-```
-43B4A73YYJ-eyJsaWNlbnNlSWQiOiI0M0I0QTczWVlKIiwibGljZW5zZWVOYW1lIjoibGFuIHl1IiwiYXNzaWduZWVOYW1lIjoiIiwiYXNzaWduZWVFbWFpbCI6IiIsImxpY2Vuc2VSZXN0cmljdGlvbiI6IkZvciBlZHVjYXRpb25hbCB1c2Ugb25seSIsImNoZWNrQ29uY3VycmVudFVzZSI6ZmFsc2UsInByb2R1Y3RzIjpbeyJjb2RlIjoiSUkiLCJwYWlkVXBUbyI6IjIwMTctMDItMjUifSx7ImNvZGUiOiJBQyIsInBhaWRVcFRvIjoiMjAxNy0wMi0yNSJ9LHsiY29kZSI6IkRQTiIsInBhaWRVcFRvIjoiMjAxNy0wMi0yNSJ9LHsiY29kZSI6IlBTIiwicGFpZFVwVG8iOiIyMDE3LTAyLTI1In0seyJjb2RlIjoiRE0iLCJwYWlkVXBUbyI6IjIwMTctMDItMjUifSx7ImNvZGUiOiJDTCIsInBhaWRVcFRvIjoiMjAxNy0wMi0yNSJ9LHsiY29kZSI6IlJTMCIsInBhaWRVcFRvIjoiMjAxNy0wMi0yNSJ9LHsiY29kZSI6IlJDIiwicGFpZFVwVG8iOiIyMDE3LTAyLTI1In0seyJjb2RlIjoiUEMiLCJwYWlkVXBUbyI6IjIwMTctMDItMjUifSx7ImNvZGUiOiJSTSIsInBhaWRVcFRvIjoiMjAxNy0wMi0yNSJ9LHsiY29kZSI6IldTIiwicGFpZFVwVG8iOiIyMDE3LTAyLTI1In0seyJjb2RlIjoiREIiLCJwYWlkVXBUbyI6IjIwMTctMDItMjUifSx7ImNvZGUiOiJEQyIsInBhaWRVcFRvIjoiMjAxNy0wMi0yNSJ9XSwiaGFzaCI6IjMzOTgyOTkvMCIsImdyYWNlUGVyaW9kRGF5cyI6MCwiYXV0b1Byb2xvbmdhdGVkIjpmYWxzZSwiaXNBdXRvUHJvbG9uZ2F0ZWQiOmZhbHNlfQ==-keaxIkRgXPKE4BR/ZTs7s7UkP92LBxRe57HvWamu1EHVXTcV1B4f/KNQIrpOpN6dgpjig5eMVMPmo7yMPl+bmwQ8pTZaCGFuLqCHD1ngo6ywHKIQy0nR249sAUVaCl2wGJwaO4JeOh1opUx8chzSBVRZBMz0/MGyygi7duYAff9JQqfH3p/BhDTNM8eKl6z5tnneZ8ZG5bG1XvqFTqWk4FhGsEWdK7B+He44hPjBxKQl2gmZAodb6g9YxfTHhVRKQY5hQ7KPXNvh3ikerHkoaL5apgsVBZJOTDE2KdYTnGLmqxghFx6L0ofqKI6hMr48ergMyflDk6wLNGWJvYHLWw==-MIIEPjCCAiagAwIBAgIBBTANBgkqhkiG9w0BAQsFADAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIENBMB4XDTE1MTEwMjA4MjE0OFoXDTE4MTEwMTA4MjE0OFowETEPMA0GA1UEAwwGcHJvZDN5MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxcQkq+zdxlR2mmRYBPzGbUNdMN6OaXiXzxIWtMEkrJMO/5oUfQJbLLuMSMK0QHFmaI37WShyxZcfRCidwXjot4zmNBKnlyHodDij/78TmVqFl8nOeD5+07B8VEaIu7c3E1N+e1doC6wht4I4+IEmtsPAdoaj5WCQVQbrI8KeT8M9VcBIWX7fD0fhexfg3ZRt0xqwMcXGNp3DdJHiO0rCdU+Itv7EmtnSVq9jBG1usMSFvMowR25mju2JcPFp1+I4ZI+FqgR8gyG8oiNDyNEoAbsR3lOpI7grUYSvkB/xVy/VoklPCK2h0f0GJxFjnye8NT1PAywoyl7RmiAVRE/EKwIDAQABo4GZMIGWMAkGA1UdEwQCMAAwHQYDVR0OBBYEFGEpG9oZGcfLMGNBkY7SgHiMGgTcMEgGA1UdIwRBMD+AFKOetkhnQhI2Qb1t4Lm0oFKLl/GzoRykGjAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIENBggkA0myxg7KDeeEwEwYDVR0lBAwwCgYIKwYBBQUHAwEwCwYDVR0PBAQDAgWgMA0GCSqGSIb3DQEBCwUAA4ICAQC9WZuYgQedSuOc5TOUSrRigMw4/+wuC5EtZBfvdl4HT/8vzMW/oUlIP4YCvA0XKyBaCJ2iX+ZCDKoPfiYXiaSiH+HxAPV6J79vvouxKrWg2XV6ShFtPLP+0gPdGq3x9R3+kJbmAm8w+FOdlWqAfJrLvpzMGNeDU14YGXiZ9bVzmIQbwrBA+c/F4tlK/DV07dsNExihqFoibnqDiVNTGombaU2dDup2gwKdL81ua8EIcGNExHe82kjF4zwfadHk3bQVvbfdAwxcDy4xBjs3L4raPLU3yenSzr/OEur1+jfOxnQSmEcMXKXgrAQ9U55gwjcOFKrgOxEdek/Sk1VfOjvS+nuM4eyEruFMfaZHzoQiuw4IqgGc45ohFH0UUyjYcuFxxDSU9lMCv8qdHKm+wnPRb0l9l5vXsCBDuhAGYD6ss+Ga+aDY6f/qXZuUCEUOH3QUNbbCUlviSz6+GiRnt1kA9N2Qachl+2yBfaqUqr8h7Z2gsx5LcIf5kYNsqJ0GavXTVyWh7PYiKX4bs354ZQLUwwa/cG++2+wNWP+HtBhVxMRNTdVhSm38AknZlD+PTAsWGu9GyLmhti2EnVwGybSD2Dxmhxk3IPCkhKAK+pl0eWYGZWG3tJ9mZ7SowcXLWDFAk0lRJnKGFMTggrWjV8GYpw5bq23VmIqqDLgkNzuoog==
-```
 
 - [IntelliJ IDEA 2016.1破解码一枚](http://aiyougege.com/articles/022711.html)
 
@@ -296,8 +335,12 @@ jdk8
 
 配置：
 
-- Terminal | Emulation, 选择为`linux`，并选中Ansi color;
-- Terminal | Appearance，选择 color scheme为`Traditional`
+- Session Options | Terminal | Emulation, 选择为`linux`，并选中Ansi color;
+- Global Options | Terminal，Mouse, paste on right button.
+- Global Options | Terminal | Emulation，Maximum columns 256，当只显示一部分宽度时。
+- Global Options | Terminal | Appearance，选择 color scheme为`Traditional`
+- Global Options | Terminal | Appearance，字体选择utf8。
+
 
 ## vnc-veviewer
 
@@ -363,207 +406,6 @@ ulimit -c unlimited
 
 [LICEcap](http://www.cockos.com/licecap/) 是一款免费的屏幕录制工具，支持导出 GIF 动画图片格式，轻量级、使用简单，录制过程中可以随意改变录屏范围。
 
-# DB
-
-## mysql
-
-### 采用brew安装
-
-```shell
-brew install mysql # brew方式安装后的软件路径是/usr/local/opt/mysql/，数据文件夹是/usr/local/var/mysql
-```
-### 配置文件 my.cnf
-
-```shell
-mysqld --help --verbose | more # (查看帮助, 按空格下翻)
-```
-你会看到开始的这一行(表示配置文件默认读取顺序)
-
-    Default options are read from the following files in the given order:
-    /etc/my.cnf /etc/mysql/my.cnf /usr/local/etc/my.cnf ~/.my.cnf
-通常这些位置是没有配置文件的, 所以要自己建一个
-
-```shell
-# 用这个可以找到样例.cnf
-ls $(brew --prefix mysql)/support-files/my-*
-# 拷贝到第一个默认读取目录
-cp /usr/local/opt/mysql/support-files/my-default.cnf /etc/my.cnf
-# 此后按需修改my.cnf
-```
-
-### mysql启停
-可用使用mysql的脚本启停
-
-```shell
-$ mysql.server -h
-Usage: mysql.server  {start|stop|restart|reload|force-reload|status}  [ MySQL server options ]
-
-mysql.server start
-```
-
-也可借助brew
-
-```shell
-brew services start mysql
-brew services stop mysql
-```
-
-
-
-### 参考
-
-- [在 Mac 下用 Homebrew 安装 MySQL](http://blog.neten.de/posts/2014/01/27/install-mysql-using-homebrew/)
-
-## memcached
-
-安装
-
-```shell
-$ brew search memcache
-homebrew/php/php53-memcache         homebrew/php/php55-memcache         homebrew/php/php70-memcached        memcacheq
-homebrew/php/php53-memcached        homebrew/php/php55-memcached        libmemcached
-homebrew/php/php54-memcache         homebrew/php/php56-memcache         memcache-top
-homebrew/php/php54-memcached        homebrew/php/php56-memcached        memcached ✔
-$ brew install memcached
-
-$ brew info memcached
-memcached: stable 1.4.24 (bottled)
-High performance, distributed memory object caching system
-https://memcached.org/
-Conflicts with: mysql-cluster
-/usr/local/Cellar/memcached/1.4.24 (12 files, 162.3K) *
-  Poured from bottle on 2016-03-04 at 14:15:07
-From: https://github.com/Homebrew/homebrew-core/blob/master/Formula/memcached.rb
-==> Dependencies
-Required: libevent ✔
-==> Options
---with-sasl
-	Enable SASL support -- disables ASCII protocol!
---with-sasl-pwdb
-	Enable SASL with memcached's own plain text password db support -- disables ASCII protocol!
-==> Caveats
-To have launchd start memcached now and restart at login:
-  brew services start memcached
-Or, if you don't want/need a background service you can just run:
-  /usr/local/opt/memcached/bin/memcached
-```
-
-启动
-
-```
-cd /usr/local/opt/memcached && nohup bin/memcached -m 2048 -c 8192 -p 11211 >/dev/null 2>> logs/memcached11211.log &
-```
-
-# web
-
-## apache
-
-配置文件： `/etc/apache2/httpd.conf`
-
-1.启动
-
-`sudo apachectl -k start`
-
-2.重新启动
-
-`sudo apachectl -k restart`
-
-## php
-`brew install php`
-
-## phpmyadmin
-
-```
-brew install mhash
-brew install homebrew/php/phpmyadmin
-```
-之后，配置apache，添加如下内容到/etc/apache2/httpd.conf文件的末尾处。
-
-```shell
-  Alias /phpmyadmin /usr/local/share/phpmyadmin
-  <Directory /usr/local/share/phpmyadmin/>
-    Options Indexes FollowSymLinks MultiViews
-    AllowOverride All
-    <IfModule mod_authz_core.c>
-      Require all granted
-    </IfModule>
-    <IfModule !mod_authz_core.c>
-      Order allow,deny
-      Allow from all
-    </IfModule>
-  </Directory>
-```
-
-修改httpd.conf，找到“#LoadModule php5_module libexec/apache2/libphp5.so”，把前面的#号去掉，以使得apache能处理php页面。
-
-## PhantomJS
-
-[PhantomJS](http://phantomjs.org/download.html) is a headless WebKit scriptable with a JavaScript API. It has fast and native support for various web standards: DOM handling, CSS selector, JSON, Canvas, and SVG.
-
-下载解压缩，配置到PATH路径中即可。
-https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-macosx.zip
-
-## CasperJS
-
-[CasperJS](http://casperjs.org/) is an open source navigation scripting & testing utility written in Javascript for the PhantomJS WebKit headless browser and SlimerJS (Gecko). It eases the process of defining a full navigation scenario and provides useful high-level functions, methods & syntactic sugar for doing common tasks such as:
-
-- defining & ordering browsing navigation steps
-- filling & submitting forms
-- clicking & following links
-- capturing screenshots of a page (or part of it)
-- testing remote DOM
-- logging events
-- downloading resources, including binary ones
-- writing functional test suites, saving results as JUnit XML
-- scraping Web contents
-
-Prerequisites
-
-- PhantomJS 1.9.1 or greater. Please read the installation instructions for PhantomJS
-- Python 2.6 or greater for casperjs in the bin/ directory
-
-下载解压缩，配置到PATH路径中即可。
-
-测试安装
-
-    phantomjs --version
-    casperjs
-如果执行‘casperjs'命令时报错
-
-```
-Couldn't find nor compute phantom.casperPath, exiting.
-```
-问题原因是phantomjs2更改了casperjs所调用的接口.[http://qnalist.com/questions/5858081/casperjs-phantomjs-2-released-but-it-breaks-casperjs](http://qnalist.com/questions/5858081/casperjs-phantomjs-2-released-but-it-breaks-casperjs)
-
-To resolve this error , you need to insert following lines in bootsrap.js in your bin directory of casperjs .[how-to-install-casperjs-on-windows](http://www.javaroots.com/2015/03/how-to-install-casperjs-on-windows.html)
-
-```javascript
-var system = require('system');
-var argsdeprecated = system.args;
-argsdeprecated.shift();
-phantom.args = argsdeprecated; 
-```
-
-Now , try to run again , and you will not see this error . 
-
-
-## Node.js
-[Node.js](https://nodejs.org/en/) is a JavaScript runtime built on Chrome's V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient. Node.js' package ecosystem, npm, is the largest ecosystem of open source libraries in the world.
-
-从Node.js官网下载安装包，下载之后点击安装即可。安装成功后，会提示：
-
-```
-Node.js was installed at
-
-   /usr/local/bin/node
-
-npm was installed at
-
-   /usr/local/bin/npm
-
-Make sure that /usr/local/bin is in your $PATH.
-```
-
 # 常用网址
 
 - [google的镜像站](http://guge.suanfazu.com)
@@ -574,7 +416,7 @@ Make sure that /usr/local/bin is in your $PATH.
 
 ## macdown
 
-[MacDown](http://macdown.uranusjr.com) is an open source Markdown editor for OS X, released under the MIT License. It is heavily influenced by Chen Luo’s Mou. 
+[MacDown](http://macdown.uranusjr.com) is an open source Markdown editor for OS X, released under the MIT License. It is heavily influenced by Chen Luo’s Mou.
 
 ```shell
 brew cask install macdown
@@ -627,8 +469,10 @@ cd jadx
 新建 ~/.bash_profile，在其中加载一次.bashrc
 
 ```shell
-if [ "${BASH-no}" != "no" ]; then  
-    [ -r ~/.bashrc ] && . ~/.bashrc  
+if [ "${BASH-no}" != "no" ]; then
+    [ -r ~/.bashrc ] && . ~/.bashrc
 fi
 ```
 
+参考
+- [](https://my.oschina.net/shede333/blog/470377)

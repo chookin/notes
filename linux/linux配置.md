@@ -160,10 +160,10 @@ route del -net 10.1.0.0 netmask 255.255.255.0 dev eth0
 
 1.进行ping扫描，打印出对扫描做出响应的主机　
 
-nmap -sP 192.168.1.0/24　　
+nmap -sP 192.168.1.0/24
 2.使用UDP ping探测主机
 
-nmap -PU 192.168.1.0/24　　
+nmap -PU 192.168.1.0/24
 3.使用频率最高的扫描选项（SYN扫描，又称为半开放扫描）执行得很快
 
 nmap -sS 192.168.1.0/24
@@ -212,6 +212,8 @@ route add default gw 192.168.110.103
 -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 # open to sub network
 -A INPUT -s 192.168.110.0/24 -p tcp -j ACCEPT
+-A INPUT -s 172.31.167.0/24 -p tcp -j ACCEPT
+-A INPUT -s 117.136.183.0/24 -p tcp -j ACCEPT
 # accept loop access
 -A INPUT -s 127.0.0.1 -d 127.0.0.1 -j ACCEPT
 # open port 22

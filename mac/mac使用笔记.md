@@ -1,9 +1,15 @@
 设置root初始密码,以管理员账户执行如下命令
+
 ```shell
 sudo passwd root
 ```
 
 # 基本操作
+
+## 配置开机自启动
+- 点击苹果电脑桌面左上角的小苹果图标，打开系统偏好设置窗口；
+- 窗口左下角打开用户与群组；
+- 在进入的新窗口中，左侧需要需要用户，右侧标签页选择登录项，如果你想取消某个应用程序开机启动，只需要选中他，然后点下面的减号。
 
 ## 权限
 
@@ -51,6 +57,32 @@ DS_Store是Mac OS保存文件夹的自定义属性的隐藏文件，如文件的
 
 /Volumes/
 
+### 文件检索
+
+mdfind 是 Spotlight 的命令行
+
+```shell
+mdfind -name [target_file_name_part1] [target_file_name_part2] -onlyin [target_dir]
+```
+
+由于索引的限制，`mdfind`搜索对象不支持正则表达式，不过这几个应该够用：
+
+```
+mdfind ''str1 str2" 表示str1和str2同时出现
+
+mdfind "str1|str2" 表示str1和str2出现一个
+
+mdfind "str1-str2 表示出现str1但不出现str2
+```
+
+一步到位的执行命令
+
+```shell
+mdfind -name keepalived doc | xargs open
+```
+
+[个不可不知的Mac OS X专用命令行工具](https://segmentfault.com/a/1190000000509514)
+
 ## 网络
 
 ### 翻墙
@@ -70,7 +102,7 @@ https://github.com/racaljk/hosts/blob/master/hosts#L2
 把聊天记录的QQ文件夹整个复制替换新电脑里的，打开QQ后一切都过来了。mac中的路径为：
 
     ~/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/
-## iZip unarchiver 
+## iZip unarchiver
 
 rar解压缩软件。app store安装。
 
@@ -124,9 +156,9 @@ iconv有如下选项可用:
 
     -f, --from-code=名称 原始文本编码
     -t, --to-code=名称 输出编码
-    
+
     -l, --list 列举所有已知的字符集
-    
+
     -c 从输出中忽略无效的字符
     -o, --output=FILE 输出文件
     -s, --silent 关闭警告
@@ -165,6 +197,8 @@ win7密钥 KH2J9-PC326-T44D4-39H6V-TVPBY
         ▲直接按“Shift＋Command＋4“快捷键组合，出现十字架的坐标图标；
         ▲拖动坐标图标，选取任意区域后释放鼠标，图片会自动保存在桌面。
     dock在多屏幕间移动 想要在哪个屏幕使用dock，就在这个屏幕把鼠标移动到最底部即可。
+    du -sm * | sort -n //统计当前目录大小 并安大小 排序
+
 # note
 不好用的软件
 foxmail
@@ -197,6 +231,3 @@ SK3-3539-1641-8881-0373-1208
 # 常用网站
 
 - [pc6下载站](http://www.pc6.com/mac/soft/)
-
-
-

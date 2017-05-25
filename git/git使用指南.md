@@ -1,4 +1,4 @@
-[TOC]
+attrs.xml[TOC]
 
 # 简介
 
@@ -42,6 +42,20 @@ Git是目前世界上被最广泛使用的现代软件版本管理系统。Git�
 如果是远端服务器上的仓库，你的命令会是这个样子： `git clone username@host:/path/to/repository` （通过SSH） 或者： `git clone https:/path/to/repository.git` （通过https）
 
 比如说`git clone https://github.com/geeeeeeeeek/git-recipes.git`可以将git教程clone到你指定的目录。
+
+获取指定commit
+
+```shell
+$ git clone $URL
+$ cd $PROJECT_NAME
+$ git reset --hard $SHA1
+```
+
+To again go back to the most recent commit
+
+```shell
+$ git pull
+```
 
 ## 创建新仓库
 
@@ -402,6 +416,24 @@ git checkout <commit> <file>
 
 # 示例
 git checkout 9c85921cab12cd06689983bf42e7d50a8db2d4ba app/src/
+```
+
+### 移除未监视的文件untracked files
+
+```shell
+# 删除 untracked files
+git clean -f
+ 
+# 连 untracked 的目录也一起删掉
+git clean -fd
+ 
+# 连 gitignore 的untrack 文件/目录也一起删掉 （慎用，一般这个是用来删掉编译出来的 .o之类的文件用的）
+git clean -xfd
+ 
+# 在用上述 git clean 前，墙裂建议加上 -n 参数来先看看会删掉哪些文件，防止重要文件被误删
+git clean -nxfd
+git clean -nf
+git clean -nfd
 ```
 
 ### git revert撤销已提交的commit

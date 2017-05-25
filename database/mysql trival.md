@@ -51,6 +51,7 @@ public interface DataSource  extends CommonDataSource,Wrapper {
 ```
 
 DataSource 接口定义了2个方法，都是获取数据库连接。我们在看下AbstractRoutingDataSource 如何实现了DataSource接口：
+
 ```java
 public Connection getConnection() throws SQLException {
     return determineTargetDataSource().getConnection();

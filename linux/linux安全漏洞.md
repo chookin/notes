@@ -11,6 +11,10 @@ yum install -y gcc zlib-devel openssl-devel
 OpenSSH_6.9p1, OpenSSL 1.0.1e-fIPs 11 Feb 2013
 ```
 
+```shell
+wget https://mirrors.evowise.com/pub/OpenBSD/OpenSSH/portable/openssh-7.5p1.tar.gz
+```
+
 
 ## 幽灵(Ghost)漏洞CVE-201500235
 

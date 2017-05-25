@@ -3,13 +3,15 @@
 
 lftp 用户名:密码@ftp地址:端口
 基本命令：
-```shell
+
+```sh
 ls .
 put file
 rm file
 ```
 
 # ftp连接非默认端口的
+
 ```
 ftp
 ftp> open 127.0.0.1 2000
@@ -25,11 +27,13 @@ ftp> user
 ```
 
 # 搭建ftp服务器
+
 采用vsftp创建虚拟账户来解决多用户共享目录的问题。
 
 ## 安装
 检查vsftpd是否安装 `ps -ef |grep vsftpd`
 若未安装，安装之
+
 ```shell
 yum install vsftpd ftp lftp -y
 ```
@@ -62,12 +66,14 @@ chmod 600 /etc/vsftpd/vu_list.db
 编辑文件`/etc/pam.d/vsftpd`，添加以下内容到文件开头处。
 
 - 32位系统添加：
+
 ```
 auth       sufficient     /lib/security/pam_userdb.so     db=/etc/vsftpd/vu_list
 account    sufficient     /lib/security/pam_userdb.so     db=/etc/vsftpd/vu_list
 ```
 
 - 64位系统添加：
+
 ```
 auth       sufficient     /lib64/security/pam_userdb.so   db=/etc/vsftpd/vu_list
 account    sufficient     /lib64/security/pam_userdb.so   db=/etc/vsftpd/vu_list
@@ -82,6 +88,7 @@ account    sufficient     /lib64/security/pam_userdb.so   db=/etc/vsftpd/vu_list
 查看os版本的命令`uname -a`
 
 添加后的示例：
+
 ```shell
 $ cat /etc/pam.d/vsftpd
 #%PAM-1.0
@@ -97,6 +104,7 @@ session    include      password-auth
 ```
 
 ## 创建虚拟用户配置文件
+
 ```shell
 #创建虚拟用户liangyudong的配置文件
 mydir=/etc/vsftpd/conf
@@ -162,7 +170,7 @@ pam_service_name=vsftp
 user_config_dir=/etc/vsftpd/vconf
 ```
 
-对于chroot_local_user与chroot_list_enable的组合效果，可以参考下表：
+对于chroot_local_user与chroot_list_enable的组合效果，可以参考：
 
 chroot_list_enable=YES chroot_local_user=YES
 1. 所有用户都被限制在其主目录下
@@ -180,9 +188,36 @@ chroot_list_enable=NO chroot_local_user=NO
 1. 所有用户都不被限制其主目录下
 2. 不使用chroot_list_file指定的用户列表，没有任何“例外”用户
 
+
+## 修改端口
+
+1.在vsftpd.conf文件中增加的配置：
+
+```shell
+listen_port=21021
+pasv_enable=YES
+pasv_min_port=6000
+pasv_max_port=6100
+```
+   
+2.在防火墙里增加了：
+
+```
+-A INPUT -p tcp -m tcp --dport 6000:6100 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 21021 -j ACCEPT
+```
+
+3.修改/etc/services
+
+```
+ftp             21021/tcp
+ftp             21021/udp          fsp fspd
+```
+
 ##其他 配置
 
 配置开机自启动
+
 ```
 chkconfig --level 35 vsftpd on
 ```
@@ -190,16 +225,19 @@ chkconfig --level 35 vsftpd on
 配置防火墙
 
 - 编辑`/etc/sysconfig/iptables`,在最终的LOG和DROP行之前添加如下规则：
+
 ```
 -A INPUT -p tcp -m tcp --dport 21 -j ACCEPT
 ```
 
 - 编辑`/etc/sysconfig/iptables-config`，确保FTP connection tracking module存在.若没配置，那么当使用虚拟ftp用户登录时，将无法连接。
+
 ```
 IPTABLES_MODULES="ip_conntrack_ftp"
 ```
 
 - 保存更改，重启防火墙
+
 ```
 service iptables restart
 ```
@@ -215,6 +253,7 @@ service iptables restart
 service vsftpd start
 
 ## 测试
+
 ```shell
 lftp liangyudong:C16mri_Ftp_lyd_MkJ@lab170:21
 lftp liangyudong@1ab170:~> ls .
@@ -224,6 +263,7 @@ lftp liangyudong@1ab170:~> ls .
 
 - 530 Login incorrect.
 查看`/var/log/secure`日志：
+
 ```
 Jun  8 22:34:27 localhost vsftpd[140750]: pam_unix(vsftpd:auth): check pass; user unknown
 Jun  8 22:34:27 localhost vsftpd[140750]: pam_unix(vsftpd:auth): authentication failure; logname= uid=0 euid=0 tty=ftp ruser=liangyudong rhost=223.69.29.173
