@@ -119,22 +119,23 @@ Shell函数返回值，常用的两种方式：return，echo
 - return 语句
 
 shell函数的返回值，可以和其他语言的返回值一样，通过return语句返回。
-```shell
-#!/bin/sh  
-function test()  
-{  
-    echo "arg1 = $1"  
-    if [ $1 = "1" ] ;then  
-        return 1  
-    else  
-        return 0  
-    fi  
-} 
 
-echo   
-echo "test 1"  
-test 1  
-echo $?         # print return result   
+```shell
+#!/bin/sh
+function test()
+{
+    echo "arg1 = $1"
+    if [ $1 = "1" ] ;then
+        return 1
+    else
+        return 0
+    fi
+}
+
+echo
+echo "test 1"
+test 1
+echo $?         # print return result
 ```
 
 - echo 返回值
@@ -142,14 +143,14 @@ echo $?         # print return result
 函数的返回值有一个非常安全的返回方式，即通过输出到标准输出返回。因为子进程会继承父进程的标准输出，因此，子进程的输出也就直接反应到父进程。
 
 ```shell
-function testFunc()  
-{  
-    local_result='local value'  
-    echo $local_result  
-}  
-  
-result=$(testFunc)  
-echo $result  
+function testFunc()
+{
+    local_result='local value'
+    echo $local_result
+}
+
+result=$(testFunc)
+echo $result
 ```
 
 ## 1>/dev/null 2>&1的含义
@@ -188,12 +189,14 @@ wom
 ```
 
 特殊用法：
+
 ```sql
 : << COMMENTBLOCK
    shell脚本代码段
 COMMENTBLOCK
 ```
 用来注释整段脚本代码。 : 是shell中的空语句。
+
 ```sql
 echo start
 :<<COMMENTBLOCK
@@ -204,8 +207,9 @@ COMMENTBLOCK
 echo end
 ```
 这段脚本执行时，中间部分不会被执行：
- 
+
 代码示例:
+
 ```sql
 $ sh eof.sh
 start

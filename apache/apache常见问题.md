@@ -1,5 +1,59 @@
 # 常见问题
 
+apache的错误日志，默认配置是`ErrorLog "logs/error_log"`，但是具体某个监听具有自己的日志文件，例如：
+
+```shell
+Listen 80
+NameVirtualHost *:80
+<VirtualHost *:80>
+DocumentRoot "/home/work/www/admonitor/webapp"
+ServerName admonitor.cm-analysis.com
+KeepAlive On
+RewriteEngine on
+CustomLog "|/home/work/local/apache/bin/rotatelogs -l /home/work/local/apache/logs/%Y%m%d%H-admonitor.log 3600" combined
+ErrorLog "|/home/work/local/apache/bin/rotatelogs -l /home/work/local/apache/logs/%Y%m%d-admonitor-error.log 86400"
+ServerSignature Off
+SetEnv APPLICATION_ENV "production"
+
+<Directory "/home/work/www/admonitor/webapp">
+    Options FollowSymLinks  -Indexes -MultiViews
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+</Directory>
+</VirtualHost>
+
+<IfModule log_config_module>
+    #
+    # The following directives define some format nicknames for use with
+    # a CustomLog directive (see below).
+    #
+    LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %D" combined
+    LogFormat "%h %l %u %t \"%r\" %>s %b" common
+
+    <IfModule logio_module>
+      # You need to enable mod_logio.c to use %I and %O
+      LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %I %O %D" combinedio
+    </IfModule>
+
+    #
+    # The location and format of the access logfile (Common Logfile Format).
+    # If you do not define any access logfiles within a <VirtualHost>
+    # container, they will be logged here.  Contrariwise, if you *do*
+    # define per-<VirtualHost> access logfiles, transactions will be
+    # logged therein and *not* in this file.
+    #
+    CustomLog "logs/access_log" common
+
+    #
+    # If you prefer a logfile with access, agent, and referer information
+    # (Combined Logfile Format) you can use the following directive.
+    #
+    #CustomLog "logs/access_log" combined
+</IfModule>
+```
+
+
 1，启动报错
 
 >  undefined symbol: apr_array_clear
@@ -42,7 +96,14 @@ Options +FollowSymLinks  -Indexes -MultiViews
 AH01630: client denied by server configuration: /home/zhuyin/www/admonitor/webapp/
 ```
 
-问题原因是apache的权限规则发生了变化。
+权限问题。请监测默认的网页资源是否放开了读权限。
+例如，apache以`Daemon`用户运行，而默认资源文件`index.html`没有放开读权限。
+
+```
+-rw-r-----  1 work work    6 May 26 18:16 index.html
+```
+放开权限，`chmod 644 index.html`
+若非该种情况，可能是`Selinux`的问题，或者是apache的权限规则发生了变化。
 
 > The new directive is Require:
 >
@@ -90,3 +151,15 @@ echo 'hello' > /home/zhuyin/www/admonitor/webapp/index.html
 8，启动报错`MaxClients exceeds ServerLimit value…see the ServerLimit directive`
 
 配置`ServerLimit`的值即可。
+
+9，访问卡住，如下示例。
+
+```
+$ wget localhost:8001
+--2017-05-26 18:22:06--  http://localhost:8001/
+Resolving localhost... ::1, 127.0.0.1
+Connecting to localhost|::1|:8001... connected.
+HTTP request sent, awaiting response...
+```
+
+问题原因：业务逻辑存在问题。

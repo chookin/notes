@@ -1,5 +1,6 @@
 # yum
 安装epel
+
 ```shell
 yum install -y http://mirrors.yun-idc.com/epel/6/x86_64/epel-release-6-8.noarch.rpm
 ```
@@ -77,7 +78,7 @@ http://rhnproxy1.uvm.edu/pub/redhat/rhel6-x86_64/isos/
 
 ## 其他源
 
-centos5 
+centos5
 http://centos.ustc.edu.cn/centos/5/updates/x86_64/
 
 rhel5 的iso

@@ -63,15 +63,11 @@ Using config: /home/hadoop/hbase-installed/zookeeper-3.4.5/bin/../conf/zoo.cfg
 Mode: follower
 ```
 
-
-
 ## 连接
 
 ```shell
 bin/zkCli.sh -server zoo1:2181,zoo2:2181,zoo3:2181
 ```
-
-
 
 ```shell
 ls /
@@ -80,8 +76,6 @@ create /data "data"
 # 删除Znode节点
 delete /data
 ```
-
-
 
 # 附注
 

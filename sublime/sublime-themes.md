@@ -4,21 +4,6 @@
 
 http://www.jianshu.com/p/73304373539f?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io
 
-调整侧边栏字体：
-`Browse Packages...` -> 打开文件夹 `User`，打开文件`Material-Theme.sublime-theme`，在文件中查找 `sidebar_label`,添加`font.size`属性。
-
-```js
-{
-    "class": "sidebar_label",
-    "font.size":14,
-    "color": [
-        219,
-        220,
-        214
-    ]
-},
-```
-
 ## Colorsublime
 它允许您在Sublime Text中立即更改当前的颜色方案。
 

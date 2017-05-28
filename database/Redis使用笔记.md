@@ -114,7 +114,7 @@ redis的配置参数说明如下。一般只需配置`daemonize`,`port`,`dir`，
 
 ### 配置参数说明
 
-```shell
+```
 daemonize yes  #---默认值no，该参数用于定制redis服务是否以守护模式运行。---
 pidfile /usr/local/webserver/redis/run/redis.pid  #默认值/var/run/redis.pid，指定redis服务的进程号文件路径，以守护模式运行时需要配置本参数；
 port 6379   #默认值6379，指定redis服务的端口
@@ -253,7 +253,7 @@ redis-cli -p 6380 save
 
 ## 查询
 
-```shell
+```
 # 查看所有keys
 redis-cli --raw KEYS "*"
 # 查看名字以”pw”开头的keys
@@ -274,5 +274,3 @@ redis-cli KEYS "youku*" | xargs -d \\n redis-cli DEL
 # 删除所有数据库中的key
 127.0.0.1:6379> flushall
 ```
-
-

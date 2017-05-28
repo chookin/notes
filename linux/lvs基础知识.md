@@ -121,7 +121,7 @@ LVS-DR 模型的特性：
 
 和 DR 模型类似，Realserver 都配有不可见的 VIP，Realserver 的 RIP 是公网地址，且可能和 DIP 不再同一网络中。当请求到达 Director 后，Director 不修改请求报文的源 IP 和目标 IP 地址，而是使用 IP 隧道技术，使用 DIP 作为源 IP，RIP 作为目标 IP 再次封装此请求报文，转发至 RIP 的 Realserver 上，Realserver 解析报文后仍然使用 VIP 作为源地址响应客户端。
 
-LVS-TUN 的特性： 
+LVS-TUN 的特性：
 
 - 集群节点和可以跨越 Internet
 - RIP，DIP，VIP 都是公网地址
@@ -134,14 +134,14 @@ LVS-TUN 的特性：
 
 当 LVS 接受到一个客户端对集群服务的请求后，它需要进行决策将请求调度至某一台后端主机进行响应。LVS 的调度算法共有 10 种，按类别可以分为动态和静态两种类型。
 
-## 静态调度算法Fixed Scheduling Method 
+## 静态调度算法Fixed Scheduling Method
 
 - rr：round robin，轮询，即简单在各主机间轮流调度。假設所有服務器處理性能均相同時使用，當所有 Server 的性能不一，request 服務時間變化比較大時，輪叫調度算法容易導致服務器間的負載不平衡。
 - wrr：weighted round robin，加权轮询，根据各主机的权重进行轮询
 - sh：source hash，源地址哈希，对客户端地址进行哈希计算，保存在 Director 的哈希表中，在一段时间内，同一个客户端 IP 地址的请求会被调度至相同的 Realserver。sh 算法的目的是实现 session affinity（会话绑定），但是它也在一定程度上损害了负载均衡的效果。如果集群本身有 session sharing 机制或者没有 session 信息，那么不需要使用 sh 算法
 - dh：destination hash，和 sh 类似，dh 将请求的目标地址进行哈希，将相同 IP 的请求发送至同一主机，dh 机制的目的是，当 Realserver 为透明代理缓存服务器时，提高缓存的命中率。
 
-## 动态调度算法Dynamic Scheduling Method 
+## 动态调度算法Dynamic Scheduling Method
 
 动态调度算法在调度时，会根据后端 Realserver 的负载状态来决定调度选择，Realserver 的负载状态通常由活动链接（active），非活动链接（inactive）和权重来计算。
 
@@ -264,7 +264,7 @@ arptables：红帽系统上提供的程序
 root密码  work密码
 Zy@123456   Cmri@Ad#2016_CmcC
 
-说明：具有公网ip的虚机是禁止root的ssh登录的，需要先登录work用户，再切到root用户            
+说明：具有公网ip的虚机是禁止root的ssh登录的，需要先登录work用户，再切到root用户
 
 ## 职责分配
 
@@ -338,33 +338,6 @@ yum install httpd
 service httpd start
 ```
 
-若访问拒绝
-
-```
-[root@ad-manage-test2 ~]# wget localhost
---2016-11-02 10:58:25--  http://localhost/
-Resolving localhost... ::1, 127.0.0.1
-Connecting to localhost|::1|:80... connected.
-HTTP request sent, awaiting response... 403 Forbidden
-2016-11-02 10:58:25 ERROR 403: Forbidden.
-```
-
-分析日志
-
-```
-
-[root@ad-manage-test2 ~]# tail /var/log/httpd/error_log -n 1
-[Wed Nov 02 10:58:25 2016] [error] [client ::1] Directory index forbidden by Options directive: /var/www/html/
-```
-
-解决办法：
-
-```shell
-echo 'hello' > /var/www/html/index.html
-chown apache.apache /var/www/html/index.html
-service httpd restart
-```
-
 ## Director
 
 若不存在则安装ipvsadm
@@ -425,7 +398,7 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 在Director上访问
 
 ```shell
-[root@ad-manage-test1 ~]# wget 10.1.0.102                       
+[root@ad-manage-test1 ~]# wget 10.1.0.102
 --2016-11-02 11:04:55--  http://10.1.0.102/
 Connecting to 10.1.0.102:80... failed: Connection timed out.
 Retrying.

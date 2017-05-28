@@ -89,12 +89,12 @@
 }]
 ```
 
-## 设置sidebar字体
+## 调整sidebar字体
 两种办法：
 
 1，Navigate to Sublime Text -> Preferences -> Browse Packages
 Open the User directory
-Create a file named Default.sublime-theme (if you're using the default theme, otherwise use the theme name, e.g. Material-Theme-Darker.sublime-theme) with the following content (modify font.size as required):
+Create a file named Default.sublime-theme (if you're using the default theme, otherwise use the theme name, e.g. Material-Theme-Darker.sublime-theme) with the following content (modify `font.size` as required):
 
 ```js
 [
@@ -113,3 +113,10 @@ Create a file named Default.sublime-theme (if you're using the default theme, ot
 "dpi_scale": 1.10
 ```
 
+## 开启vim模式
+
+在菜单栏中： Preferences -> Setting - User 即可打开配置文件进行编辑，将 `ignored_packages` 项的`"Vintage"`移除。
+
+再按 Esc 退出编辑模式，即进入了 Vim 模式。
+
+参考：[【前端学习】sublime开启vim模式](http://www.cnblogs.com/flipped/p/5204139.html)

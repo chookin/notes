@@ -16,7 +16,7 @@ require()语句在遇到包含文件不存在，或是出错的时候，就停�
 include()在遇到包含文件不存在的时候，只生成警告，并且脚本会继续。
 换句话说，如果你想在丢失文件时停止处理页面，那就别犹豫了，用require()吧。include()就不是这样，脚本会继续运行。
 
-### include_once和require_once
+### include_once 和 require_once
 
 include_once()和require_once()一样，应该用于在脚本执行期间同一个文件有可能被包含超过一次的情况下，想确保它只被包含一次以避免函数重定义，变量重新赋值等问题。这就是include_once()和require_once()与include()和require()的主要区别。
 require_once()、include_once()运行效率要比require()和include()低，因为前两者需要判断寻找引入的文件是否已经存在。
@@ -46,6 +46,8 @@ Yii is a high-performance PHP framework best for developing Web 2.0 applications
 Yii comes with rich features: MVC, DAO/ActiveRecord, I18N/L10N, caching, authentication and role-based access control, scaffolding, testing, etc. It can reduce your development time significantly.
 
 ## PHP应用性能优化
+### 代码层级
+
 ### 使用缓存技术
 
 Memcache特别适用于减少数据库负载，而像APC或OPcache这样的字节码缓存引擎在脚本编译时可节省执行时间。
@@ -55,7 +57,6 @@ Memcache特别适用于减少数据库负载，而像APC或OPcache这样的字�
 OPCache是一个将编译好的代码保存到内存中的扩展。因此，下一次代码执行时，PHP将检查时间戳和文件大小，以确定源文件是否已更改。如果没有，则直接运行缓存的代码。
 
 ## 性能测试
-
 
 
 # 参考

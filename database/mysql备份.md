@@ -12,6 +12,7 @@ Other Features include:
 我们要用到的是automysqlbackup.conf文件：
 
 文件里有一些基本的配置信息，比如连接mysql server的用户名、密码、IP地址神马的。
+
 ```shell
 # Username to access the MySQL server e.g. dbuser
 CONFIG_mysql_dump_username='root'
@@ -27,6 +28,7 @@ CONFIG_mysql_dump_port=3306
 ```
 
 继续，有个重要的配置，就是backup存放的地方咯！
+
 ```shell
 # Backup directory location e.g /backups
 CONFIG_backup_dir='/var/backup/db'

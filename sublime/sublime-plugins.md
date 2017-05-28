@@ -38,6 +38,7 @@ import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc5
 
 # 使用BracketHighlighter高亮括号配对
 高亮括号配对在查找时很方便
+
 # auto-save自动保存修改
 这个插件在1秒没有按键时会自动保存。个人感觉太频繁，可根据需求选择
 也可以启动sublime text的自动保存功能：
@@ -87,17 +88,22 @@ https://packagecontrol.io/packages/WordCount
 
 # AutoFileName
 自动补全文件路径，非常方便。
+
 # DocBlockr
 DocBlockr会成为你编写代码文档的有效工具。当输入/**并且按下Tab键的时候，这个插件会自动解析任何一个函数并且为你准备好合适的模板
-# Brogrammer主题
-Brogrammer主题可使得标题栏、侧边栏都是酷酷的黑色，不错！安装主题的方法与安装插件一致，输入主题名字 Brogrammer 即可完成安装.
-```javascript
-"theme": "Brogrammer.sublime-theme",
-"color_scheme": "Packages/Theme - Brogrammer/brogrammer.tmTheme"
-```
 
 # ConvertToUTF8
 需要装插件Codecs33.
+
+# [TodoReview](https://github.com/jonathandelgado/SublimeTodoReview)
+基本使用方法
+
+安装 TodoReview，支持sublime text 3。
+在文件中，使用"`TODO:`"创建标记。
+
+Command + Shift + p 调出命令窗口，输入todo，选择 TodoReview:Open Files。
+n键移动至下一个，p上一个。回车直接跳转到对应的文件并定位到该行。
+可以检测到的pattern有: TODO, NOTE, FIXME, CHANGED。
 
 # 插入当前时间
 想在代码注释时插入当前时间发现Sublime Text 3不支持，于是编写插件实现插入时间功能

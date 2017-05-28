@@ -121,12 +121,12 @@ Notice, full text replacement command of vi(如果包含字符'/'，那么需要
 # 常见问题
 1）mysql编译出错
 ```
--- Could NOT find Curses (missing:  CURSES_LIBRARY CURSES_INCLUDE_PATH) 
+-- Could NOT find Curses (missing:  CURSES_LIBRARY CURSES_INCLUDE_PATH)
 CMake Error at cmake/readline.cmake:83 (MESSAGE):
   Curses library not found.  Please install appropriate package,
 ```
 
-解决办法：The error may be from cache file. Delete CMakeCache.txt, then try again. http://stackoverflow.com/questions/8192287/curses-library-not-found 
+解决办法：The error may be from cache file. Delete CMakeCache.txt, then try again. http://stackoverflow.com/questions/8192287/curses-library-not-found
 
 2）mysql编译时，明明指定的路径是/home/work/local/mysql，为什么启动mysql时，却提示没有权限建立/var/lib/mysql?
 
@@ -134,16 +134,18 @@ CMake Error at cmake/readline.cmake:83 (MESSAGE):
 
 解决方案：启动时指定配置文件，例如
 
-```
+```shell
 bin/mysqld_safe --defaults-file=etc/my.cnf &
 ```
 
 3) mysql本地连接报错
+
 ```
-ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' 
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock'
 ```
 问题原因，所连接的数据库为本机数据库，然而mysql命令调用的配置文件不是所连接数据库的。解决办法，指定socket参数，例如：
+
 ```
-mysql -u admin -p -S /home/zhuyin/local/mysql/var/mysql.sock 
+mysql -u admin -p -S /home/zhuyin/local/mysql/var/mysql.sock
 ```
 

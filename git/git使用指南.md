@@ -1,4 +1,4 @@
-attrs.xml[TOC]
+[TOC]
 
 # 简介
 
@@ -10,9 +10,25 @@ Git是目前世界上被最广泛使用的现代软件版本管理系统。Git�
 - Git可以现在本地执行，可以在本地进行commit，而SVN每次commit都必须是提交到主机；
 - Git能保证数据完整性，Git中所有数据在存储前都计算校验和，然后以校验来引用,所以你在传送过程中丢失文件，Git都知道。
 
+## Git的工作区、暂存区和版本区
+
+![git-stage](res/git-stage.png)
+
+在这个图中，我们可以看到部分 Git 命令是如何影响工作区和暂存区（stage, index）的。
+
+- 图中左侧为工作区，右侧为版本库。在版本库中标记为 "index" 的区域是暂存区（stage, index），标记为 "master" 的是 master 分支所代表的目录树。
+- 图中我们可以看出此时 "HEAD" 实际是指向 master 分支的一个“游标”。所以图示的命令中出现 HEAD 的地方可以用 master 来替换。
+- 图中的 objects 标识的区域为 Git 的对象库，实际位于 ".git/objects" 目录下，我们会在后面的章节重点介绍。
+- 当对工作区修改（或新增）的文件执行 "git add" 命令时，暂存区的目录树被更新，同时工作区修改（或新增）的文件内容被写入到对象库中的一个新的对象中，而该对象的ID 被记录在暂存区的文件索引中。
+- 当执行提交操作（git commit）时，暂存区的目录树写到版本库（对象库）中，master 分支会做相应的更新。即 master 指向的目录树就是提交时暂存区的目录树。
+- 当执行 "git reset HEAD" 命令时，暂存区的目录树会被重写，被 master 分支指向的目录树所替换，但是工作区不受影响。
+- 当执行 "git rm --cached <file>" 命令时，会直接从暂存区删除文件，同时**也将该文件从版本管理中移除了**，工作区则不做出改变。
+- 当执行 "git checkout ." 或者 "git checkout -- <file>" 命令时，会用暂存区全部或指定的文件替换工作区的文件。这个操作很危险，会清除工作区中未添加到暂存区的改动。
+- 当执行 "git checkout HEAD ." 或者 "git checkout HEAD <file>" 命令时，会用 HEAD 指向的 master 分支中的全部或者部分文件替换暂存区和以及工作区中的文件。这个命令也是极具危险性的，因为不但会清除工作区中未提交的改动，也会清除暂存区中未提交的改 动。
+
 ## Git的状态
 
-本地仓库由 git 维护的三棵“树”组成。第一个是你的工作目录，它持有实际文件；第二个是暂存区或缓存区(Index)，它像个缓存区域，临时保存你的改动；最后是 HEAD，指向你最近一次提交后的结果。 
+本地仓库由 git 维护的三棵“树”组成。第一个是你的工作区，它持有实际文件；第二个是暂存区或缓存区(Index)，它像个缓存区域，临时保存你的改动；最后是 HEAD，指向你最近一次提交后的结果。
 
 三种状态:
 
@@ -66,7 +82,7 @@ $ git pull
 当新增文件时，使用如下命令把他们加入到暂存区：
 
 ```shell
-git add 
+git add
 ```
 
 使用如下命令以提交修改：
@@ -408,7 +424,11 @@ commit后面40个字的字符串是提交内容的SHA-1校验总和(checksum)。
 ### git checkout撤销未提交的修改
 
 ```shell
-# 用刚刚提交的覆盖
+# 撤销对工作区修改；这个命令是以最新的存储时间节点（add和commit）为参照，覆盖工作区对应文件file；这个命令改变的是工作区
+git checkout -- file
+
+# 用最新提交的文件覆盖
+# 用 HEAD 指向的 master 分支中的文件替换暂存区和以及工作区中的文件。不但会清除工作区中未提交的改动，也会清除暂存区中未提交的改动。
 git checkout head <file>
 
 # 用历史指定的commit去覆盖
@@ -418,28 +438,10 @@ git checkout <commit> <file>
 git checkout 9c85921cab12cd06689983bf42e7d50a8db2d4ba app/src/
 ```
 
-### 移除未监视的文件untracked files
-
-```shell
-# 删除 untracked files
-git clean -f
- 
-# 连 untracked 的目录也一起删掉
-git clean -fd
- 
-# 连 gitignore 的untrack 文件/目录也一起删掉 （慎用，一般这个是用来删掉编译出来的 .o之类的文件用的）
-git clean -xfd
- 
-# 在用上述 git clean 前，墙裂建议加上 -n 参数来先看看会删掉哪些文件，防止重要文件被误删
-git clean -nxfd
-git clean -nf
-git clean -nfd
-```
-
 ### git revert撤销已提交的commit
 
 ```shell
-# 撤销刚刚的提交
+# 撤销刚刚的提交，暂存区的目录树会被重写，被 master 分支指向的目录树所替换，但是工作区不受影响
 git revert HEAD
 
 # 撤销历史的某个commit
@@ -456,12 +458,33 @@ git reset
 # 从暂存区移除特定文件，但不改变工作目录
 git reset <file>
 
+# 清空add命令向暂存区提交的关于file文件的修改（Ustage）；这个命令仅改变暂存区，并不改变工作区，这意味着在无任何其他操作的情况下，工作区中的实际文件同该命令运行之前无任何变化
+git reset HEAD -- file
+
 # 将当前分支的末端移到<commit>
 # 移除那个提交及其之后的所有提交，慎用
 git reset <commit>
 
 # --hard 标记告诉Git还要重写所有工作目录中的更改。换句话说：它清除了所有未提交的更改
 git reset --hard
+```
+
+### 移除未监视的文件untracked files
+
+```shell
+# 删除 untracked files
+git clean -f
+
+# 连 untracked 的目录也一起删掉
+git clean -fd
+
+# 连 gitignore 的untrack 文件/目录也一起删掉 （慎用，一般这个是用来删掉编译出来的 .o之类的文件用的）
+git clean -xfd
+
+# 在用上述 git clean 前，墙裂建议加上 -n 参数来先看看会删掉哪些文件，防止重要文件被误删
+git clean -nxfd
+git clean -nf
+git clean -nfd
 ```
 
 ## 删除文件
@@ -612,6 +635,12 @@ git checkout master
 ```
 
 ## 查看标签
+
+```shell
+# 查看当前分支
+$ git status
+On branch master
+```
 
 ```shell
 git tag # 查看当前分支下的标签

@@ -66,7 +66,7 @@ Or, if you don't want/need a background service you can just run:
 🍺  /usr/local/Cellar/httpd24/2.4.25: 214 files, 4.5MB, built in 3 minutes 4 seconds
 ```
 
-This is important because you will need that path in the next step. 
+This is important because you will need that path in the next step.
 
 ```shell
 sudo cp -v /usr/local/Cellar/httpd24/2.4.25/homebrew.mxcl.httpd24.plist /Library/LaunchDaemons
@@ -167,7 +167,7 @@ LoadModule php5_module    /usr/local/opt/php56/libexec/apache2/libphp5.so
 #LoadModule php7_module    /usr/local/opt/php71/libexec/apache2/libphp7.so
 ```
 
-This will tell Apache to use PHP 5.6 to handle PHP requests. 
+This will tell Apache to use PHP 5.6 to handle PHP requests.
 
 Also you must set the Directory Indexes for PHP explicitly, so search for this block:
 
@@ -245,11 +245,13 @@ Listen 8001
 
 说明，若要实现rewite，需要：
 1，apache配置文件中加载
+
 ```
 LoadModule rewrite_module libexec/mod_rewrite.so
 ```
 2，站点配置开启`AllowOverride`
 3，站点项目中创建`.htaccess`，内容示例
+
 ```
 <IfModule mod_rewrite.c>
   Options +FollowSymlinks
@@ -265,7 +267,7 @@ LoadModule rewrite_module libexec/mod_rewrite.so
 ```shell
 #
 # If you wish httpd to run as a different user or group, you must run
-# httpd as root initially and it will switch.  
+# httpd as root initially and it will switch.
 #
 # User/Group: The name (or #number) of the user/group to run httpd as.
 # It is usually good practice to create a dedicated user and group for
@@ -354,8 +356,8 @@ xdebug.dump.SESSION = * 
 xdebug.var_display_max_data = 4056 
 xdebug.var_display_max_depth = 5
 xdebug.remote_autostart=on
-xdebug.remote_enable=true    
-xdebug.remote_host=localhost/127.0.0.1 
+xdebug.remote_enable=true
+xdebug.remote_host=localhost/127.0.0.1
 xdebug.remote_port=9000
 xdebug.remote_handler=dbgp
 xdebug.idekey="PHPSTORM"
@@ -506,10 +508,10 @@ To resolve this error , you need to insert following lines in bootsrap.js in you
 var system = require('system');
 var argsdeprecated = system.args;
 argsdeprecated.shift();
-phantom.args = argsdeprecated; 
+phantom.args = argsdeprecated;
 ```
 
-Now , try to run again , and you will not see this error . 
+Now , try to run again , and you will not see this error .
 
 
 ## Node.js

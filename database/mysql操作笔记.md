@@ -12,7 +12,7 @@ bin/mysqld_safe  --defaults-file=etc/my.cnf &
 # 初始化root密码，需要mysql已启动
 bin/mysqladmin --defaults-file=etc/my.cnf -u root password
 # 修改root密码
-bin/mysqladmin --defaults-file=etc/my.cnf -u root -p password 
+bin/mysqladmin --defaults-file=etc/my.cnf -u root -p password
 
 # 停止mysql
 bin/mysqladmin --defaults-file=etc/my.cnf -uroot -p shutdown
@@ -49,12 +49,13 @@ mysql> flush privileges;
 
 ## 修改密码
 
-```
+```sql
 set password for 'root'@'localhost' =password('biT1G7KknSIMu3lw');
 ```
 或者
-```
-UPDATE mysql.user SET password = password ( 'biT1G7KknSIMu3lw' ) WHERE user = 'root' ; 
+
+```sql
+UPDATE mysql.user SET password = password ( 'biT1G7KknSIMu3lw' ) WHERE user = 'root' ;
 ```
 
 ## 查看权限
@@ -70,16 +71,19 @@ mysql> show grants for slave@lab51;
 
 ## 忘记密码
 在my.cnf 里面的[mysqld]下面加上一行：
+
 ```
 skip-grant-tables
 ```
 然后重启mysql服务，并执行
-```
+
+```sql
 mysql> update mysql.user set password = password ( 'new-password' ) WHERE user = 'root';
 ```
 随后，再把刚添加的“skip-grant-tables”给注释掉，最后重启msql，OK！
 
 问题：
+
 ```sql
 mysql> select user, host, password from mysql.user;
 ERROR 1054 (42S22): Unknown column 'password' in 'field list'
@@ -162,13 +166,14 @@ mysql> show binlog events;
 ```
 
 - 查看指定binlog文件的内容
-```
+
+```sql
 show binlog events in 'mysql-bin.000002';
 ```
 
 - 查看当前正在写入的binlog文件
 
-```
+```sql
 show master status\G
 ```
 
@@ -180,9 +185,9 @@ mysqlbinlog --no-defaults mysql-bin.000001 |less
 ```
 
 ## 常见问题
-1）mysqlbinlog查看日志的时候碰到了一个问题， 
+1）mysqlbinlog查看日志的时候碰到了一个问题，
 错误提示如下：
-/usr/local/mysql/bin/mysqlbinlog: unknown variable 'default-character-set=utf8' 
+/usr/local/mysql/bin/mysqlbinlog: unknown variable 'default-character-set=utf8'
 
 产生这个问题的原因是因为我在my.cnf中的client选项组中添加了
 default-character-set=utf8
@@ -248,8 +253,8 @@ LOAD DATA [LOW_PRIORITY | CONCURRENT] [LOCAL] INFILE 'file_name.txt' [REPLACE | 
 
 示例：
 
-    load data infile '/home/mark/data_update.txt' replace into table test FIELDS TERMINATED BY ',' (id,name) 
-​    
+    load data infile '/home/mark/data_update.txt' replace into table test FIELDS TERMINATED BY ',' (id,name)
+​
 
 # shell访问mysql并执行命令
 ```shell
@@ -348,7 +353,7 @@ Syntax:
 SHOW PROFILE [type [, type] ... ]
     [FOR QUERY n]
     [LIMIT row_count [OFFSET offset]]
- 
+
 type:
     ALL                --显示所有的开销信息
   | BLOCK IO           --显示块IO相关开销
@@ -358,7 +363,7 @@ type:
   | MEMORY             --显示内存相关开销信息
   | PAGE FAULTS        --显示页面错误相关开销信息
   | SOURCE             --显示和Source_function，Source_file，Source_line相关的开销信息
-  | SWAPS              --显示交换次数相关开销的信息 
+  | SWAPS              --显示交换次数相关开销的信息
 ```
 
 ## 开启porfiling
@@ -375,17 +380,17 @@ mysql> show variables like '%profil%';
 | profiling              | ON    |
 | profiling_history_size | 15    |
 +------------------------+-------+
---停止profile,可以设置profiling参数，或者在session退出之后,profiling会被自动关闭  
-mysql> set profiling=off;  
+--停止profile,可以设置profiling参数，或者在session退出之后,profiling会被自动关闭
+mysql> set profiling=off;
 ```
 
 ## 获取SQL语句的开销信息
 
 ```sql
 --发布SQL查询
-mysql> select count(*) from treenode; 
+mysql> select count(*) from treenode;
 -- 可以直接使用show profile来查看上一题sql语句的开销信息
-mysql> show profile; 
+mysql> show profile;
 +--------------------------------+----------+
 | Status                         | Duration |
 +--------------------------------+----------+
@@ -420,11 +425,11 @@ mysql> show profiles;
 |        2 | 0.00010325 | SELECT DATABASE()              |
 |        3 | 0.00013600 | select count(*) from treenode  |
 +----------+------------+--------------------------------+
---获取指定查询的开销  
+--获取指定查询的开销
 mysql> show profile for query 2;
---查看特定部分的开销，如下为CPU部分的开销  
-mysql show profile cpu for query 2 ; 
---同时查看不同资源开销  
+--查看特定部分的开销，如下为CPU部分的开销
+mysql show profile cpu for query 2 ;
+--同时查看不同资源开销
 mysql> show profile block io,cpu for query 2;
 --查看是否有报警
 mysql> show warnings;
@@ -454,7 +459,7 @@ mysql> show warnings;
 查看MySQL的当前最大连接数
 
 ```sql
-select VARIABLE_VALUE from information_schema.GLOBAL_VARIABLES where VARIABLE_NAME='MAX_CONNECTIONS'; 
+select VARIABLE_VALUE from information_schema.GLOBAL_VARIABLES where VARIABLE_NAME='MAX_CONNECTIONS';
 ```
 
 要彻底解决问题还是要修改my.cnf配置文件，这里使用VI来修改，输入命令：vi /usr/my.cnf 回车；打开文件后按“i”键进入编辑状态；

@@ -1,102 +1,3 @@
-# 安装subversion
-
-## 编译安装subversion
-
-http://subversion.apache.org/download.cgi#recommended-release
-
-### 安装apr及apr-utils
-
-http://apr.apache.org/download.cgi
-下载、编译、安装http://mirror.bit.edu.cn/apache//apr/apr-util-1.5.4.tar.gz
-
-```shell
-./configure --prefix=/usr/local/apr
-make & make install
-./configure --prefix=/usr/local/apr-util --with-apr=/usr/local/apr
-make & make install
-```
-
-### 安装serf
-
-Subversion 1.8中http客户端基于neon已经被移除，改用self。如果要支持http方式需要在安装svn前安装serf，安装serf推荐用serf-1.2.1
-
-```shell
-wget http://serf.googlecode.com/files/serf-1.2.1.tar.bz2 #serf-1.2.1.zip是win版有问题
-tar xjf serf-1.2.1.tar.bz2
-cd serf-1.2.1./configure --prefix=/usr/local/serf --with-apr=/usr/local/apache --with-apr-util=/usr/local/apache
-make && make install
-```
-
-### 安装svn
-
-```shell
-tar xzf subversion-1.8.1.tar.gz
-cd subversion-1.8.1./get-deps.sh
-./configure --prefix=/usr/local/subversion --with-apxs=/usr/local/apache/bin/apxs \
---with-apr=/usr/local/apache --with-apr-util=/usr/local/apache --with-zlib \
---with-openssl --enable-maintainer-mode --with-serf=/usr/local/serf --enable-mod-activation
-make && make install
-```
-
-### 检查是否安装成功
-
-安装成功会在`/usr/local/apache/conf/httpd.conf`自己加入下面2行
-
-```
-LoadModule dav_svn_module     /usr/local/subversion/libexec/mod_dav_svn.so
-LoadModule authz_svn_module   /usr/local/subversion/libexec/mod_authz_svn.so
-```
-
-检查svn是否支持http方式：
-
-```
-# svn --version
-svn, version 1.8.1 (r1503906)
-   compiled Aug  2 2013, 11:36:48 on x86_64-unknown-linux-gnu
-Copyright (C) 2013 The Apache Software Foundation.This software consists of contributions made by many people;
-see the NOTICE file for more information.Subversion is open source software, see http://subversion.apache.org/
-The following repository access (RA) modules are available:
-* ra_svn : Module for accessing a repository using the svn network protocol.
-  - with Cyrus SASL authentication
-  - handles 'svn' scheme
-* ra_local : Module for accessing a repository on local disk.
-  - handles 'file' scheme
-* ra_serf : Module for accessing a repository via WebDAV protocol using serf.
-  - handles 'http' scheme
-  - handles 'https' scheme
-```
-
-## 通过yum安装Subversion
-
-### 安装apache
-
-```shell
-yum install httpd
-```
-
-启动并配置开机自启动
-
-```shell
-service httpd start
-chkconfig httpd on
-```
-
-### 安装Subversion
-
-```shell
-yum install subversion mod_dav_svn
-```
-
-安装完毕后，在` /etc/httpd/module`下面生成两个关于 svn的mod.
-
-```
-ll modules/ | grep svn
--rwxr-xr-x 1 root root   12704 Apr 12  2012 mod_authz_svn.so
--rwxr-xr-x 1 root root  146928 Apr 12  2012 mod_dav_svn.so
-```
-
-在`/etc/httpd/conf.d/`文件下生成`subversion.conf`。
-
 # 项目示例
 
 ## 情景一 共用权限管理
@@ -369,6 +270,16 @@ You don't have permission to access /repos/admonitor on this server.
 - selinux启用了，在`/var/log/secure`日志中应有告警提示登录失败；
 - httpd.conf中没有放开权限，在apache的错位日志中应有拦截记录。
 
+2) `svn update`冲突。
+
+```
+Summary of conflicts:
+  Tree conflicts: 1
+Tree conflict on '东软开发成果-广告管理平台/管理平台/1.代码类/管理平台前端代码/Application'
+   > local dir edit, incoming replace with dir upon update
+Select: (r) mark resolved, (p) postpone, (q) quit resolution, (h) help:
+```
+
 ## 参考
 
 - [How to Setup SubVersion Server on CentOS, RHEL & Fedora](http://tecadmin.net/setup-subversion-server-on-centos/#)
@@ -409,10 +320,10 @@ svn revert -R .
 
 具体示例
 
-1、保证我们拿到的是最新代码： 
- svn update 
- 假设最新版本号是28。 
-2、然后找出要回滚的确切版本号： 
+1、保证我们拿到的是最新代码：
+ svn update
+ 假设最新版本号是28。
+2、然后找出要回滚的确切版本号：
  svn log [something]
  假设根据svn log日志查出要回滚的版本号是25，此处的something可以是文件、目录或整个项目
  如果想要更详细的了解情况，可以使用svn diff -r 28:25 [something]
@@ -422,7 +333,7 @@ svn revert -R .
    svn diff [something]
  发现正确无误，提交。
 4、提交回滚：
- svn commit -m "Revert revision from r28 to r25,because of ..." 
+ svn commit -m "Revert revision from r28 to r25,because of ..."
  提交后版本变成了29。
 
 ## 导入文件
@@ -538,7 +449,7 @@ svn diff -r r6453:r6452 src
 
 # 常见问题
 
-Q1: 
+Q1:
     svn: Could not use external editor to fetch log message; consider setting the $SVN_EDITOR environment variable or using the --message (-m) or --file (-F) options
     svn: None of the environment variables SVN_EDITOR, VISUAL or EDITOR are set, and no 'editor-cmd' run-time configuration option was found
 问题原因：
@@ -558,7 +469,7 @@ export SVN_EDITOR=vi
 
 Q2: idea打开svn版本管理的项目报错：
 ```
-svn: E155021: This client is too old to work with the working copy at '/Users/chookin/project/DaTiBa' (format 31). You need to get a newer Subversion client. 
+svn: E155021: This client is too old to work with the working copy at '/Users/chookin/project/DaTiBa' (format 31). You need to get a newer Subversion client.
 ```
 
 查看当前用户下的svn版本，发现版本挺高的啊。问题原因是，idea使用的系统自带的svn，配置idea中的svn路径为当前用户所使用的较高版本的svn路径即可。
