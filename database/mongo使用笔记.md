@@ -12,7 +12,7 @@
     db.goods.find({site:'jd', "properties.品牌":'圣牧'})
     db.goods.find({site:'amazon', name:'葡萄酒'})
     db.category.find({site:'amazon', name:'葡萄酒'})
-    db.category.find({site:'amazon', name:'红葡萄酒'})	
+    db.category.find({site:'amazon', name:'红葡萄酒'})
 ## 查询指定项
 
 默认是显示_id的，需要加'_id':0来隐藏它。
@@ -31,18 +31,22 @@
             "yule.iqiyi.com",
             "list.iqiyi.com"
     ]
-    
+
     db.video.distinct('site',{'domain':null})
     [ "video.sohu" ]
 ## exists
 
-    db.category.find({ tag:{ $exists: true }})
-    db.category.find({ site: 'tb', tag:{ $exists: true }})
-    db.category.find({ site: 'yhd', tag:{ $exists: true }, crawlTime:{ $ne:ISODate("1970-01-01T00:00:00Z")}}).count()
-    db.goods.find({site:'yhd',properties:{$exists:true}}).count()
-    db.goods.find({ site: 'jd', tag:{ $exists: true }})
-    db.goods.find({site:'jd',"properties.品牌":{$exists:true}}).count()
-    db.goods.find({site:'tb',"properties.品牌":{$exists:true}})
+```js
+db.category.find({ tag:{ $exists: true }})
+db.category.find({ site: 'tb', tag:{ $exists: true }})
+db.category.find({ site: 'yhd', tag:{ $exists: true }, crawlTime:{ $ne:ISODate("1970-01-01T00:00:00Z")}}).count()
+db.goods.find({site:'yhd',properties:{$exists:true}}).count()
+db.goods.find({ site: 'jd', tag:{ $exists: true }})
+db.goods.find({site:'jd',"properties.品牌":{$exists:true}}).count()
+db.goods.find({site:'tb',"properties.品牌":{$exists:true}})
+db.apps.find({apkName:{"$in":[null],"$exists":true}})
+db.apps.find({version:{"$in":[null],"$exists":true}})
+```
 ## gt
 
     db.proxy.find({validateTime:{$gt:ISODate("2015-03-06T06:23:12.493Z")}})
@@ -86,36 +90,40 @@
 
     db.site.find({ $where: "this.category.length > 1" })
 ## 正则
-
-    db.category.find({"name":{$regex:'潮牌'}})
-    db.goods.find({"url":{$regex:'mclick'}})
-    db.goods.find({"url":{$regex:'detail.tmall'}})
-    db.goods.find({"properties.品牌":{$regex:'博龙啤酒'}})
-    db.goods.find({"properties.品牌":{$regex:'other/其他'}})
-    # 替换换行符
-    db.comments.find({content:{$regex:'\n'}}).limit(10)
-    db.lnmopy.find( { 'name': { $regex: '*.lnmopy.com', $options: 'i' } } )
+```js
+db.category.find({"name":{$regex:'潮牌'}})
+db.goods.find({"url":{$regex:'mclick'}})
+db.goods.find({"url":{$regex:'detail.tmall'}})
+db.goods.find({"properties.品牌":{$regex:'博龙啤酒'}})
+db.goods.find({"properties.品牌":{$regex:'other/其他'}})
+# 替换换行符
+db.comments.find({content:{$regex:'\n'}}).limit(10)
+db.lnmopy.find( { 'name': { $regex: '*.lnmopy.com', $options: 'i' } } )
+```
 
 # 插入
 
     db.user.insert({‘name’ : ’starlee’, ‘age’ : 25})
 # 更新
 
-    # db.collection.update( criteria, objNew, upsert, multi )
-    # criteria : update的查询条件，类似sql update查询内where后面的
-    # objNew   : update的对象和一些更新的操作符（如$set,$inc...)
-    # upsert   : 这个参数的意思是，如果不存在update的记录，是否插入objNew, true为插入，默认是false，不插入。
-    # multi    : mongodb默认是false,只更新找到的第一条记录，如果这个参数为true, 就把按条件查出来多条记录全部更
-    db.category.update({site:'amazon'}, {$set: {crawlTime:ISODate("1970-01-01T00:00:00Z")}}, false, true)
+```js
+# db.collection.update( criteria, objNew, upsert, multi )
+# criteria : update的查询条件，类似sql update查询内where后面的
+# objNew   : update的对象和一些更新的操作符（如$set,$inc...)
+# upsert   : 这个参数的意思是，如果不存在update的记录，是否插入objNew, true为插入，默认是false，不插入。
+# multi    : mongodb默认是false,只更新找到的第一条记录，如果这个参数为true, 就把按条件查出来多条记录全部更
+db.category.update({site:'amazon'}, {$set: {crawlTime:ISODate("1970-01-01T00:00:00Z")}}, false, true)
 
-    db.category.find({site:'yhd', tag:'食品/休闲零食/糖类'})
-    db.category.update({site:'yhd', tag:'食品/休闲零食/糖类'}, {$set: {crawlTime:ISODate("1970-01-01T00:00:00Z")}}, false, true)
-    db.category.update({site:'yhd'}, {$set: {crawlTime:ISODate("1970-01-01T00:00:00Z")}}, false, true)
+db.category.find({site:'yhd', tag:'食品/休闲零食/糖类'})
+db.category.update({site:'yhd', tag:'食品/休闲零食/糖类'}, {$set: {crawlTime:ISODate("1970-01-01T00:00:00Z")}}, false, true)
+db.category.update({site:'yhd'}, {$set: {crawlTime:ISODate("1970-01-01T00:00:00Z")}}, false, true)
+```
 
 更新列值
 
 ```js
 db.comments.update({},{$set: {"acquTime":ISODate("2016-04-20T07:27:11.683Z")}}, false, true)
+db.apps.update({version:{"$in":[null],"$exists":true}},{$set:{version:""}},false, true)
 ```
 
 # 重命名列名
@@ -143,68 +151,78 @@ for (var i = 0; i < colls.length; i++) {
     var from = source + "." + colls[i];
     var to = dest + "." + colls[i];
     db.adminCommand({renameCollection: from, to: to});
-}    
+}
 ```
 
 # 删除
 
-    db.dropDatabase(); # 删除database
-    db.goods.drop()或db.runCommand({"drop","goods"}) # 删除表
-    db.category.remove({"site":"jd1"}) # drop records
-    # drop field
-    db.category.update({},{$unset:{"tag":""}},{multi:true}) 
-    db.book.update({},{$unset:{"tag":""}},{multi:true})
+```js
+db.dropDatabase(); # 删除database
+db.goods.drop()或db.runCommand({"drop","goods"}) # 删除表
+db.category.remove({"site":"jd1"}) # drop records
+# drop field
+db.category.update({},{$unset:{"tag":""}},{multi:true})
+db.book.update({},{$unset:{"tag":""}},{multi:true})
+```
 
 # 索引
 对于不使用索引的sort()操作，当使用超过32Mb内存时，sort()操作将退出。
 ## 创建索引
 
-    db.goods.ensureIndex({'site':1}) # 使用ensureIndex来创建索引，1为升序，-1为倒序
+```js
+db.goods.ensureIndex({'site':1}) # 使用ensureIndex来创建索引，1为升序，-1为倒序
+```
 
 ## 创建稀疏索引
-`db.collection.ensureIndex({a:1},{sparse:true})`
+```js
+db.collection.ensureIndex({a:1},{sparse:true})
+```
 
 ## 创建唯一索引
-`db.collection.ensureIndex({a:1},{unique:true})`
+```js
+db.collection.ensureIndex({a:1},{unique:true})
+```
 
 ## 查看某个表上的所有索引
 `db.collection.getIndexes()`
 
 ## 删除索引
 
-```
+```js
  db.comments.dropIndex({"channel" : 1,
 ... "appName" : 1,
 ... "version" : 1});
 { "nIndexesWas" : 3, "ok" : 1 }
-```
 
-    db.runCommand({“dropIndexes”: “goods”, “index”: “site”}) # dropIndexes后面跟的参数是集合名称，index后面跟的参数是索引名称，如果需要删除所有索引，使用”*”即可
+db.runCommand({“dropIndexes”: “goods”, “index”: “site”}) # dropIndexes后面跟的参数是集合名称，index后面跟的参数是索引名称，如果需要删除所有索引，使用”*”即可
+```
 
 # group
 
-    db.goods.group({
-        key : {
-            "properties.品牌" : true
-        },
-        cond : {
-            "properties.品牌" : {"$ne" : null},
-            "tag" : {"$ne" : null}
-        },
-        reduce : function (obj, prev) {
-            prev.sum += 1;
-            if (!prev.brand) {
-                prev.brand = obj.properties.品牌;
-            }
-            var tag = obj.tag;
-            if (prev.tags.indexOf(tag) == -1) {
-                prev.tags.push(tag);
-            }
-        },
-        initial : {
-            sum : 0, tags:[]
+```js
+db.goods.group({
+    key : {
+        "properties.品牌" : true
+    },
+    cond : {
+        "properties.品牌" : {"$ne" : null},
+        "tag" : {"$ne" : null}
+    },
+    reduce : function (obj, prev) {
+        prev.sum += 1;
+        if (!prev.brand) {
+            prev.brand = obj.properties.品牌;
         }
-    });
+        var tag = obj.tag;
+        if (prev.tags.indexOf(tag) == -1) {
+            prev.tags.push(tag);
+        }
+    },
+    initial : {
+        sum : 0, tags:[]
+    }
+});
+```
 
 # 数据导出
 ## mongo + js文件
@@ -212,20 +230,24 @@ for (var i = 0; i < colls.length; i++) {
     mongo 127.0.0.1:27017/ecomm export-category.js >> category.json
 其中，export-category.js文件内容为
 
-    var c = db.category.find({ tag:{ $exists: true }}); 
-    while(c.hasNext())
-    {
-        printjson(c.next())
-    };
+```js
+var c = db.category.find({ tag:{ $exists: true }});
+while(c.hasNext())
+{
+    printjson(c.next())
+};
+```
 ## mongo eval
 
 - 通过eval执行js脚本
+
 ```shell
-    mongo 127.0.0.1:27017/ecomm --eval 'var c = db.category.find({ tag:{ $exists: true }}); while(c.hasNext()) {printjson(c.next())}' >> test.json
-    mongo 127.0.0.1:27017/ecomm --eval 'var c = db.category.find({ site:"chinaz"}); while(c.hasNext()) {printjson(c.next())}' >> chinaz.json
+mongo 127.0.0.1:27017/ecomm --eval 'var c = db.category.find({ tag:{ $exists: true }}); while(c.hasNext()) {printjson(c.next())}' >> test.json
+mongo 127.0.0.1:27017/ecomm --eval 'var c = db.category.find({ site:"chinaz"}); while(c.hasNext()) {printjson(c.next())}' >> chinaz.json
 ```
 
 - 通过eval为js脚本传入参数
+
 ```shell
 mongo 127.0.0.1:27017/ecomm --eval "var collection=db.book" update-domain.js
 ```
@@ -233,15 +255,17 @@ mongo 127.0.0.1:27017/ecomm --eval "var collection=db.book" update-domain.js
 
 ## mongoexport
 
-    mongoexport --host localhost --db ecomm --collection category --csv --out category.csv --fields name,site,level,url
-    mongoexport --host localhost --db ecomm --collection category --csv --out chinaz.csv --fields name,site,level,url -q '{ site:"chinaz"}'
-    mongoexport --host localhost --db ecomm --collection site --csv --out sites.csv --fields name,url,ranking,category
-    mongoexport --host localhost --db ecomm --collection goods --csv --out goods.csv --fields name,site,tag -q '{"tag":{"$ne":null}}'
-
+```shell
+mongoexport --host localhost --db ecomm --collection category --csv --out category.csv --fields name,site,level,url
+mongoexport --host localhost --db ecomm --collection category --csv --out chinaz.csv --fields name,site,level,url -q '{ site:"chinaz"}'
+mongoexport --host localhost --db ecomm --collection site --csv --out sites.csv --fields name,url,ranking,category
+mongoexport --host localhost --db ecomm --collection goods --csv --out goods.csv --fields name,site,tag -q '{"tag":{"$ne":null}}'
+```
 # mapreduce
 ## 调试
 调试可以用print输出。注意：调试信息输入到了mongo的日子文件中，而不是直接输出到控制台。
-```
+
+```js
 var emit = function(key, value) {
     print("emit -> key: " + key + " value: " + tojson(value));
 };

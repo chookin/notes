@@ -11,6 +11,7 @@ Sublime Text 2 实用快捷键[Mac OS X]
     ⌘KB 开关侧栏
     ⌃ ` python 控制台
     ⌘⇧N 新建窗口
+    ctrl+tab 切换标签页
 # 编辑
 
     ⌘L  选择行 (重复按下将下一行加入选择)

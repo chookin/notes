@@ -62,9 +62,10 @@ find . -type f -name "*.sh" -print0 | xargs -0 grep -r "merged.data"
 
 
 当文件名中存在特殊字符，导致不好删除时，可以使用inode信息进行删除
+
 ```shell
 ll -i .
-find . inum [inode_num] | xargs rm
+find . -inum [inode_num] | xargs -I '{}' mv {} ~/tmp
 ```
 
 ## 文件树
@@ -212,4 +213,16 @@ u：与s相反，当设定为u时，数据内容其实还存在磁盘中，可�
 
 ```shell
 chattr +a /var/log/messages
+```
+
+## 获取文件夹名称
+使用`dirname`和`basename`
+
+```shell
+$ VAR=/home/me/mydir/file.c
+$ DIR=$(dirname "${VAR}")
+$ echo "${DIR}"
+/home/me/mydir
+$ basename "${VAR}"
+file.c
 ```
