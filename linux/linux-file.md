@@ -1,6 +1,12 @@
 
 # 文件操作
 
+## 文件内容添加行号
+
+```shell
+cat -n filename > newfile
+```
+
 ## 权限
 
 ```shell
@@ -165,10 +171,40 @@ sed -i "s/wom-collector-1.0.jar/${wom_jar}/g" `find src -name *.sh | xargs grep 
 
 # 压缩
 
+## tar
+
+-c: 建立压缩档案
+-x：解压
+-t：查看内容
+-r：向压缩归档文件末尾追加文件
+-u：更新原压缩包中的文件
+
+这五个是独立的命令，压缩解压都要用到其中一个，可以和别的命令连用但只能用其中一个。下面的参数是根据需要在压缩或解压档案时可选的。
+
+-z：gzip压缩
+-j：bz2压缩
+-Z：有compress属性的
+-v：显示所有过程
+-O：将文件解开到标准输出
+
 - 创建压缩包
 
 ```
 tar czvf  xxx.tar.gz  要打包的目录  --exclude=dir1   --exclude=file1  ......
+
+# 这条命令是列出all.tar包中所有文件，-t是列出文件的意思
+tar -tf all.tar
+```
+
+```shell
+$ tar -czvf test.gz test
+$ tar -cjvf test.bz2 test
+$ zip test.zip test
+$ ll
+-rw-rw-r-- 1 zhuyin zhuyin   1811603 Jun  5 16:55 test
+-rw-rw-r-- 1 zhuyin zhuyin   1015385 Jun  5 16:55 test.gz
+-rw-rw-r-- 1 zhuyin zhuyin    895720 Jun  5 16:55 test.bz2
+-rw-rw-r-- 1 zhuyin zhuyin   1015313 Jun  5 16:56 test.zip
 ```
 
 

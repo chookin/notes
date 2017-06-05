@@ -17,6 +17,7 @@ echo ${variable:x:y}
 x - 起始位置
 y - 长度
 ```
+
 示例：
 
 ```sh

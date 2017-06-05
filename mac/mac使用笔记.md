@@ -83,6 +83,17 @@ mdfind -name keepalived doc | xargs open
 
 [个不可不知的Mac OS X专用命令行工具](https://segmentfault.com/a/1190000000509514)
 
+### 使用excel打开文件
+
+```shell
+# You can use the open command:
+open test.xlsx
+# or, to specify the application explicitly:
+open test.xlsx -a /Applications/Microsoft\ Office\ 2011/Microsoft\ Excel.app/
+# or even,
+open test.xlsx -a "Microsoft Excel"
+```
+
 ## 网络
 
 ### 翻墙
