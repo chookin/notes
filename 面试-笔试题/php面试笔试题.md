@@ -10,16 +10,25 @@ PHP中将所有__(两个下划线)开头的类方法作为魔术方法，这方�
 
 ### include和require的区别
 
-include() 、require()语句包含并运行指定文件。这两结构在包含文件上完全一样，唯一的区别是对于错误的处理：
+include() 、require()语句包含并运行指定文件。
 
 require()语句在遇到包含文件不存在，或是出错的时候，就停止即行，并报错。
 include()在遇到包含文件不存在的时候，只生成警告，并且脚本会继续。
 换句话说，如果你想在丢失文件时停止处理页面，那就别犹豫了，用require()吧。include()就不是这样，脚本会继续运行。
 
+include有返回值，而require没有。
 ### include_once 和 require_once
 
 include_once()和require_once()一样，应该用于在脚本执行期间同一个文件有可能被包含超过一次的情况下，想确保它只被包含一次以避免函数重定义，变量重新赋值等问题。这就是include_once()和require_once()与include()和require()的主要区别。
 require_once()、include_once()运行效率要比require()和include()低，因为前两者需要判断寻找引入的文件是否已经存在。
+
+# 编程
+
+怎么进行页面跳转？
+
+```php
+header("Location:$url");
+```
 
 # 进阶
 

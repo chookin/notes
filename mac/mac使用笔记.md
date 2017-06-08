@@ -6,6 +6,10 @@ sudo passwd root
 
 # 基本操作
 
+## 配置鼠标
+
+默认鼠标是点击右键没有反应的。需要在“系统偏好设置”|“鼠标”,在“光标与点按” tab页，开启“辅助点按”.
+
 ## 配置开机自启动
 - 点击苹果电脑桌面左上角的小苹果图标，打开系统偏好设置窗口；
 - 窗口左下角打开用户与群组；
@@ -116,6 +120,9 @@ https://github.com/racaljk/hosts/blob/master/hosts#L2
 ## iZip unarchiver
 
 rar解压缩软件。app store安装。
+
+## keka
+压缩软件，可以解决windows上安装包在mac系统解压缩乱码的问题。
 
 ## Wunderlist
 奇妙清单 Wunderlist is a simple to­do list and task manager app that helps you get stuff done. Whether you’re sharing a grocery list with a loved one, working on a project, or planning a vacation, Wunderlist makes it easy to capture, share, and complete your to­dos. Wunderlist instantly syncs between your phone, tablet and computer, so you can access all your tasks from anywhere.
