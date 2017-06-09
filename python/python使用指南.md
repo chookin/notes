@@ -13,7 +13,7 @@ python -m Web服务器模块 [端口号，默认8000]
 python -m SimpleHTTPServer 8089
 ```
 
-然后就可以在浏览器中输入如下路径来访问服务器资源。 
+然后就可以在浏览器中输入如下路径来访问服务器资源。
 
 ```
 http://localhost:端口号/路径
@@ -22,6 +22,7 @@ http://localhost:端口号/路径
 
 # 语法
 输出异常
+
 ```python
 import traceback
 try:
@@ -33,9 +34,10 @@ except:
 # 常见问题
 
 1, 找不到 `OrderedDict`
+
 ```
 [hadoop@PZMG-WB02-VAS ~]$ python
-Python 2.6.6 (r266:84292, Mar  4 2017, 14:15:04) 
+Python 2.6.6 (r266:84292, Mar  4 2017, 14:15:04)
 [GCC 4.4.7 20120313 (Red Hat 4.4.7-4)] on linux2
 Type "help", "copyright", "credits" or "license" for more information.
 >>> from collections import OrderedDict
@@ -52,6 +54,7 @@ ImportError: cannot import name OrderedDict
 
 
 下载https://pypi.python.org/pypi/ordereddict/1.1 并按照
+
 ```
 wget https://pypi.python.org/packages/53/25/ef88e8e45db141faa9598fbf7ad0062df8f50f881a36ed6a0073e1572126/ordereddict-1.1.tar.gz#md5=a0ed854ee442051b249bfad0f638bbec
 tar xvf ...
@@ -60,6 +63,7 @@ python setup.py install
 ```
 
 使用时，需修改为
+
 ```python
 import ordereddict
 d = ordereddict.OrderedDict()
