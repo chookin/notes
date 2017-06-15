@@ -9,9 +9,9 @@ A: 重新挂载为读写
 
 # 系统软件
 
-**Q: 使用yum时提示Segmentation fault**
+Q: 使用yum时提示Segmentation fault
 
-A: 
+A:
 > zlib惹的祸
 
 ```shell
@@ -31,12 +31,15 @@ ln -fs /usr/lib/libz.so.1.2.3 libz.so.1
 ldconfig -v|grep libz
 ```
 
-参考 
+参考
 - http://bjjasonzhao.blog.51cto.com/609461/821701
 - http://blog.chinaunix.net/uid-26202633-id-3757439.html
 - http://www.geedoo.info/yum-prompt-segmentation-fault-core-dumped.html
 
 # 软件
+
+Q: command not found: shopt linux 配置./bashrc 错误
+A: ./bashrc 是写给bash 看的。我的用的是zsh 所以要配置./zshrc 喽～
 
 **Q: 编译jpeg-6b时，在`./configure` 时发生错误**
 
@@ -103,6 +106,7 @@ strings /usr/lib64/libstdc++.so.6 |grep GLIBC_
 A: 下载RPM包：http://kojipkgs.fedoraproject.org/packages/gcc/4.3.2/7/x86_64/libstdc++-4.3.2-7.x86_64.rpm
 
 2、提取包并将生成的libstdc++库文件考到到/usr/lib
+
 ```shell
 #rpm2cpio libstdc++-4.3.2-7.i386.rpm | cpio -idv
 ```

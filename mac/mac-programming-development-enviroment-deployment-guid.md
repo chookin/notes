@@ -47,6 +47,19 @@ sudo chown -R $(whoami) /usr/local
 //将下载好的压缩包放到brew下载目录
 ```
 
+# zsh
+
+https://github.com/robbyrussell/oh-my-zsh
+Oh My Zsh is installed by running one of the following commands in your terminal. You can install this via the command-line with either curl or wget.
+
+via curl
+
+```sh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+```
+
+配置文件`~/.zshrc`
+
 # vi
 
 ## 配置文件
@@ -340,6 +353,7 @@ CNEKJPQZEX-eyJsaWNlbnNlSWQiOiJDTkVLSlBRWkVYIiwibGljZW5zZWVOYW1lIjoibGFuIHl1IiwiY
 - Global Options | Terminal | Emulation，Maximum columns 256，当只显示一部分宽度时。
 - Global Options | Terminal | Appearance，选择 color scheme为`Traditional`
 - Global Options | Terminal | Appearance，字体选择utf8。
+- Global Options | Terminal | Appearance | Advanced，配置`Window transparency`，用于设置securt半透明；
 
 
 ## vnc-veviewer

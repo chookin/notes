@@ -15,14 +15,18 @@ TCP状态如下图所示
 
 ### SYN_RECV
 服务端收到建立连接的SYN没有收到ACK包的时候处在SYN_RECV状态。
+在三次握手协议中，服务器维护一个半连接队列，该队列为每个客户端的SYN包开设一个条目(服务端在接收到SYN包的时候，就已经创建了request_sock结构，存储在半连接队列中)，该条目表明服务器已收到SYN包，并向客户发出确认，正在等待客户的确认包（会进行第二次握手发送SYN＋ACK 的包加以确认）。这些条目所标识的连接在服务器处于Syn_RECV状态，当服务器收到客户的确认包时，删除该条目，服务器进入ESTABLISHED状态。
 
-有两个相关系统配置：
+相关系统配置：
 
 1，net.ipv4.tcp_synack_retries
 默认值是5
 对于远端的连接请求SYN，内核会发送SYN ＋ ACK数据报，以确认收到上一个 SYN连接请求包。这是所谓的三次握手( threeway handshake)机制的第二个步骤。这里决定内核在放弃连接之前所送出的 SYN+ACK 数目。不应该大于255，默认值是5，对应于180秒左右时间。通常我们不对这个值进行修改，因为我们希望TCP连接不要因为偶尔的丢包而无法建立。
 2，net.ipv4.tcp_syncookies
 一般服务器都会设置net.ipv4.tcp_syncookies=1来防止SYN Flood攻击。假设一个用户向服务器发送了SYN报文后突然死机或掉线，那么服务器在发出SYN+ACK应答报文后是无法收到客户端的ACK报文的（第三次握手无法完成），这种情况下服务器端一般会重试（再次发送SYN+ACK给客户端）并等待一段时间后丢弃这个未完成的连接，这段时间的长度我们称为SYN Timeout，一般来说这个时间是分钟的数量级（大约为30秒-2分钟）。
+
+3，半连接队列长度
+对于SYN半连接队列的大小是由（/proc/sys/net/ipv4/tcp_max_syn_backlog）这个内核参数控制的，有些内核似乎也受listen的backlog参数影响，取得是两个值的最小值。当这个队列满了，不开启syncookies的时候，Server会丢弃新来的SYN包，而Client端在多次重发SYN包得不到响应而返回（connection time out）错误。但是，当Server端开启了syncookies=1，那么SYN半连接队列就没有逻辑上的最大值了，并且/proc/sys/net/ipv4/tcp_max_syn_backlog设置的值也会被忽略。 [tcp的半连接与完全连接队列](http://www.jianshu.com/p/ff26312e67a9)
 
 这些处在SYNC_RECV的TCP连接称为半连接，并存储在内核的半连接队列中，在内核收到对端发送的ack包时会查找半连接队列，并将符合的requst_sock信息存储到完成三次握手的连接的队列中，然后删除此半连接。大量SYNC_RECV的TCP连接会导致半连接队列溢出，这样后续的连接建立请求会被内核直接丢弃，这就是SYN Flood攻击。
 
@@ -63,24 +67,32 @@ SYN_RECV 1
 
 ```shell
 # 广告监测曝光lvs服务器
+[root@lab23 ~]# date
+Thu Jun 15 13:50:50 CST 2017
 [root@lab23 ~]# ipvsadm -Lnc| grep TCP | awk '{print $3}' |sort | uniq -c
-     10 CLOSE
-      2 CLOSE_WAIT
-   1839 ESTABLISHED
-    121 FIN_WAIT
-     65 SYN_RECV
-  35357 TIME_WAIT
+    465 CLOSE
+     16 CLOSE_WAIT
+   1539 ESTABLISHED
+    272 FIN_WAIT
+   7745 SYN_RECV
+      1 SYN_SENT
+ 113083 TIME_WAIT
 ```
 
 ```shell
-# 广告监测曝光服务 DELL R720
-[work@cmad03 ~]$ netstat -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'
-TIME_WAIT 1981
-FIN_WAIT1 20
-SYN_SENT 2
-FIN_WAIT2 60
-ESTABLISHED 254
-SYN_RECV 138
+# 广告监测曝光服务
+[work@lab26 ~]$ date
+Thu Jun 15 13:50:43 CST 2017
+[work@lab26 ~]$ netstat -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'
+TIME_WAIT 1950
+CLOSE_WAIT 1
+FIN_WAIT1 27
+SYN_SENT 4
+FIN_WAIT2 99
+ESTABLISHED 267
+SYN_RECV 97
+CLOSING 2
+LAST_ACK 16
 CLOSING 8
 LAST_ACK 37
 ```

@@ -135,10 +135,43 @@ show create table table_name;
 ```
 
 # 编码
+查看编码
+
 ```sql
-show variables like 'character%';
+mysql> show variables like 'character%';
++--------------------------+----------------------------------------+
+| Variable_name            | Value                                  |
++--------------------------+----------------------------------------+
+| character_set_client     | utf8                                   |
+| character_set_connection | utf8                                   |
+| character_set_database   | utf8                                   |
+| character_set_filesystem | binary                                 |
+| character_set_results    | utf8                                   |
+| character_set_server     | utf8                                   |
+| character_set_system     | utf8                                   |
+| character_sets_dir       | /home/work/local/mysql/share/charsets/ |
++--------------------------+----------------------------------------+
+8 rows in set (0.00 sec)
+```
+
+创建数据库时指定编码
+
+```sql
 CREATE DATABASE yourdbname DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
 ```
+
+修改数据库编码为utf8
+修改数据库配置文件`my.cnf`，然后重启数据库
+
+```
+[client]
+default-character-set=utf8
+[mysql]
+default-character-set=utf8
+[mysqld]
+default-character-set=utf8
+```
+
 
 # binlog
 ## 登录到mysql查看binlog

@@ -263,7 +263,7 @@ case语句结构特点如下：
 
 示例
 
-```shell
+```
 case "$1" in
   init)
         echo -e ${prompt_init}
@@ -286,4 +286,31 @@ case "$1" in
         echo "Use bash stock.sh <action> --help to get details on options available."
         exit 1
 esac
+```
+
+# 常见问题
+
+Q: A variable modified inside a while loop is not remembered
+A: https://stackoverflow.com/questions/16854280/a-variable-modified-inside-a-while-loop-is-not-remembered
+
+```
+echo -e $lines | while read line
+...
+done
+```
+
+The while is loop executed in a subshell. So any changes you do for the variable will not be available once the subshell exits.
+
+Instead you can use a [here string](https://www.gnu.org/software/bash/manual/bashref.html#Here-Strings) to re-write the while loop to be in the main shell process; only `echo -e $lines` will run in a subshell:
+
+```shell
+while read line
+do
+    if [[ "$line" == "second line" ]]
+    then
+    foo=2
+    echo "Variable \$foo updated to $foo inside if inside while loop"
+    fi
+    echo "Value of \$foo in while loop body: $foo"
+done <<< "$(echo -e "$lines")"
 ```

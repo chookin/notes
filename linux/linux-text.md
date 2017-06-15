@@ -10,6 +10,24 @@ diff -Nuar old-file  new-file > my.patch
 
 
 ## awk
+过滤空行
+
+```sh
+awk 'NF' somefile
+```
+
+指定分隔符，使用`OFS`
+
+```sh
+[ ! -f cookie.sv ] && cat *sv.log |awk -F '|' '{OFS="|"}{print $5,$6,$7}' > cookie.sv
+```
+
+不输出最后一列. 如果用 `awk ‘{$NF=””,print}’` 虽然不打印最后一列，但最后的空格是存在的。
+
+```sh
+awk 'NF--'
+```
+
 will print all but very first column:
 
 ```sh
@@ -25,11 +43,15 @@ awk '{$1=$2=""; print $0}' somefile
 正则匹配
 `~,!~` 表示指定变量与正则表达式匹配（代字号）或不匹配（代字号、感叹号）的条件语句。
 
-```shell
+```
 # 将第一个字段包含字符 n 的所有记录打印至标准输出。
 awk '$1 ~ /n/'   testfile
 # 将第5个字段不包含字符`{`的所有记录打印至标准输出
 awk -F '|' '$5 !~ /{/'
+
+# 找出以`/`为分隔符，第二个域以2256或2258开头的行
+head -n 10000 128-sc.log |awk -F "72/325" '{print $2}'| awk 'NF' | awk -F '/' '$2 ~ /^2256|^2258/'
+/2256/5?v=1&from=139h5&rmd=0.13012256657569932 HTTP/1.1" 302 - "-" "Mozilla/5.0 (Linux; Android 5.1; OPPO R9tm Build/LMY47I; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/53.0.2785.49 Mobile MQQBrowser/6.2 TBS/043305 Safari/537.36xwapp_andriod_hn" 2448
 ```
 
 参考：
