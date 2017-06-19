@@ -178,7 +178,87 @@ SIOCGMIIPHY on 'em2' failed: Resource temporarily unavailable
 
 由如上信息可判定em1网卡连接有网线，而em2没有连接网线。
 
-# 查看端口连接
+# 实用工具
+
+## 端口查看 ss
+
+ss是Socket Statistics的缩写。他可以显示PACKET sockets, TCP sockets, UDP sockets, DCCP sockets, RAW sockets, Unix domain sockets等等统计. 
+
+当服务器的socket连接数量变得非常大时，无论是使用netstat命令还是直接cat /proc/net/tcp，执行速度都会很慢。可能你不会有切身的感受，但请相信我，当服务器维持的连接达到上万个的时候，使用netstat等于浪费 生命，而用ss才是节省时间。
+
+```sh
+# time netstat -ant | grep EST | wc -l
+3100
+ 
+real 0m12.960s
+user 0m0.334s
+sys 0m12.561s
+# time ss -o state established | wc -l
+3204
+ 
+real 0m0.030s
+user 0m0.005s
+sys 0m0.026s
+```
+
+**常用ss命令**
+
+```sh
+ss -l 显示本地打开的所有端口
+ss -pl 显示每个进程具体打开的socket
+ss -t -a 显示所有tcp socket
+ss -u -a 显示所有的UDP Socekt
+ss -o state established '( dport = :smtp or sport = :smtp )' 显示所有已建立的SMTP连接
+ss -o state established '( dport = :http or sport = :http )' 显示所有已建立的HTTP连接
+ss -x src /tmp/.X11-unix/* 找出所有连接X服务器的进程
+ss -s 列出当前socket详细信息:
+```
+
+查看tcp各状态的连接数
+
+```sh
+[root@lab27 ~]# ss -ant | awk '{++s[$1]} END {for(k in s) print k,s[k]}'
+SYN-SENT 2
+LAST-ACK 15
+SYN-RECV 64
+ESTAB 90
+State 1
+FIN-WAIT-1 21
+CLOSING 2
+FIN-WAIT-2 39
+TIME-WAIT 63677
+LISTEN 16
+```
+
+ss命令是iproute工具集中的一员。
+
+```sh
+$ rpm -qf /usr/sbin/ss
+iproute-2.6.32-31.el6.x86_64
+```
+
+[《篡权的ss》-linux命令五分钟系列之三十一](http://roclinux.cn/?p=2420)
+
+## 端口查看 netstat
+
+```sh
+[work@lab26 ~]$ netstat -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'
+TIME_WAIT 1950
+CLOSE_WAIT 1
+FIN_WAIT1 27
+SYN_SENT 4
+FIN_WAIT2 99
+ESTABLISHED 267
+SYN_RECV 97
+CLOSING 2
+LAST_ACK 16
+CLOSING 8
+LAST_ACK 37
+```
+
+
+
+## 查看端口连接 lsof
 
 ```shell
 [root@lab32 ~]# lsof -i :22 -n
@@ -188,7 +268,7 @@ sshd     7223 root    4u  IPv6 575622231      0t0  TCP *:ssh (LISTEN)
 sshd    29022 root    3u  IPv4 575416769      0t0  TCP 172.31.167.173:ssh->172.31.167.159:53515 (ESTABLISHED)
 ```
 
-# 端口扫描 nc
+## 端口扫描 nc
 
 netcat是网络工具中的瑞士军刀，它能通过TCP和UDP在网络中读写数据。通过与其他工具结合和重定向，你可以在脚本中以多种方式使用它。使用netcat命令所能完成的事情令人惊讶。
 `yum install nc`
@@ -207,7 +287,7 @@ nohup nc -z -v -n 117.136.183.139 1-65535 > 139.log &
 ```
 
 
-## 查看局域网内所有ip
+## 查看局域网内所有ip nmap
 
 1.进行ping扫描，打印出对扫描做出响应的主机　
 
@@ -232,7 +312,7 @@ nmap -sS 192.168.1.0/24
 
 cat /proc/net/arp
 
-# 网速查看
+## 网速查看 nethogs
 nethogs是一款小巧的"net top"工具，可以显示每个进程所使用的带宽，并对列表排序，将耗用带宽最多的进程排在最上面。万一出现带宽使用突然激增的情况，用户迅速打开nethogs，就可以找到导致带宽使用激增的进程。nethogs可以报告程序的进程编号（PID）、用户和路径。
 ```shell
 yum install -y nethogs
@@ -252,14 +332,14 @@ NetHogs version 0.8.5
   TOTAL                                                                                1.264       0.558 KB/sec
 ```
 
-# 测试带宽
+## 测试带宽 speedtest.py
 
 ```shell
 wget https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py --no-check-certificate
 python speedtest.py
 ```
 
-# 限制网卡速度
+## 限制网卡速度 wondershaper
 
 ```shell
 yum install wondershaper -y
@@ -285,7 +365,7 @@ wondershaper clear em1
 /sbin/tc qdisc del dev eth0 root tbf
 ```
 
-# 网页速度
+## 网页速度测试
 
 ```shell
 $curl -o /dev/null -s -w %{time_connect}:%{time_starttransfer}:%{time_total} http://www.chinaunix.net
@@ -293,7 +373,7 @@ $curl -o /dev/null -s -w %{time_connect}:%{time_starttransfer}:%{time_total} htt
 0.081:0.272:0.779
 ```
 
-通过 -o 参数发送到 /dev/null。 -s 参数去掉所有状态信息。-w参数让 curl 写出列出的计时器的状态信息：
+通过 `-o` 参数发送到 /dev/null。 `-s` 参数去掉所有状态信息。`-w`参数让 curl 写出列出的计时器的状态信息：
 
 - time_connect     建立到服务器的 TCP 连接所用的时间
 - time_starttransfer     在发出请求之后，Web 服务器返回数据的第一个字节所用的时间
@@ -303,7 +383,7 @@ $curl -o /dev/null -s -w %{time_connect}:%{time_starttransfer}:%{time_total} htt
 因此，在发出请求之后，Web 服务器处理请求并开始发回数据所用的时间是 0.272 - 0.081 = 0.191 秒。
 客户机从服务器下载数据所用的时间是 0.779 - 0.272 = 0.507 秒
 
-# web性能测试
+## 性能测试 ab
 
 ```shell
 $ab -n 100 -c 10 http://172.17.128.12:8001
@@ -312,8 +392,41 @@ ab: invalid URL
 
 You're just missing the trailing slash.
 
+常见问题
 
-## 压测工具 httping
+Q: apr_poll: The timeout specified has expired (70007)
+A: 在命令行中加-k 使得connection keep alive
+
+- [用ab和wrk做压力测试](http://galoisplusplus.coding.me/galoisplusplus/blog/2016/07/07/server-press-test-tips/)
+
+```
+-n在测试会话中所执行的请求个数。默认时，仅执行一个请求。
+-c一次产生的请求个数。默认是一次一个。
+-t测试所进行的最大秒数。其内部隐含值是-n 50000，它可以使对服务器的测试限制在一个固定的总时间以内。默认时，没有时间限制。
+-p包含了需要POST的数据的文件。
+-P对一个中转代理提供BASIC认证信任。用户名和密码由一个:隔开，并以base64编码形式发送。无论服务器是否需要(即, 是否发送了401认证需求代码)，此字符串都会被发送。
+-T POST数据所使用的Content-type头信息。
+-v设置显示信息的详细程度-4或更大值会显示头信息，3或更大值可以显示响应代码(404,200等),2或更大值可以显示警告和其他信息。
+-V显示版本号并退出。
+-w以HTML表的格式输出结果。默认时，它是白色背景的两列宽度的一张表。
+-i执行HEAD请求，而不是GET。
+-x设置<table>属性的字符串。
+-X对请求使用代理服务器。
+-y设置<tr>属性的字符串。
+-z设置<td>属性的字符串。
+-C对请求附加一个Cookie:行。其典型形式是name=value的一个参数对，此参数可以重复。
+-H对请求附加额外的头信息。此参数的典型形式是一个有效的头信息行，其中包含了以冒号分隔的字段和值的对(如,"Accept-Encoding:zip/zop;8bit")。
+-A对服务器提供BASIC认证信任。用户名和密码由一个:隔开，并以base64编码形式发送。无论服务器是否需要(即,是否发送了401认证需求代码)，此字符串都会被发送。
+-h显示使用方法。
+-d不显示"percentage served within XX [ms] table"的消息(为以前的版本提供支持)。
+-e产生一个以逗号分隔的(CSV)文件，其中包含了处理每个相应百分比的请求所需要(从1%到100%)的相应百分比的(以微妙为单位)时间。由于这种格式已经“二进制化”，所以比'gnuplot'格式更有用。
+-g把所有测试结果写入一个'gnuplot'或者TSV(以Tab分隔的)文件。此文件可以方便地导入到Gnuplot,IDL,Mathematica,Igor甚至Excel中。其中的第一行为标题。
+-i执行HEAD请求，而不是GET。
+-k启用HTTP KeepAlive功能，即在一个HTTP会话中执行多个请求。默认时，不启用KeepAlive功能。
+-q如果处理的请求数大于150，ab每处理大约10%或者100个请求时，会在stderr输出一个进度计数。此-q标记可以抑制这些信息。
+```
+
+## 定向连接测试 httping
 
 多次连接测指定url的可访问性
 

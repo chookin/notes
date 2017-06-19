@@ -51,6 +51,30 @@ net.ipv4.tcp_tw_reuse = 1表示开启重用。允许将TIME-WAIT sockets重新�
 net.ipv4.tcp_tw_recycle = 0表示关闭TCP连接中TIME-WAIT sockets的快速回收，默认为0，表示关闭。
 注意：使用负载均衡时，不能开启tcp_tw_recycle。
 
+## TCP握手过程中建连接的流程和队列
+
+三次握手中，在第一步server收到client的syn后，把相关信息放到syns queue(半连接队列）中，同时回复syn+ack给client（第二步）；
+
+> ```
+> 比如syn floods 攻击就是针对半连接队列的，攻击方不停地建连接，但是建连接的时候只做第一步，第二步中攻击方收到server的syn+ack后故意扔掉什么也不做，导致server上这个队列满其它正常请求无法进来
+> ```
+
+第三步的时候server收到client的ack，如果这时全连接队列没满，那么从半连接队列拿出相关信息放入到全连接队列中，否则按tcp_abort_on_overflow指示的执行。这时如果全连接队列满了并且tcp_abort_on_overflow是0的话，server过一段时间再次发送syn+ack给client（也就是重新走握手的第二步），如果client超时等待比较短，就很容易异常了。
+
+全连接队列的大小取决于：min(backlog, somaxconn) . backlog是在socket创建的时候传入的，somaxconn是一个os级别的系统参数，可以在`/etc/sysctl.conf`中配置`net.core.somaxconn`，或者修改`/proc/sys/net/core/somaxconn`。
+半连接队列的大小取决于：`max(64, /proc/sys/net/ipv4/tcp_max_syn_backlog)`。
+
+如果TCP连接队列溢出，有哪些指标可以看呢？
+
+上述解决过程有点绕，那么下次再出现类似问题有什么更快更明确的手段来确认这个问题呢？
+
+```sh
+[root@lab26 ~]# netstat -s | egrep "listen|LISTEN"
+    130967 times the listen queue of a socket overflowed
+    130967 SYNs to LISTEN sockets ignored
+```
+
+比如上面看到的 667399 times ，表示全连接队列溢出的次数，隔几秒钟执行下，如果这个数字一直在增加的话肯定全连接队列偶尔满了。
 ## TCP连接状态统计
 
 统计tcp连接的情况
@@ -95,8 +119,21 @@ CLOSING 2
 LAST_ACK 16
 CLOSING 8
 LAST_ACK 37
+
+[root@lab27 ~]# ss -ant | awk '{++s[$1]} END {for(k in s) print k,s[k]}'
+SYN-SENT 2
+LAST-ACK 15
+SYN-RECV 64
+ESTAB 90
+State 1
+FIN-WAIT-1 21
+CLOSING 2
+FIN-WAIT-2 39
+TIME-WAIT 63677
+LISTEN 16
 ```
 
 # 参考
 
 - [通讯系统经验谈【一】TCP连接状态分析：SYNC_RECV，CLOSE_WAIT，TIME_WAIT](http://maoyidao.iteye.com/blog/1744277)
+- [关于TCP 半连接队列和全连接队列](http://jm.taobao.org/2017/05/25/525-1/?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)

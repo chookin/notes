@@ -168,4 +168,21 @@ sysctl -p
 https://www.blackmoreops.com/2014/09/22/linux-kernel-panic-issue-fix-hung_task_timeout_secs-blocked-120-seconds-problem/
 http://www.ttlsa.com/linux/kernel-blocked-for-more-than-120-seconds/
 
+Q: 系统日志`/var/log/messages`中有大量的告警`TCP: time wait bucket table overflow`
+A: TCP: time wait bucket table overflow产生原因及影响：原因是超过了linux系统tw数量的阀值。危害是超过阀值后﹐系统会把多余的time-wait socket 删除掉，并且显示警告信息，如果是NAT网络环境又存在大量访问，会产生各种连接不稳定断开的情况。
+
+
+tcp_max_tw_buckets - INTEGER
+    Maximal number of timewait sockets held by system simultaneously.
+    If this number is exceeded time-wait socket is immediately destroyed
+    and warning is printed. This limit exists only to prevent
+    simple DoS attacks, you _must_ not lower the limit artificially,
+    but rather increase it (probably, after increasing installed memory),
+    if network conditions require more than default value.
+rhel6.5默认值262144
+
+```sh
+[root@lab32 ~]#  cat /proc/sys/net/ipv4/tcp_max_tw_buckets
+262144
+```
 
