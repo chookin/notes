@@ -22,6 +22,9 @@ jdk8
 export APACHE_HOME=$HOME/local/apache
 export PATH=$APACHE_HOME/bin:$PATH
 
+export PHP_HOME=$HOME/local/php
+export PATH=$PHP_HOME/bin:$PATH
+
 export PYTHON_HOME=$HOME/local/python
 export PATH=${PYTHON_HOME}/bin:$PATH
 

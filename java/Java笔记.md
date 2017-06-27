@@ -3,6 +3,7 @@
 # 基础语法
 ## enum
 enum定义了特殊的类别，继承自`java.lang.Enum`，不过这是由编译器处理，直接继承Enum类别会被编译器拒绝。
+
 ```java
 enum Status {
     New(0),
@@ -18,6 +19,7 @@ enum Status {
 }
 ```
 常用方法
+
 ```java
 Enum.valueOf // 从枚举常量的字符串值解析得到enum
 #name // 获取枚举常量的名称
@@ -27,11 +29,13 @@ Enum.valueOf // 从枚举常量的字符串值解析得到enum
 # 流
 
 ## 常见问题
+
 - `java.util.Properties`读取中文乱码
 解决办法，明确指定文件的编码
+
 ```java
-Properties prop=new Properties();         
-prop.load(new InputStreamReader(Client.class.getClassLoader().getResourceAsStream("config.properties"), "UTF-8"));   
+Properties prop=new Properties();
+prop.load(new InputStreamReader(Client.class.getClassLoader().getResourceAsStream("config.properties"), "UTF-8"));
 ```
 
 # 连接池
@@ -40,6 +44,7 @@ prop.load(new InputStreamReader(Client.class.getClassLoader().getResourceAsStrea
 ## json序列化
 ### fastjson
 采用fastjson序列化存在些问题，例如：
+
 ```java
 List<List<String>> items = new ArrayList<>();
 List<String> item = new ArrayList<>();
@@ -53,12 +58,13 @@ System.out.println(JSON.toJSONString(obj));
 
 ## gson
 自定义序列化样式
+
 ```java
 // 将Date类型字段序列化为long型
-// 
+//
 JsonSerializer<Date> dateSer = new JsonSerializer<Date>() {
   @Override
-  public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext 
+  public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext
              context) {
     return src == null ? null : new JsonPrimitive(src.getTime());
   }
@@ -161,9 +167,7 @@ Also you can go to File | Settings | Build, Execution, Deployment | Compiler | J
 - Error Information:java: javacTask: 源发行版 1.8 需要目标发行版 1.8
 
 1，Project Structure里确认两个地方:Project sdk以及project language level
-
 2，Project Structure->Modules里Sources里的Language level
-
-3，Preferences->java Compiler->Per-module bytecode Version 
+3，Preferences->java Compiler->Per-module bytecode Version
 
 这三个地方需要一致。

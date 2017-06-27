@@ -44,6 +44,7 @@ mysql --defaults-file=local/mysql/etc/my.cnf -u root -p -h {host_name} -P {port}
 mysql> select user, host, password from mysql.user;
 mysql> create database if not exists `snapshot` default character set utf8;
 mysql> grant all on snapshot.* to 'snap'@'localhost' identified by 'snap_cm';
+mysql> grant all on admonitor.* to 'dspuser'@'127.0.0.1' identified by 'User_20160926';
 mysql> flush privileges;
 ```
 
@@ -254,7 +255,7 @@ mysql> show variables like '%storage_engine%';
 # 导出整个库
 mysqldump -u root TE_DSP > te_dsp.sql
 # 导出数据库的表结构，不含数据
-mysqldump -u root -d TE_DSP_STAT > te_dsp.sql
+mysqldump --default-character-set=utf8 -u root -d admonitor > admonitor.20170626.sql
 # 导出库中的部分表
 mysqldump  -u root -p darwin_lab20 t_flow t_project t_flowComp t_udc > darwin.sql
 

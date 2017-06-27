@@ -16,4 +16,5 @@ apachectl -k start
 
 ```shell
 apachectl -k stop
+pkill -u zhuyin httpd
 ```

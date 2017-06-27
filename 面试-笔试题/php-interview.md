@@ -75,3 +75,4 @@ OPCache是一个将编译好的代码保存到内存中的扩展。因此，下�
 - [说说 PHP 的魔术方法及其应用](https://laravel-china.org/articles/4404/talking-about-the-magic-method-of-php-and-its-application?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)
 - [PHP那些琐碎的知识点](https://i6448038.github.io/2017/03/25/PHP%E9%82%A3%E4%BA%9B%E5%A5%87%E6%80%AA%E7%9A%84%E8%AF%AD%E6%B3%95/?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)
 -[PHP应用性能优化指南](http://blog.bestxtech.com/?hmsr=toutiao.io&p=93&utm_medium=toutiao.io&utm_source=toutiao.io)
+- [八年phper的高级工程师面试之路](https://zhuanlan.zhihu.com/p/27493130?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)

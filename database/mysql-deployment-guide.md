@@ -5,11 +5,21 @@
 
     yum install -y gcc gcc-c++ cmake bison bison-devel ncurses-devel
 ## 下载MySQL
-    wget https://dev.mysql.com/get/Downloads/MySQL-5.5/mysql-5.5.48.tar.gz --no-check-certificate
+
+```sh
+# wget https://dev.mysql.com/get/Downloads/MySQL-5.5/mysql-5.5.48.tar.gz --no-check-certificate
+wget https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.18.tar.gz
+```
+
 ## 编译安装
 
 ```shell
-cmake -DCMAKE_INSTALL_PREFIX=/home/`whoami`/local/mysql -DMYSQL_DATADIR=/home/`whoami`/local/mysql/data -DSYSCONFDIR=/home/`whoami`/local/mysql/etc -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_MEMORY_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DMYSQL_UNIX_ADDR=/home/`whoami`/local/mysql/var/mysql.sock -DMYSQL_TCP_PORT=3306 -DENABLED_LOCAL_INFILE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci
+version=5.7.18
+TARGET_PATH=/home/`whoami`/local/mysql-$version
+cmake -DCMAKE_INSTALL_PREFIX=$TARGET_PATH -DMYSQL_DATADIR=$TARGET_PATH/data -DSYSCONFDIR=$TARGET_PATH/etc -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_MEMORY_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DMYSQL_UNIX_ADDR=$TARGET_PATH/var/mysql.sock -DMYSQL_TCP_PORT=3306 -DENABLED_LOCAL_INFILE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci
+# 注意，对于5.7.x，需要增加如下选项
+# -DDOWNLOAD_BOOST=1 -DWITH_BOOST=$TARGET_PATH/boost
+
 make && make install
 ```
 

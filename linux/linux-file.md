@@ -50,6 +50,7 @@ ls -l |grep -v "^d"    只显示文件
 
 ## 文件查找
 查找指定类型的文件，并进而查找包含指定字符的
+
 ```shell
 find . -type f -name *.java | xargs grep -r common.Logger
 find . -type f -name "*.sh" -print0 | xargs -0 grep -r "merged.data"

@@ -26,7 +26,7 @@ memcache是一个高性能的分布式的内存对象缓存系统，通过在内
 ```shell
 nohup bin/memcached -m 2048 -c 8192 -p 11211 >/dev/null 2>> logs/memcached11211.log &
 
-nohup bin/memcached -m 2048 -c 8192 -p 11211 > logs/memcached11211.log &
+nohup bin/memcached -m 2048 -c 8192 -p 11211 1>>logs/memcached11211.log 2>&1 &
 ```
 
 ## 参数说明
@@ -57,11 +57,11 @@ nohup bin/memcached -m 2048 -c 8192 -p 11211 > logs/memcached11211.log &
 ## 安装libmemcached
 
     wget https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz
-    tar zxvf libmemcached-1.0.18.tar.gz 
+    tar zxvf libmemcached-1.0.18.tar.gz
     cd libmemcached-1.0.18
     myname=`whoami`
     ./configure --prefix=/home/$myname/local/libmemcached
-    make 
+    make
     make install
 ## 安装php的memcached插件
 
@@ -100,7 +100,7 @@ nohup bin/memcached -m 2048 -c 8192 -p 11211 > logs/memcached11211.log &
 - value 存储的值（始终位于第二行）
 
 
-### set 
+### set
 set 命令用于向缓存添加新的键值对。如果键已经存在，则之前的值将被替换。
 示例：
 
@@ -138,7 +138,7 @@ set 命令用于向缓存添加新的键值对。如果键已经存在，则之�
     replace accountId 0 0 5
     55555
     STORED
-### get 
+### get
 get 命令用于检索与之前添加的键值对相关的值。使用一个键来调用 get，如果这个键存在于缓存中，则返回相应的值。如果不存在，则不返回任何内容。
 下面是使用 get 命令的典型交互：
 
@@ -153,7 +153,7 @@ get 命令用于检索与之前添加的键值对相关的值。使用一个键�
 
     get bob
     END
-### delete 
+### delete
 delete 命令用于删除 memcached 中的任何现有值。您将使用一个键调用 delete，如果该键存在于缓存中，则删除该值。如果不存在，则返回一条 NOT_FOUND 消息。
 下面是使用 delete 命令的客户机服务器交互：
 
@@ -221,16 +221,16 @@ flush_all 用于清理缓存中的所有名称/值对，将所有的items标记�
     quit
 参考：
 - http://www.cnblogs.com/czh-liyu/archive/2010/04/27/1722084.html
-- http://blog.csdn.net/hguisu/article/details/7353793 
+- http://blog.csdn.net/hguisu/article/details/7353793
 
 ## php访问
 ```php
-<?php  
-$memcache = new Memcache; //创建一个memcache对象  
-$memcache->connect('localhost', 11211) or die ("Could not connect"); //连接Memcached服务器  
-$memcache->set('key', 'test'); //设置一个变量到内存中，名称是key 值是test  
-$get_value = $memcache->get('key'); //从内存中取出key的值  
-echo $get_value;  
+<?php
+$memcache = new Memcache; //创建一个memcache对象
+$memcache->connect('localhost', 11211) or die ("Could not connect"); //连接Memcached服务器
+$memcache->set('key', 'test'); //设置一个变量到内存中，名称是key 值是test
+$get_value = $memcache->get('key'); //从内存中取出key的值
+echo $get_value;
 ?>
 ```
 
@@ -258,7 +258,7 @@ work       hard    nofile         65536
 （2）启动报错
 error while loading shared libraries: libevent-2.0.so.5
 或者
-checking for libevent directory... configure: error: libevent is required. 
+checking for libevent directory... configure: error: libevent is required.
 解决办法，编译安装libevent-2.0.21-stable.tar.gz。
 
     ./configure && make && make install

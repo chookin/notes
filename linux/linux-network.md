@@ -182,20 +182,20 @@ SIOCGMIIPHY on 'em2' failed: Resource temporarily unavailable
 
 ## 端口查看 ss
 
-ss是Socket Statistics的缩写。他可以显示PACKET sockets, TCP sockets, UDP sockets, DCCP sockets, RAW sockets, Unix domain sockets等等统计. 
+ss是Socket Statistics的缩写。他可以显示PACKET sockets, TCP sockets, UDP sockets, DCCP sockets, RAW sockets, Unix domain sockets等等统计.
 
 当服务器的socket连接数量变得非常大时，无论是使用netstat命令还是直接cat /proc/net/tcp，执行速度都会很慢。可能你不会有切身的感受，但请相信我，当服务器维持的连接达到上万个的时候，使用netstat等于浪费 生命，而用ss才是节省时间。
 
 ```sh
 # time netstat -ant | grep EST | wc -l
 3100
- 
+
 real 0m12.960s
 user 0m0.334s
 sys 0m12.561s
 # time ss -o state established | wc -l
 3204
- 
+
 real 0m0.030s
 user 0m0.005s
 sys 0m0.026s
@@ -431,8 +431,25 @@ A: 在命令行中加-k 使得connection keep alive
 多次连接测指定url的可访问性
 
 ```shell
-httping -c10000 -g  http://111.13.47.169:8001/sv/24/316/1241/6?v=1
+httping -GbY -b -g http://117.136.183.146:21008/sv/77/325/9999
 ```
+
+简单介绍一下几个常用的选项
+
+-g 要测量的网址
+-l 使用SSL连接
+-c 这个和ping 一样，为请求数量
+-Y 启用颜色输出
+-x host:port(如果是测squid，用-x，不要用-h；和curl的不一样，curl -H指定的是发送的hostname，这个-h是指定给DNS解析的hostname)
+-S 将时间分开成连接和传输两部分显示
+-G GET(默认是HEAD)
+-b 在使用了GET的前提下显示传输速度KB/s
+-B 同-b，不过使用了压缩
+-n a,b 提供给nagios监控用的，当平均响应时间>=a时，返回1；>=b，返回2；默认为0
+-N c 提供给nagios监控用的，一切正常返回0，否则只要有失败的就返回c
+-K 使用图形模式
+
+[用httping测试WEB页面响应时间](https://mp.weixin.qq.com/s?__biz=MzI3MTI2NzkxMA==&mid=2247483875&idx=1&sn=0a2a19fa53c71f72bbb6ec4cc783b27c&scene=23&srcid=0530GUZA6NkNGlvRjv8ncjKx#rd)
 
 ## 路由跟踪 traceroute
 

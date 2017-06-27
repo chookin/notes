@@ -2,7 +2,7 @@
 安装epel
 
 ```shell
-yum install -y http://mirrors.yun-idc.com/epel/6/x86_64/epel-release-6-8.noarch.rpm
+rpm -ivh http://mirrors.yun-idc.com/epel/6/x86_64/epel-release-6-8.noarch.rpm
 ```
 不能仅仅拷贝epel.repo,否则安装epel中的package时会报错。
 

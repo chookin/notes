@@ -175,29 +175,35 @@ htpasswd -D passwd robert
 </Location>
 ```
 
-然后修改权限文件
-
-```shell
-> /var/svn/admonitor/conf/authz
-vi  /var/svn/admonitor/conf/authz
-```
+然后修改权限文件`/var/svn/admonitor/conf/authz`。
 
 在权限文件中添加以下内容
 
 ```
 [groups]
-design = wyang
+admin = chookin,dahuang
+neusoft = changyu,xiaocui,xiaodai
 dev = szhang,sli
+design = wyang
+
+[/]
+@admin = rw
+@dev = r
+# 除了当前节已配置的用户，其他用户不能读写
+* = 
+
 [/doc]
 @design = rw
 @dev = r
+
 [/src]
 @design = r
 @dev = rw
+# 除了当前节已配置的用户，其他用户默认具有读权限
 * = r
 ```
 
- 其中创建了设计组和开发组,开发组有szhang,sli两人,设计组有wyang一个，设计人员可以读改/doc和/src中的内容。而开发人员可以修改/src中的内容，以及读取/doc中的设计文档。
+ 其中创建了管理员、设计组和开发组,开发组有szhang,sli两人,设计组有wyang一个，设计人员可以读改/doc和/src中的内容。而开发人员可以修改/src中的内容，以及读取/doc中的设计文档。
 
 ### 支持svn协议
 

@@ -105,6 +105,15 @@ Search for the term `DocumentRoot`, and you should see the following line:
 DocumentRoot "/usr/local/var/www/htdocs"
 ```
 
+### 操作
+
+```sh
+sudo /usr/local/opt/httpd24/bin/apachectl -k start
+sudo /usr/local/opt/httpd24/bin/apachectl -k stop
+```
+
+
+
 ### 测试
 
 访问 http://127.0.0.1
@@ -183,19 +192,22 @@ and replace it with this:
 <IfModule dir_module>
     DirectoryIndex index.php index.html
 </IfModule>
-
-<FilesMatch \.php$>
-    SetHandler application/x-httpd-php
-</FilesMatch>
 ```
 
 在配置文件末尾追加，否则无法正常
+
 ```
-AddType application/x-httpd-PHP .PHP
-AddType application/x-httpd-PHP-source .phps
+<IfModule php7_module>
+  AddType application/x-httpd-PHP .PHP
+  AddType application/x-httpd-PHP-source .phps
+  <FilesMatch \.php$>
+      SetHandler application/x-httpd-php
+  </FilesMatch>
+</IfModule>
 ```
 
 站点配置示例
+
 ```shell
 Listen 80
 NameVirtualHost *:80
@@ -219,6 +231,7 @@ NameVirtualHost *:80
 ```
 
 或者在httpd-vhosts.conf中配置，并在httpd.conf中include.
+
 ```
 Include /usr/local/etc/apache2/2.4/extra/httpd-vhosts.conf
 ```
@@ -264,6 +277,7 @@ LoadModule rewrite_module libexec/mod_rewrite.so
 ```
 
 配置启动用户
+
 ```shell
 #
 # If you wish httpd to run as a different user or group, you must run
@@ -296,6 +310,7 @@ phpinfo();
 在浏览器地址栏中输入http://localhost/test.php，正常情况下，页面中出现php的版本信息。
 
 若不能，则是apache没有正常加载php，则检查php模块的加载。例如对于php5是
+
 ```
 LoadModule php5_module libexec/apache2/libphp5.so
 ```

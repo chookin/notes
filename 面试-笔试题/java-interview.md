@@ -23,24 +23,3 @@ concurrent包
 
 # struts
 
-# mysql
-mysql主从
-
-# linux
-查看端口号的命令
-shell
-
-# web
-## jquery
-
-## angularjs
-
-## bootstrap
-
-# 其他
-
-安全登录，密码如何存储，彩虹表，加盐
-安全通信，签名
-
-基于角色的权限控制
-
