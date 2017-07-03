@@ -206,7 +206,7 @@ win7密钥 KH2J9-PC326-T44D4-39H6V-TVPBY
     待机  control + shift + 电源键
     关机  control + option + cmd + 电源键 或者 Control + 关机键，弹出 关机菜单， 点击关机
     隐藏dock栏 option + cmd + d
-    查看端口    lsof -nP | grep {port}
+    查看端口    lsof -nP | grep {port} 或者 lsof -nP -i:{port}
     创建软连接 ln -s source_file target_file 注意mac系统中文件名是不区分大小写的
     怎么看mht文件    把mht文件作为附件发给自己的qq邮箱，然后点击预览
     修改hostname  sudo scutil --set HostName chookin.mac

@@ -158,12 +158,14 @@ grep:
 示例：
 
 ```shell
+sed -i "s/^Server=.*/Server=172.31.167.159/g" /usr/local/webserver/zabbix/etc/zabbix_agentd.conf
+
 sed -i "s/home\/work/home\/${username}/g" `grep home/work -rl ${SRC_PATH}`
 
 sed -i 's#".#"com.xjkj.psyassess.#g' `grep "\"\." -rl --include="*.xml" src`
 
 # 使用分隔符‘#’替换'/'
-sed -i s#".#"com.xjkj.psyassess.#g `find src -name *.xml | xargs grep "\"\." -rl`
+sed -i 's#".#"com.xjkj.psyassess.#g' `find src -name *.xml | xargs grep "\"\." -rl`
 
 sed -i "s/user\/hadoop/user\/chama/g" `grep user/hadoop -rl .`
 

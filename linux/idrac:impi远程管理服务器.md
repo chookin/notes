@@ -19,23 +19,23 @@ R720型号的远程控制卡的默认IP是192.168.0.120，用户名是root,密�
 
 使用 SSH 登录 iDRAC
 
->ssh 192.168.0.120 
->login: root 
+>ssh 192.168.0.120
+>login: root
 >password:
 
 关闭服务器的电源
 
-->stop /system1 
+->stop /system1
 system1 已成功停止
 
 将服务器从电源关闭状态打开
 
-->start /system1 
+->start /system1
 system1 已成功启动
 
 重新引导服务器
 
-->reset /system1 
+->reset /system1
 system1 已成功重设
 
 
@@ -51,6 +51,7 @@ system1 已成功重设
 http://download.oracle.com/otn-pub/java/jdk/8u121-b13/e9e7ea248e2c4826b92b3f075a80e441/jdk-8u121-linux-x64.tar.gz?AuthParam=1489730794_a542669b868af469e662897146a3c478
 
 其中，火狐和java的版本如下，低版本的java可能打不开。
+
 ```shell
 [zhuyin@lab21 ~]$ firefox -v
 Mozilla Firefox 45.8.0
@@ -61,7 +62,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.121-b13, mixed mode)
 ```
 
 > Dell iDRAC Service Module 2.3 (For Linux)
-> The iDRAC (Integrated Dell Remote Access Controller) Service Module is a lightweight optional software application that can be installed on Dell 12th Generation Server or greater with iDRAC. 
+> The iDRAC (Integrated Dell Remote Access Controller) Service Module is a lightweight optional software application that can be installed on Dell 12th Generation Server or greater with iDRAC.
 > It complements iDRAC interfaces – Graphical User Interface (GUI), Remote Access Controller Admin (RACADM) CLI and Web Service Management (WSMAN) with additional monitoring data.
 
 http://www.dell.com/support/home/cn/zh/cndhs1/Drivers/DriversDetails?driverId=9YVPK
@@ -83,7 +84,7 @@ ipmitool 是一种可用在 linux 系统下的命令行方式的 ipmi 平台管�
 查看服务器支持的ipmi协议版本。
 
 ```shell
-[root@lab07 ~]# dmidecode |sed -n '/IPMI/,+5p' 
+[root@lab07 ~]# dmidecode |sed -n '/IPMI/,+5p'
 IPMI Device Information
         Interface Type: KCS (Keyboard Control Style)
         Specification Version: 2.0
@@ -141,7 +142,7 @@ Additional Device Support :
     IPMB Event Receiver
     Bridge
     Chassis Device
-Aux Firmware Rev Info     : 
+Aux Firmware Rev Info     :
     0x00
     0x07
     0x28
@@ -155,7 +156,7 @@ Aux Firmware Rev Info     :
 [root@lab07 ~]# ipmitool lan set 1 ipaddr 172.31.238.214
 Setting LAN IP Address to 172.31.238.214
 # 设置掩码
-[root@lab07 ~]# ipmitool  lan  set 1  netmask 255.255.255.0  
+[root@lab07 ~]# ipmitool  lan  set 1  netmask 255.255.255.0
 Setting LAN Subnet Mask to 255.255.255.0
 # 必须执行这一步，否则网关设置失败
 ipmitool lan set 1 ipsrc static
@@ -169,12 +170,12 @@ Setting LAN Default Gateway IP to 172.31.238.254
 ```shell
 # ipmitool lan print
 Set in Progress         : Set Complete
-Auth Type Support       : MD5 
-Auth Type Enable        : Callback : MD5 
-                        : User     : MD5 
-                        : Operator : MD5 
-                        : Admin    : MD5 
-                        : OEM      : 
+Auth Type Support       : MD5
+Auth Type Enable        : Callback : MD5
+                        : User     : MD5
+                        : Operator : MD5
+                        : Admin    : MD5
+                        : OEM      :
 IP Address Source       : Static Address
 IP Address              : 172.31.238.121
 Subnet Mask             : 255.255.255.0
@@ -205,6 +206,23 @@ Cipher Suite Priv Max   : Xaaaaaaaaaaaaaa
 ```shell
 modprobe ipmi_devintf
 ```
+
+### 查看设备状态
+
+```sh
+[root@lab07 ~]# ipmitool -L user sensor list | less
+CPU1 Temperature | 15.000     | degrees C  | ok    | 0.000     | 0.000     | 0.000     | 70.000    | 75.000    | 80.000
+CPU2 Temperature | 15.000     | degrees C  | ok    | 0.000     | 0.000     | 0.000     | 70.000    | 75.000    | 80.000
+TR1 Temperature  | 0.000      | degrees C  | nr    | 0.000     | 0.000     | 0.000     | 60.000    | 70.000    | 80.000
+TR2 Temperature  | 0.000      | degrees C  | nr    | 0.000     | 0.000     | 0.000     | 60.000    | 70.000    | 80.000
+...
+```
+
+ipmi获取不到磁盘的状况，需要使用MegaCli。
+
+- [一篇文章全面了解监控知识体系](http://www.yunweipai.com/archives/13243.html)
+- [基于Zabbix IPMI监控服务器硬件状况](http://www.jianshu.com/p/819d5fea1cfa)
+- [基于Zabbix IPMI监控服务器硬件状况](http://pengyao.org/zabbix-monitor-ipmi-1.html)
 
 ### 更改用户密码
 

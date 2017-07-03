@@ -1,4 +1,27 @@
-# crontab
+# 定时任务
+## at
+如果想在linux下计划在将来的某个时刻执行某些命令，可以通过atd服务实现此功能。
+1、使用linux 的atd服务之前首先确认atd服务是否开启，可以通过“/etc/init.d/atd status”命令查看服务的运行状态。
+2、使用命令“at now+2 minutes”命令编写一个两分钟之后要执行的命令。比如2分钟之后执行查看系统当前时间命令。
+3、at计划任务的时间格式可以分为“具体时间日期格式【04:00 2014-01-18】”、“模糊词语格式【midnight、noon、teatime】”、“相对计时法【now + 多少+时间单位】”
+4、使用atq可以查询到已添加的at计划任务。
+5、使用atrm命令可以将已添加的未执行计划任务删除，格式为“atrm 任务号”比如：“atrm 4”。
+6、可以通过在/etc/at.deny和at.allow里边配置那个用户可以使用at命令.
+
+```sh
+➜  ~ at now +2 minutes
+at> date
+at> <EOT> # crtl + d 退出
+job 5 at 2017-06-30 12:48
+➜  ~ atq
+5       2017-06-30 12:48 a zhuyin
+➜  ~ artm 4
+zsh: command not found: artm
+➜  ~ atrm 4
+Cannot find jobid 4
+➜  ~ atrm 5
+```
+## crontab
 通过crontab 命令，我们可以在固定的间隔时间执行指定的系统指令或 shell script脚本。时间间隔的单位可以是分钟、小时、日、月、周及以上的任意组合。这个命令非常设合周期性的日志分析或数据备份等工作。
 命令格式：
 
