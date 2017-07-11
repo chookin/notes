@@ -214,6 +214,7 @@ net.ipv6.conf.default.accept_source_route = 0
 
 # Enable IP spoofing protection, turn on source route verification
 net.ipv4.conf.all.rp_filter = 1
+# 启用源路由核查功能
 net.ipv4.conf.default.rp_filter = 1
 
 # Disable ICMP Redirect Acceptance

@@ -10,6 +10,10 @@ diff -Nuar old-file  new-file > my.patch
 
 
 ## awk
+NF表示目前的记录被分割的字段的数目，NF可以理解为Number of Field。
+NR,表示awk开始执行程序后所读取的数据行数，NR可以理解为Number of Record的缩写。
+FNR,与NR功用类似,不同的是awk每打开一个新文件,FNR便重新累计，FNR可以理解为File Number of Record。
+
 过滤空行
 
 ```sh
@@ -61,6 +65,12 @@ head -n 10000 128-sc.log |awk -F "72/325" '{print $2}'| awk 'NF' | awk -F '/' '$
 Q：Display 3rd line of the file in Unix
 A: Using combination of “head” and “tail”: `$ mdfind -name 数据采集 doc | head -n 3 | tail -n 1`
 另外一种方法，使用sed: `mdfind -name 数据采集 doc | sed -n '3,3p'`
+
+```sh
+sed -n '$p' file          #显示最后一行
+sed -n '1,2p' file        #显示第一行到第二行
+sed -n '2,$p' file        #显示第二行到最后一行
+```
 
 Q: How to print last two columns using awk
 A: You can make use of variable NF which is set to the total number of fields in the input record:

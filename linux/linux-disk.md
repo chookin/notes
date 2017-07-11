@@ -20,12 +20,14 @@ iotop命令是专门显示硬盘IO的命令，界面风格类似top命令，可�
 查看或监控磁盘的读写性能，可以用到iostat命令
 
 ```shell
-iostat -d -k 1 10
+iostat -t -d -x -k 1 10
 ```
 
 ```
 -d：显示某块具体硬盘，这里没有给出硬盘路径就是默认全部了
 -k：以KB为单位显示
+-t: 打印出时间信息
+-x： 打印出额外信息
 1：统计间隔为1秒
 10：共统计10次的
 tps：该设备每秒的传输次数（Indicate the number of transfers per second that were issued to the device.）。“一次传输”意思是“一次I/O请求”。多个逻辑请求可能会被合并为“一次I/O请求”。“一次传输”请求的大小是未知的。

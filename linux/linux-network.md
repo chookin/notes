@@ -431,7 +431,7 @@ A: 在命令行中加-k 使得connection keep alive
 多次连接测指定url的可访问性
 
 ```shell
-httping -GbY -b -g http://117.136.183.146:21008/sv/77/325/9999
+httping -c 2 -GbY -Ss -b -g http://117.136.183.146:21008/sv/9999/325/9999
 ```
 
 简单介绍一下几个常用的选项
@@ -442,6 +442,7 @@ httping -GbY -b -g http://117.136.183.146:21008/sv/77/325/9999
 -Y 启用颜色输出
 -x host:port(如果是测squid，用-x，不要用-h；和curl的不一样，curl -H指定的是发送的hostname，这个-h是指定给DNS解析的hostname)
 -S 将时间分开成连接和传输两部分显示
+-s 显示http状态码
 -G GET(默认是HEAD)
 -b 在使用了GET的前提下显示传输速度KB/s
 -B 同-b，不过使用了压缩
