@@ -1,7 +1,49 @@
 
 # 进程
+## ps
+ps参数太多，具体使用方法可以参考man ps，常用的方法：`ps  aux  #hsserver`；`ps –ef |grep #hundsun`
+▪ 杀掉某一程序的方法：`ps  aux | grep mysqld | grep –v grep | awk ‘{print $2 }’ xargs kill -9`
+▪ 杀掉僵尸进程：`ps –eal | awk ‘{if ($2 == “Z”){print $4}}’ | xargs kill -9`
+
 ## htop
 Htop是一款运行于Linux系统监控与进程管理软件，用于取代Unix下传统的top。与top只提供最消耗资源的进程列表不同，htop提供所有进程的列表，并且使用彩色标识出处理器、swap和内存状态。
+
+```sh
+➜  ~ htop
+
+  1  [||             1.4%]    9  [|              0.5%]     17 [|              0.5%]    25 [               0.0%]
+  2  [||             1.9%]    10 [               0.0%]     18 [               0.0%]    26 [|              0.5%]
+  3  [|              0.5%]    11 [|              4.3%]     19 [               0.0%]    27 [               0.0%]
+  4  [||             1.9%]    12 [               0.0%]     20 [|              0.5%]    28 [               0.0%]
+  5  [|              1.9%]    13 [               0.0%]     21 [|              0.5%]    29 [               0.0%]
+  6  [||             1.4%]    14 [               0.0%]     22 [               0.0%]    30 [               0.0%]
+  7  [||             0.9%]    15 [               0.0%]     23 [               0.0%]    31 [               0.0%]
+  8  [|              1.9%]    16 [               0.0%]     24 [               0.0%]    32 [               0.0%]
+  Mem[|||||||||||||||||||||||||||||||||11533/193584MB]     Tasks: 132, 844 thr; 1 running
+  Swp[|                                      1/4095MB]     Load average: 0.00 0.00 0.00
+                                                           Uptime: 218 days(!), 02:08:09
+
+  PID USER      PRI  NI  VIRT   RES   SHR S CPU% MEM%   TIME+  Command
+68481 root       20   0 18.3G 3663M 3607M S 16.0  1.9     422h /usr/lib/vmware/bin/vmware-vmx -s sched.group= -# pr
+68544 root       20   0 18.3G 3663M 3607M S  4.7  1.9     108h /usr/lib/vmware/bin/vmware-vmx -s sched.group= -# pr
+68540 root       20   0 18.3G 3663M 3607M S  2.8  1.9 91h29:40 /usr/lib/vmware/bin/vmware-vmx -s sched.group= -# pr
+68537 root       20   0 18.3G 3663M 3607M S  1.9  1.9 58h48:00 /usr/lib/vmware/bin/vmware-vmx -s sched.group= -# pr
+68543 root       20   0 18.3G 3663M 3607M S  1.4  1.9 37h05:12 /usr/lib/vmware/bin/vmware-vmx -s sched.group= -# pr
+68539 root       20   0 18.3G 3663M 3607M S  1.9  1.9 36h13:20 /usr/lib/vmware/bin/vmware-vmx -s sched.group= -# pr
+68542 root       20   0 18.3G 3663M 3607M S  1.4  1.9 29h24:45 /usr/lib/vmware/bin/vmware-vmx -s sched.group= -# pr
+68538 root       20   0 18.3G 3663M 3607M S  0.5  1.9 27h43:31 /usr/lib/vmware/bin/vmware-vmx -s sched.group= -# pr
+68541 root       20   0 18.3G 3663M 3607M S  0.9  1.9 25h43:45 /usr/lib/vmware/bin/vmware-vmx -s sched.group= -# pr
+ 7525 hadoop     20   0 1839M  284M 17392 S  0.0  0.1  7h29:23 /usr/local/jdk1.7.0_79/bin/java -Dproc_resourcemanag
+ 7654 hadoop     20   0 1758M  310M 17388 S  0.0  0.2  5h51:46 /usr/local/jdk1.7.0_79/bin/java -Dproc_nodemanager -
+143181 work       20   0  465M 41088 10524 S  0.0  0.0  4h16:00 bin/mongod --port 11111 --dbpath /home/work/local/m
+107327 ganglia    20   0  555M  6928  1064 S  1.4  0.0  3h59:21 /usr/sbin/gmetad
+49760 zhuyin     20   0  987M 50092 12744 S  0.5  0.0  3h15:36 mongod --dbpath=/data/zhuyin/mongo/data/ --logpath=/
+139449 gdm        20   0  429M 39008  9168 S  0.0  0.0  3h11:39 /usr/libexec/gnome-settings-daemon --gconf-prefix=/
+104598 root       20   0 1924M  124M 71876 S  0.0  0.1  2h36:53 /usr/lib/vmware/bin/vmware-hostd -a /etc/vmware/hos
+160103 test_dati  20   0  565M 28620  8396 S  0.0  0.0  2h17:26 /usr/libexec/gnome-settings-daemon
+107336 ganglia    20   0  555M  6928  1064 S  0.9  0.0  1h57:00 /usr/sbin/gmetad
+```
+
 ##  查看进程确切启动时间
 
 ```shell

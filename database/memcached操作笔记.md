@@ -4,11 +4,19 @@ memcache是一个高性能的分布式的内存对象缓存系统，通过在内
 # 程序部署
 下载最新的memcached程序到本地
 
-    wget http://www.memcached.org/files/memcached-1.4.5.tar.gz
+```sh
+version=1.4.5
+version=1.4.39
+wget http://www.memcached.org/files/memcached-$version.tar.gz
+```
+
 完成后，解压并准备编译安装。
 
-    ./configure --prefix=/home/`whoami`/local/memcached/
-    make && make install
+```
+./configure --prefix=/home/`whoami`/local/memcached/
+make && make install
+```
+
 安装成功后，在—prefix指定目录下会有memcached相关程序
 
 <strong>常见问题</strong>

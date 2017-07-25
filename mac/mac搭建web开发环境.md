@@ -112,8 +112,6 @@ sudo /usr/local/opt/httpd24/bin/apachectl -k start
 sudo /usr/local/opt/httpd24/bin/apachectl -k stop
 ```
 
-
-
 ### 测试
 
 访问 http://127.0.0.1
@@ -317,7 +315,37 @@ LoadModule php5_module libexec/apache2/libphp5.so
 
 ### 常见问题
 
+## memcached
 
+```
+brew install homebrew/php/php53-memcached
+php -i "(command-line 'phpinfo()')" | grep mem
+```
+
+## redis
+
+```
+brew install homebrew/php/php53-redis
+
+redis: stable 4.0.0 (bottled), HEAD
+Persistent key-value database, with built-in net interface
+https://redis.io/
+/usr/local/Cellar/redis/3.2.9 (13 files, 1.7MB)
+  Poured from bottle on 2017-05-31 at 18:12:24
+/usr/local/Cellar/redis/4.0.0 (13 files, 2.8MB) *
+  Poured from bottle on 2017-07-24 at 09:44:57
+From: https://github.com/Homebrew/homebrew-core/blob/master/Formula/redis.rb
+==> Options
+--with-jemalloc
+	Select jemalloc as memory allocator when building Redis
+--HEAD
+	Install HEAD version
+==> Caveats
+To have launchd start redis now and restart at login:
+  brew services start redis
+Or, if you don't want/need a background service you can just run:
+  redis-server /usr/local/etc/redis.conf
+```
 
 ## xdebug
 
@@ -446,7 +474,7 @@ chookin:opdir chookin$ brew install phpmyadmin3
 
 文档 http://localhost/phpmyadmin3/Documentation.html
 
-```shell
+```
 /* Authentication type */
 # 配置phpmyadmin web页面的登录机制，若是cookie，则新的登录需要输入用户名和密码
 #$cfg['Servers'][$i]['auth_type'] = 'cookie';

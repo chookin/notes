@@ -345,6 +345,12 @@ git status
 # 显示未暂存的修改(被修改的文件已被git管理)
 git diff
 
+# 忽略空格
+git diff -w
+
+# 忽略空白行
+git diff --ignore-space-change
+
 # 已放入暂存区，但还没有提交的修改
 git diff --cached
 
@@ -573,15 +579,15 @@ $ git branch -v
 
 -   创建分支 `git branch <brach_name>`
 
--   切换分支 `git checkout <branch_nam>`
+- 切换分支 `git checkout <branch_nam>`
 
--   删除分支
+- 删除分支
     + `git branch -d <branch_name>` 如果该分支没有合并到主分支会报错
     + `git branch -D <branch_name>` 强制删除
 
--   分支合并
+- 分支合并
 
-          一旦你完成了分支上的工作，准备将它并入主代码库：
+         一旦你完成了分支上的工作，准备将它并入主代码库：
 
     + 首先切换到master分支：`git checkout master`。
     + 然后执行合并操作：`git merge <branch>`。

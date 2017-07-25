@@ -103,55 +103,10 @@ autocmd BufReadPost *
 
 # 控制台terminal
 
-编辑文件`~/.bashrc`，添加如下内容
-
-```shell
-#!/bin/path
-
-export JAVA_7_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home
-export JAVA_8_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_73.jdk/Contents/Home
-
-export JAVA_HOME=$JAVA_7_HOME
-# export JAVA_HOME=$JAVA_8_HOME
-
-export CLASSPATH="$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$CLASSPATH"
-export PATH=$JAVA_HOME/bin:$PATH
-
-# alias jdk8='export JAVA_HOME=$JAVA_8_HOME'
-# alias jdk7='export JAVA_HOME=$JAVA_7_HOME'
-
-export MYCAT_HOME=$HOME/project/learning/Mycat-Server
-
-export MAVEN_HOME=$HOME/local/apache-maven
-export PATH=$MAVEN_HOME/bin:$PATH
-
-export PHANTOM_HOME=$HOME/local/phantomjs
-export PATH=$PHANTOM_HOME/bin:$PATH
-
-export CASPER_JS_HOME=$HOME/local/casperjs
-export PATH=$CASPER_JS_HOME/bin:$PATH
-
-export GRADLE_HOME=$HOME/local/gradle
-export PATH=$GRADLE_HOME/bin:$PATH
-
-# configure terminal color
-export CLICOLOR=1
-export LSCOLORS=gxfxaxdxcxegedabagacad
-
-# 历史命令最大条数
-HISTFILESIZE=100000
-# 历史命令添加时间戳
-HISTTIMEFORMAT="%F %T "
-export HISTTIMEFORMAT
-
-alias ll="ls -all"
-
-alias grep='grep --color=auto'
-
-export HOMEBREW_GITHUB_API_TOKEN=4f6d2a0066f2c9de121c9ba775e8be5b8596f0e7
-```
+编辑文件`~/.bashrc`.
 
 注意：mac下`~/.bashrc`不起作用
+
 新建` ~/.bash_profile`，在其中加载一次`.bashrc`
 
 ```shell
@@ -249,13 +204,7 @@ jdk8
 
 ## idea
 
-### idea15激活
-
-下面的已不可用，可用访问 http://idea.lanyus.com 获取激活码
-
-```
-CNEKJPQZEX-eyJsaWNlbnNlSWQiOiJDTkVLSlBRWkVYIiwibGljZW5zZWVOYW1lIjoibGFuIHl1IiwiYXNzaWduZWVOYW1lIjoiIiwiYXNzaWduZWVFbWFpbCI6IiIsImxpY2Vuc2VSZXN0cmljdGlvbiI6IkZvciBlZHVjYXRpb25hbCB1c2Ugb25seSIsImNoZWNrQ29uY3VycmVudFVzZSI6ZmFsc2UsInByb2R1Y3RzIjpbeyJjb2RlIjoiQUMiLCJwYWlkVXBUbyI6IjIwMTgtMDEtMzAifSx7ImNvZGUiOiJETSIsInBhaWRVcFRvIjoiMjAxOC0wMS0zMCJ9LHsiY29kZSI6IklJIiwicGFpZFVwVG8iOiIyMDE4LTAxLTMwIn0seyJjb2RlIjoiUlMwIiwicGFpZFVwVG8iOiIyMDE4LTAxLTMwIn0seyJjb2RlIjoiV1MiLCJwYWlkVXBUbyI6IjIwMTgtMDEtMzAifSx7ImNvZGUiOiJEUE4iLCJwYWlkVXBUbyI6IjIwMTgtMDEtMzAifSx7ImNvZGUiOiJSQyIsInBhaWRVcFRvIjoiMjAxOC0wMS0zMCJ9LHsiY29kZSI6IlBTIiwicGFpZFVwVG8iOiIyMDE4LTAxLTMwIn0seyJjb2RlIjoiREMiLCJwYWlkVXBUbyI6IjIwMTgtMDEtMzAifSx7ImNvZGUiOiJEQiIsInBhaWRVcFRvIjoiMjAxOC0wMS0zMCJ9LHsiY29kZSI6IlJNIiwicGFpZFVwVG8iOiIyMDE4LTAxLTMwIn0seyJjb2RlIjoiUEMiLCJwYWlkVXBUbyI6IjIwMTgtMDEtMzAifSx7ImNvZGUiOiJDTCIsInBhaWRVcFRvIjoiMjAxOC0wMS0zMCJ9XSwiaGFzaCI6IjUxOTU1OTMvMCIsImdyYWNlUGVyaW9kRGF5cyI6MCwiYXV0b1Byb2xvbmdhdGVkIjpmYWxzZSwiaXNBdXRvUHJvbG9uZ2F0ZWQiOmZhbHNlfQ==-QOxwjWvRwJz6vo6J6adC3CJ4ukQHosbPYZ94URUVFna/Rbew8xK/M5gP3kAaPh6ZDveFdtMR1UBoumq3eCwXtXM3U3ls5noB4LIr+QplVlCj2pK5uNq7g/feyNyQcHpSXtvhIOnXDBLOecB05DOsxzm0p7ulGGJoAInmHeb9mc0eYjqc4RPpUQfh6HSYBnvEnKMlLF5bz4KEtzmsvvgA55CwzwQ3gRitm5Q/wUT7AQCBdjmBfNUjKVQL6TSjSDPp56FUdEs4Aab8LqstA2DIMbxocO64rvytmcUeIwu8Mi5uq87KQP5AQMSMYb59Inbd+dmVfx5cJo3fRS4/5s3/Hg==-MIIEPjCCAiagAwIBAgIBBTANBgkqhkiG9w0BAQsFADAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIENBMB4XDTE1MTEwMjA4MjE0OFoXDTE4MTEwMTA4MjE0OFowETEPMA0GA1UEAwwGcHJvZDN5MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxcQkq+zdxlR2mmRYBPzGbUNdMN6OaXiXzxIWtMEkrJMO/5oUfQJbLLuMSMK0QHFmaI37WShyxZcfRCidwXjot4zmNBKnlyHodDij/78TmVqFl8nOeD5+07B8VEaIu7c3E1N+e1doC6wht4I4+IEmtsPAdoaj5WCQVQbrI8KeT8M9VcBIWX7fD0fhexfg3ZRt0xqwMcXGNp3DdJHiO0rCdU+Itv7EmtnSVq9jBG1usMSFvMowR25mju2JcPFp1+I4ZI+FqgR8gyG8oiNDyNEoAbsR3lOpI7grUYSvkB/xVy/VoklPCK2h0f0GJxFjnye8NT1PAywoyl7RmiAVRE/EKwIDAQABo4GZMIGWMAkGA1UdEwQCMAAwHQYDVR0OBBYEFGEpG9oZGcfLMGNBkY7SgHiMGgTcMEgGA1UdIwRBMD+AFKOetkhnQhI2Qb1t4Lm0oFKLl/GzoRykGjAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIENBggkA0myxg7KDeeEwEwYDVR0lBAwwCgYIKwYBBQUHAwEwCwYDVR0PBAQDAgWgMA0GCSqGSIb3DQEBCwUAA4ICAQC9WZuYgQedSuOc5TOUSrRigMw4/+wuC5EtZBfvdl4HT/8vzMW/oUlIP4YCvA0XKyBaCJ2iX+ZCDKoPfiYXiaSiH+HxAPV6J79vvouxKrWg2XV6ShFtPLP+0gPdGq3x9R3+kJbmAm8w+FOdlWqAfJrLvpzMGNeDU14YGXiZ9bVzmIQbwrBA+c/F4tlK/DV07dsNExihqFoibnqDiVNTGombaU2dDup2gwKdL81ua8EIcGNExHe82kjF4zwfadHk3bQVvbfdAwxcDy4xBjs3L4raPLU3yenSzr/OEur1+jfOxnQSmEcMXKXgrAQ9U55gwjcOFKrgOxEdek/Sk1VfOjvS+nuM4eyEruFMfaZHzoQiuw4IqgGc45ohFH0UUyjYcuFxxDSU9lMCv8qdHKm+wnPRb0l9l5vXsCBDuhAGYD6ss+Ga+aDY6f/qXZuUCEUOH3QUNbbCUlviSz6+GiRnt1kA9N2Qachl+2yBfaqUqr8h7Z2gsx5LcIf5kYNsqJ0GavXTVyWh7PYiKX4bs354ZQLUwwa/cG++2+wNWP+HtBhVxMRNTdVhSm38AknZlD+PTAsWGu9GyLmhti2EnVwGybSD2Dxmhxk3IPCkhKAK+pl0eWYGZWG3tJ9mZ7SowcXLWDFAk0lRJnKGFMTggrWjV8GYpw5bq23VmIqqDLgkNzuoog==
-```
+访问 http://idea.lanyus.com 获取激活码
 
 选择license server
 
@@ -405,10 +354,30 @@ $ ifconfig | grep broadcast
 http://xclient.info/s/paw.html
 Paw 是一款Mac上实用的HTTP/REST服务测试工具，完美兼容最新的OS X El Capitan系统，Paw可以让Web开发者设置各种请求Header和参数，模拟发送HTTP请求，测试响应数据，支持OAuth, HTTP Basic Auth, Cookies，JSONP等，这对于开发Web服务的应用很有帮助，非常实用的一款Web开发辅助工具。
 
+## jadx
+
+android apk反编译
+https://github.com/skylot/jadx
+
+[jadx 反编译apk - 简书](http://www.jianshu.com/p/b7166f196800)
+[jadx:更好的Android反编译工具](https://liuzhichao.com/2016/jadx-decompiler.html)
+
+安装
+
+```shell
+git clone https://github.com/skylot/jadx.git
+cd jadx
+./gradlew dist
+```
+
 ## jd-gui
 
 反编译jar.
+
+https://github.com/java-decompiler/jd-gui
+
 http://jd.benow.ca
+
 JD-GUI is a standalone graphical utility that displays Java source codes of “.class” files. You can browse the reconstructed source code with the JD-GUI for instant access to methods and fields.
 配置：
 
@@ -419,6 +388,10 @@ ulimit -c unlimited
 ## LICEcap
 
 [LICEcap](http://www.cockos.com/licecap/) 是一款免费的屏幕录制工具，支持导出 GIF 动画图片格式，轻量级、使用简单，录制过程中可以随意改变录屏范围。
+
+## Tuxera Disk Manager
+
+mac读写ntfs格式磁盘。
 
 # 常用网址
 
@@ -452,29 +425,6 @@ div pre code {
 $ brew cask uninstall macdown
 ==> Removing App symlink: '/Users/chookin/Applications/MacDown.app'
 ==> Removing Binary symlink: '/usr/local/bin/macdown'
-```
-
-
-# jd-gui
-jar反编译
-
-https://github.com/java-decompiler/jd-gui
-
-http://jd.benow.ca
-
-# jadx
-android apk反编译
-https://github.com/skylot/jadx
-
-[jadx 反编译apk - 简书](http://www.jianshu.com/p/b7166f196800)
-[jadx:更好的Android反编译工具](https://liuzhichao.com/2016/jadx-decompiler.html)
-
-安装
-
-```shell
-git clone https://github.com/skylot/jadx.git
-cd jadx
-./gradlew dist
 ```
 
 # 常见问题

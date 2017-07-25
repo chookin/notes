@@ -11,7 +11,12 @@ yum install gcc zlib zlib-devel openssl-devel
 ```
 
 ## 下载
-`wget https://www.python.org/ftp/python/2.7.8/Python-2.7.8.tgz --no-check-certificate`
+
+```sh
+version=2.7.8
+version=2.7.13
+wget https://www.python.org/ftp/python/$version/Python-$version.tgz --no-check-certificate
+```
 
 ## 编译安装
 ```shell
@@ -28,7 +33,9 @@ echo -e 'export PYTHON_HOME=$HOME/local/python\nexport PATH=${PYTHON_HOME}/bin:$
 ```
 
 # 安装setuptools
-```
+https://pypi.python.org/pypi/setuptools
+
+```sh
 wget https://pypi.python.org/packages/source/s/setuptools/setuptools-7.0.tar.gz --no-check-certificate
 tar zxvf setuptools-7.0.tar.gz
 cd setuptools-7.0
@@ -47,7 +54,7 @@ module会安装到路径：`python-2.7.8/lib/python2.7/site-packages`
 
 ## 常用 module
 ```shell
-easy_install pymongo MySQLdb
+easy_install pymongo MySQL-python
 ```
 
 ## python notebook

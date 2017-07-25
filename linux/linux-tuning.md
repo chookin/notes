@@ -208,6 +208,7 @@ net.ipv6.conf.default.forwarding = 0
 net.ipv4.conf.all.send_redirects = 0
 net.ipv4.conf.default.send_redirects = 0
 net.ipv4.conf.all.accept_source_route = 0
+#禁用所有IP源路由
 net.ipv4.conf.default.accept_source_route = 0
 net.ipv6.conf.all.accept_source_route = 0
 net.ipv6.conf.default.accept_source_route = 0
@@ -229,10 +230,11 @@ net.ipv6.conf.default.accept_redirects = 0
 net.ipv4.conf.all.log_martians = 1
 net.ipv4.conf.default.log_martians = 1
 
+# 这个参数决定了它保持在FIN-WAIT-2状态的时间。
 # Decrease the time default value for tcp_fin_timeout connection
 net.ipv4.tcp_fin_timeout = 7
 
-# Decrease the time default value for connections to keep alive
+# Decrease the time default value for connections to keep alive，单位秒
 net.ipv4.tcp_keepalive_time = 300
 net.ipv4.tcp_keepalive_probes = 5
 net.ipv4.tcp_keepalive_intvl = 15
@@ -310,7 +312,8 @@ net.core.somaxconn = 32768
 
 # Increase number of incoming connections backlog
 # 在接口接收数据包的速率比内核处理这些包的速率快时，允许送到队列的数据包的最大数目
-net.core.netdev_max_backlog = 16384
+#net.core.netdev_max_backlog = 16384
+net.core.netdev_max_backlog = 36384
 net.core.dev_weight = 64
 
 # Increase the maximum amount of option memory buffers

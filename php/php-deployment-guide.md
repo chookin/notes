@@ -5,7 +5,7 @@
 ```sh
 yum -y install gcc gcc-c++ cmake libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel pcre-devel libmcrypt libmcrypt-devel libxslt-devel
 
-version=7.1.6
+version=7.1.7
 wget http://cn2.php.net/distributions/php-$version.tar.xz
 TARGET_PATH=/home/`whoami`/local/php-$version
 ./configure --prefix=$TARGET_PATH  \
@@ -129,6 +129,58 @@ make && make install
 ; Directory in which the loadable extensions (modules) reside.
 extension_dir = "/home/zhuyin/local/php/lib/php/extensions/no-debug-zts-20160303/"
 extension=memcached.so
+```
+### xdebug
+
+https://pecl.php.net/get/xdebug-2.5.5.tgz
+
+```ini
+[Xdebug]
+zend_extension_ts ="/home/zhuyin/local/php-7.1.6/lib/php/extensions/no-debug-zts-20160303/xdebug.so"
+zend_extension="/home/zhuyin/local/php-7.1.6/lib/php/extensions/no-debug-zts-20160303/xdebug.so"
+xdebug.auto_trace = on 
+xdebug.auto_profile = on
+xdebug.collect_params = on 
+xdebug.collect_return = on 
+xdebug.profiler_enable = on 
+xdebug.trace_output_dir = "/tmp" 
+xdebug.profiler_output_dir = "/tmp"
+xdebug.remote_log="/tmp/xdebug.log"
+xdebug.dump.GET = * 
+xdebug.dump.POST = * 
+xdebug.dump.COOKIE = * 
+xdebug.dump.SESSION = * 
+xdebug.var_display_max_data = 4056 
+xdebug.var_display_max_depth = 5
+xdebug.remote_autostart=on
+xdebug.remote_enable=true
+;xdebug.remote_host=localhost/127.0.0.1
+;xdebug.remote_port=9000
+xdebug.remote_handler=dbgp
+xdebug.idekey="PHPSTORM"
+```
+
+### redis
+
+```sh
+# https://pecl.php.net/package/redis
+wget https://pecl.php.net/get/redis-3.1.3.tgz
+phpize
+./configure
+make && make install
+# Installing shared extensions:     /home/zhuyin/local/php-7.1.7/lib/php/extensions/no-debug-zts-20160303/
+```
+
+```ini
+; Directory in which the loadable extensions (modules) reside.
+extension_dir = "/home/zhuyin/local/php/lib/php/extensions/no-debug-zts-20160303/"
+extension=redis.so
+```
+
+```
+➜  redis-3.1.3 php -i "(command-line 'phpinfo()')" | grep Redis
+Redis Support => enabled
+Redis Version => 3.1.3
 ```
 
 ## 测试

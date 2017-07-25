@@ -210,6 +210,61 @@ $ ll
 -rw-rw-r-- 1 zhuyin zhuyin   1015313 Jun  5 16:56 test.zip
 ```
 
+# 时间信息
+
+所有Unix 文件系统中的文件或文件夹有三个时间戳，分别为atime、ctime和mtime。
+
+1. atime 表示最后一次访问（仅仅访问，没有改动）文件的时间；
+2. mtime 表示最后一次修改文件的时间；
+3. ctime 表示最后一次对文件属性改变的时间，包括权限、大小、属性等。
+
+| 区别                    | atime              | mtime | ctime |
+| --------------------- | ------------------ | ----- | ----- |
+| 仅读取或访问文件（cat）         | 改变                 | 不变    | 不变    |
+| 修改文件内容                | 不一定（vim 与echo就不一样） | 改变    | 改变    |
+| 修改文件权限属性（chmod，chown） | 不变                 | 不变    | 改变    |
+如何查看这些时间信息?
+```sh
+[ubak@ad-manage1 ~]$ file 2017_07_15.tar.gz 
+2017_07_15.tar.gz: gzip compressed data, from Unix, last modified: Sat Jul 15 16:51:42 2017
+[ubak@ad-manage1 ~]$ stat 2017_07_15.tar.gz 
+  File: `2017_07_15.tar.gz'
+  Size: 30825158        Blocks: 60208      IO Block: 4096   regular file
+Device: fc01h/64513d    Inode: 169645      Links: 1
+Access: (0644/-rw-r--r--)  Uid: (  504/    ubak)   Gid: (  504/    ubak)
+Access: 2017-07-19 15:28:38.979000777 +0800
+Modify: 2017-07-15 16:48:36.297000776 +0800
+Change: 2017-07-15 16:48:36.297000776 +0
+```
+
+修改mtime
+
+```sh
+# touch 命令的默认行为就是更新一个文件的atime和mtime，改变到当前的系统时间。
+[ubak@ad-manage1 ~]$ touch -mt 1602241622 2017_07_15.tar.gz 
+[ubak@ad-manage1 ~]$ stat 2017_07_15.tar.gz 
+  File: `2017_07_15.tar.gz'
+  Size: 30825158        Blocks: 60208      IO Block: 4096   regular file
+Device: fc01h/64513d    Inode: 169645      Links: 1
+Access: (0644/-rw-r--r--)  Uid: (  504/    ubak)   Gid: (  504/    ubak)
+Access: 2017-07-19 15:28:38.979000777 +0800
+Modify: 2016-02-24 16:22:00.000000000 +0800
+Change: 2017-07-19 15:33:56.578000776 +0800
+[ubak@ad-manage1 ~]$ 
+```
+
+-m 参数指mtime，接下来的t和一串数字指我们想要更改成的timestamp
+　
+```
+1602241622 代表：
+
+　16 ---> 2016年
+　02 ---> 2月
+　24 ---> 24号
+　1622 --->时间16:22
+```
+
+# 权限
 
 ## chattr
 

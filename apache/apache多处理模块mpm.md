@@ -60,7 +60,7 @@ MaxRequestsPerChild 4000
     MaxSpareServers：最多等待用户连接的空闲进程，超过则杀死多余空闲进程
     ServerLimit：限制最大用户请求会话连接数
     MaxClients：最大响应用户会话的进程数，一般与ServerLimit相等
-    MaxRequestsPerChild：一个进程生存期间能够处理的会话数，超过则关闭此进程
+    MaxRequestsPerChild：一个进程生存期间能够处理的会话数，超过则关闭此进程，目的是为了避免内存泄漏
 
 基于worker.c的用户会话处理方式：
 

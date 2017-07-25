@@ -138,10 +138,47 @@ enabled=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-5
 ```
 
+## 下载yum安装的rpm包
+方法1：下载还未安装的包，并下载所有未安装的依赖包，这里只下载，不会进行安装。
+1. 安装downloadonly插件
 
+```sh
+# RHEL5
+yum install yum-downloadonly
+# RHEL6
+yum install yum-plugin-downloadonly
+```
+
+2. 执行yum命令
+
+```sh
+yum install --downloadonly --downloaddir=<directory> <package>
+```
+
+注意： 需要确认`/etc/yum/pluginconf.d/downloadonly.conf`文件中`enabled`参数设置成1，才成正常执行该命令
+
+方法2： 已安装包，下载对应的rpm包，只是下载该rpm包。
+1. 安装yum-utils包
+
+```sh
+yum install yum-utils
+```
+
+2. 执行命令下载对应的包
+
+```sh
+yumdownloader <package>
+```
+
+注意：包默认下载到当前目录，可以使用`--destdir`参数指定下载目录。
+
+参考：
+- [How to use yum to download a package without installing it](https://access.redhat.com/solutions/10154)
 
 ## 其他源
 
 rhel5 的iso
 
 http://mirror.corbina.net/pub/Linux/redhat/5Server/x86_64/
+ftp://nyagan.net/pub/os/linux/
+ftp://202.91.234.55/isos/

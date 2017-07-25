@@ -18,36 +18,72 @@ make & make install
 
 ### 安装serf
 
-Subversion 1.8中http客户端基于neon已经被移除，改用self。如果要支持http方式需要在安装svn前安装serf，安装serf推荐用serf-1.2.1
+Subversion 1.8开始，http客户端基于neon已经被移除，改用self。如果要支持`svn co http://...`方式，需要在安装svn前安装serf。
 
 ```shell
 wget http://serf.googlecode.com/files/serf-1.2.1.tar.bz2 #serf-1.2.1.zip是win版有问题
 tar xjf serf-1.2.1.tar.bz2
-cd serf-1.2.1./configure --prefix=/usr/local/serf --with-apr=/usr/local/apache --with-apr-util=/usr/local/apache
+cd serf-1.2.1
+base_dir=/home/`whoami`/local
+./configure --prefix=$base_dir/serf --with-apr=$base_dir/apr --with-apr-util=$base_dir/apr-util
 make && make install
+```
+
+```sh
+wget https://www.apache.org/dist/serf/serf-1.3.9.zip --no-check-certificate
+# 请先阅读serf源码包中的README
+# 需要先安装scons
+# wget http://prdownloads.sourceforge.net/scons/scons-local-2.3.0.tar.gz
+base_dir=/home/`whoami`/local
+scons APR=$base_dir/apr PREFIX=$base_dir/serf
+scons install
 ```
 
 ### 安装svn
 
 ```shell
-tar xzf subversion-1.8.1.tar.gz
-cd subversion-1.8.1./get-deps.sh
-./configure --prefix=/usr/local/subversion --with-apxs=/usr/local/apache/bin/apxs \
---with-apr=/usr/local/apache --with-apr-util=/usr/local/apache --with-zlib \
---with-openssl --enable-maintainer-mode --with-serf=/usr/local/serf --enable-mod-activation
+wget http://mirrors.tuna.tsinghua.edu.cn/apache/subversion/subversion-1.9.6.zip
+
+base_dir=/usr/local
+base_dir=$HOME/local
+./configure --prefix=$base_dir/subversion --with-apxs=$base_dir/apache/bin/apxs --with-apr=$base_dir/apr --with-apr-util=$base_dir/apr-util --with-zlib --with-openssl --enable-maintainer-mode --enable-shared=yes
 make && make install
 ```
 
-### 检查是否安装成功
+### 配置apache
 
-安装成功会在`/usr/local/apache/conf/httpd.conf`自己加入下面2行
+拷贝`dav_svn_module`和`authz_svn_module`到apache的`modules`文件夹
+
+```sh
+~ cp ~/local/subversion/libexec/mod_* ~/local/apache/modules/
+```
+
+配置apache的`httpd.conf`，增加引用subversion.conf
 
 ```
-LoadModule dav_svn_module     /usr/local/subversion/libexec/mod_dav_svn.so
-LoadModule authz_svn_module   /usr/local/subversion/libexec/mod_authz_svn.so
+Include conf/extra/subversion.conf
 ```
 
-检查svn是否支持http方式：
+之后，重启apache
+
+```sh
+apachectl -k restart
+```
+
+### 常见问题
+
+```sh
+➜  ~ apachectl -k restart
+httpd: Syntax error on line 576 of /home/zhuyin/local/apache-2.4.26/conf/httpd.conf: Syntax error on line 2 of /home/zhuyin/local/apache-2.4.26/conf/extra/subversion.conf: Cannot load modules/mod_dav_svn.so into server: /home/zhuyin/local/apache-2.4.26/modules/mod_dav_svn.so: undefined symbol: dav_register_provider
+```
+
+从网上找了原因，是因为编译apache的时候没有加上`--enable-dav --enable-so`参数。重新编译apache，检查编译安装生成的apache的modules文件夹是否包含`mod_dav.so`文件。之后，配置httpd.conf
+
+```sh
+LoadModule dav_module modules/mod_dav.so
+```
+
+### 检查svn支持的模式
 
 ```
 # svn --version

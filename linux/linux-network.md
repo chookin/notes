@@ -241,6 +241,12 @@ iproute-2.6.32-31.el6.x86_64
 
 ## 端口查看 netstat
 
+Netstat用于显示与IP、TCP、UDP和ICMP协议相关的统计数据，一般用于检验本机各端口的网络连接情况。
+▲常见用法：
+netstat –npl   可以查看你要打开的端口是否已经打开。
+netstat –rn    打印路由表信息。
+netstat –in    提供系统上的接口信息，打印每个接口的MTU,输入分组数，输入错误，输出分组数，输出错误，冲突以及当前的输出队列的长度。
+
 ```sh
 [work@lab26 ~]$ netstat -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'
 TIME_WAIT 1950
@@ -256,9 +262,26 @@ CLOSING 8
 LAST_ACK 37
 ```
 
+```sh
+➜  ~ netstat -in
+Kernel Interface table
+Iface       MTU Met    RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg
+em1        1500   0 409878658     10     29      0 72736790      0      0      0 BMRU
+em1:1      1500   0      - no statistics available -                            BMRU
+em2        1500   0 217918018      2      0      0 158572984      0      0      0 BMRU
+lo        16436   0 5163230902   1962   1962      0 5163230902      0      0      0 LRU
+vmnet1     1500   0        0      0      0      0        6      0      0      0 BMRU
+vmnet8     1500   0  2804930      0      0      0        6      0      0      0 BMRU
+```
 
 
 ## 查看端口连接 lsof
+lsof(list open files)是一个列出当前系统打开文件的工具。通过lsof工具能够查看这个列表对系统检测及排错，常见的用法：
+查看文件系统阻塞  `lsof /boot`
+查看端口号被哪个进程占用   `lsof  -i :3306`
+查看用户打开哪些文件   `lsof –u username`
+查看进程打开哪些文件   `lsof –p  4838`
+查看远程已打开的网络链接  `lsof –i @192.168.34.128`
 
 ```shell
 [root@lab32 ~]# lsof -i :22 -n
@@ -431,7 +454,7 @@ A: 在命令行中加-k 使得connection keep alive
 多次连接测指定url的可访问性
 
 ```shell
-httping -c 2 -GbY -Ss -b -g http://117.136.183.146:21008/sv/9999/325/9999
+httping --ts -v -c 2 -GbY -Ss -b -g http://117.136.183.146:21008/sv/9999/325/9999
 ```
 
 简单介绍一下几个常用的选项
@@ -449,8 +472,12 @@ httping -c 2 -GbY -Ss -b -g http://117.136.183.146:21008/sv/9999/325/9999
 -n a,b 提供给nagios监控用的，当平均响应时间>=a时，返回1；>=b，返回2；默认为0
 -N c 提供给nagios监控用的，一切正常返回0，否则只要有失败的就返回c
 -K 使用图形模式
+--timestamp / --ts       put a timestamp before the measured values, use -v to include the date and -vv to show in microseconds
+-C cookie=value / --cookie add a cookie to the request
 
-[用httping测试WEB页面响应时间](https://mp.weixin.qq.com/s?__biz=MzI3MTI2NzkxMA==&mid=2247483875&idx=1&sn=0a2a19fa53c71f72bbb6ec4cc783b27c&scene=23&srcid=0530GUZA6NkNGlvRjv8ncjKx#rd)
+
+- [用httping测试WEB页面响应时间](https://mp.weixin.qq.com/s?__biz=MzI3MTI2NzkxMA==&mid=2247483875&idx=1&sn=0a2a19fa53c71f72bbb6ec4cc783b27c&scene=23&srcid=0530GUZA6NkNGlvRjv8ncjKx#rd)
+- [分享一个比较有用的测试Web站点访问速度的工具httping](http://f.dataguru.cn/thread-745246-1-1.html)
 
 ## 路由跟踪 traceroute
 
@@ -486,6 +513,9 @@ HOST: ad-check1.novalocal         Loss%   Snt   Last   Avg  Best  Wrst StDev
 tcpdump src <src_host> or dst <dst_host> -n -vv
 ```
 
+- [Linux tcpdump命令详解](http://www.cnblogs.com/ggjucheng/archive/2012/01/14/2322659.html)
+- [Linux抓包工具tcpdump详解](http://www.ha97.com/4550.html)
+
 ```shell
 [root@lab23 ~]# tcpdump -n -s500 -i any port 21888 -X | less
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
@@ -511,3 +541,31 @@ listening on any, link-type LINUX_SLL (Linux cooked), capture size 500 bytes
         0x0020:  5010 007b 7cbe 0000 0000 0000 0000       P..{|.........
 ```
 
+```
+➜  ~ tcpdump -i em2 host 223.69.29.234 and port 21889 -s500 -X | head -n 20
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on em2, link-type EN10MB (Ethernet), capture size 500 bytes
+19:05:19.088046 IP 223.69.29.234.62244 > 117.136.183.146.21889: Flags [S], seq 1558134796, win 65535, options [mss 1380,nop,wscale 5,nop,nop,TS val 94571138 ecr 0,sackOK,eol], length 0
+        0x0000:  4504 0040 4d5e 4000 3806 cb0b df45 1dea  E..@M^@.8....E..
+        0x0010:  7588 b792 f324 5581 5cdf 400c 0000 0000  u....$U.\.@.....
+        0x0020:  b002 ffff 174c 0000 0204 0564 0103 0305  .....L.....d....
+        0x0030:  0101 080a 05a3 0a82 0000 0000 0402 0000  ................
+19:05:19.088096 IP 117.136.183.146.21889 > 223.69.29.234.62244: Flags [S.], seq 2071082972, ack 1558134797, win 14480, options [mss 1460,sackOK,TS val 2186831752 ecr 94571138,nop,wscale 9], length 0
+        0x0000:  4500 003c 0000 4000 4006 1072 7588 b792  E..<..@.@..ru...
+        0x0010:  df45 1dea 5581 f324 7b72 37dc 5cdf 400d  .E..U..${r7.\.@.
+        0x0020:  a012 3890 522c 0000 0204 05b4 0402 080a  ..8.R,..........
+        0x0030:  8258 6788 05a3 0a82 0103 0309            .Xg.........
+19:05:19.092679 IP 223.69.29.234.62244 > 117.136.183.146.21889: Flags [.], ack 1, win 4104, options [nop,nop,TS val 94571143 ecr 2186831752], length 0
+        0x0000:  4504 0034 d4d8 4000 3806 439d df45 1dea  E..4..@.8.C..E..
+        0x0010:  7588 b792 f324 5581 5cdf 400d 7b72 37dd  u....$U.\.@.{r7.
+        0x0020:  8010 1008 a97d 0000 0101 080a 05a3 0a87  .....}..........
+        0x0030:  8258 6788                                .Xg.
+19:05:19.092886 IP 223.69.29.234.62244 > 117.136.183.146.21889: Flags [P.], seq 1:543, ack 1, win 4104, options [nop,nop,TS val 94571143 ecr 2186831752], length 542
+        0x0000:  4504 0252 68cd 4000 3806 ad8a df45 1dea  E..Rh.@.8....E..
+        0x0010:  7588 b792 f324 5581 5cdf 400d 7b72 37dd  u....$U.\.@.{r7.
+        0x0020:  8018 1008 59be 0000 0101 080a 05a3 0a87  ....Y...........
+        0x0030:  8258 6788 4f50 5449 4f4e 5320 2f72 6570  .Xg.OPTIONS./rep
+16 packets captured
+1718 packets received by filter
+0 packets dropped by kernel
+```

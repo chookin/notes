@@ -8,7 +8,7 @@ NTP（Network Time Protocol，网络时间协议）是由RFC 1305定义的时
 若服务器可以访问公网，则可以直接配置如下：
 
 ```shell
-0 0,6,12,18 * * * /usr/sbin/ntpdate -u 202.112.29.82 210.72.145.44 202.120.2.101 133.100.11.8 210.0.235.14 59.124.196.84 118.163.81.61 &>/dev/null
+0 0,6,12,18 * * * /usr/sbin/ntpdate -u 172.31.167.176 202.112.29.82 210.72.145.44 202.120.2.101 133.100.11.8 210.0.235.14 59.124.196.84 118.163.81.61 &>/dev/null
 ```
 
 若服务器不能访问公网，则需要部署C/S模式，一台服务器作为服务端，其他服务器作为客户端，客户端的时钟与服务端的同步。
@@ -30,7 +30,7 @@ yum -y install ntp
 修改/etc/ntp.conf，这是NTP的主要配置文件，里面设置了用来同步时间的时间服务器的域名或者IP地址。假定选择10.25.167.33为时钟源，则
 
 ```shell
-$ sudo vim /etc/ntp.conf 
+$ sudo vim /etc/ntp.conf
 
 # For more information about this file, see the man pages
 # ntp.conf(5), ntp_acc(5), ntp_auth(5), ntp_clock(5), ntp_misc(5), ntp_mon(5).
@@ -65,9 +65,9 @@ server 10.25.167.33
 #manycastclient 239.255.254.254 autokey # manycast client
 
 # Undisciplined Local Clock. This is a fake driver intended for backup
-# and when no outside source of synchronized time is available. 
+# and when no outside source of synchronized time is available.
 #server 127.127.1.0     # local clock
-#fudge  127.127.1.0 stratum 10  
+#fudge  127.127.1.0 stratum 10
 
 # Enable public key cryptography.
 #crypto
@@ -75,7 +75,7 @@ server 10.25.167.33
 includefile /etc/ntp/crypto/pw
 
 # Key file containing the keys and key identifiers used when operating
-# with symmetric key cryptography. 
+# with symmetric key cryptography.
 keys /etc/ntp/keys
 ```
 
@@ -88,7 +88,7 @@ $ sudo vi /etc/sysconfig/iptables
 -A OUTPUT -p udp --sport 123 -j ACCEPT
 ```
 
-参考：http://superuser.com/questions/141772/what-are-the-iptables-rules-to-permit-ntp 
+参考：http://superuser.com/questions/141772/what-are-the-iptables-rules-to-permit-ntp
 
 ### 重启服务
 ```
@@ -113,6 +113,7 @@ chkconfig --level 35 ntpd on
 ```
 
 示例：
+
 ```shell
 ntpdate 133.100.11.8
 ```
@@ -128,7 +129,7 @@ ntpdate -d myntpserver
 
 ```shell
 server 127.127.1.0
-fudge 127.127.1.0 stratum 8 
+fudge 127.127.1.0 stratum 8
 ```
 
 然后，重启ntpd服务。
@@ -149,8 +150,9 @@ fudge 127.127.1.0 stratum 8
 那么如何知道何时ntp server完成了和自身同步的过程呢？
 
 在ntp server上使用命令：
+
 ```shell
-watch ntpq -p
+watch ntpq -p
 ```
 
 出现画面：

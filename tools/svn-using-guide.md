@@ -308,7 +308,11 @@ password-stores =
 # 命令
 ## 签出
 
-    svn checkout http://111.13.47.167/repos/tagbase/ tagbase/
+```sh
+svn checkout http://111.13.47.167/repos/tagbase/ tagbase/
+# 签出指定版本
+svn co http://117.136.183.146:21889/repos/admonitor/src/webapp/src -r 174
+```
 checkout到本地的`tagbase`文件夹，不会覆盖本地的tagbase文件夹中文件。
 
 ## 撤消未提交的修改
@@ -406,6 +410,12 @@ svn propedit svn:ignore .
 ## 生成patch
 
     svn diff -x --ignore-all-space  > test.patch
+## 与指定版本做对比，生成diff
+
+```
+svn diff -x --ignore-all-space -r 276 > a.patch
+```
+
 ## 提交patch文件
 
     mv test.patch ../cmri/patches/
@@ -447,11 +457,6 @@ svn diff -c 25114 src/main.cpp
 ```shell
 svn diff -r r6453:r6452 src
 ```
-
-## 与指定版本做对比，生成diff
-
-    svn diff -x --ignore-all-space -r 276 > a.patch
-
 
 # 常见问题
 
