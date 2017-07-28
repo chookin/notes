@@ -1,25 +1,5 @@
 # 参数配置
 
-## 查看当前加载的module
-
-包括两部分：
-
-1. 已编译在apache中的模块
-2. apach的配置文件(httpd.conf)的LoadModule部分
-
-```shell
-$ apachectl -t -D DUMP_MODULES
-Loaded Modules:
- core_module (static)
- so_module (static)
- http_module (static)
- mpm_event_module (static)
- authz_core_module (shared)
- log_config_module (shared)
- unixd_module (shared)
- rewrite_module (shared)
-```
-
 ## KeepAlive
 
 KeepAlive enables persistent connections on the web server. This setting should be On unless the server is getting requests from hundreds of IPs at once. High volume and/or load balanced servers should have this setting disabled Off to increase connection throughput.

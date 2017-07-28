@@ -225,9 +225,9 @@ $ ll
 | 修改文件权限属性（chmod，chown） | 不变                 | 不变    | 改变    |
 如何查看这些时间信息?
 ```sh
-[ubak@ad-manage1 ~]$ file 2017_07_15.tar.gz 
+[ubak@ad-manage1 ~]$ file 2017_07_15.tar.gz
 2017_07_15.tar.gz: gzip compressed data, from Unix, last modified: Sat Jul 15 16:51:42 2017
-[ubak@ad-manage1 ~]$ stat 2017_07_15.tar.gz 
+[ubak@ad-manage1 ~]$ stat 2017_07_15.tar.gz
   File: `2017_07_15.tar.gz'
   Size: 30825158        Blocks: 60208      IO Block: 4096   regular file
 Device: fc01h/64513d    Inode: 169645      Links: 1
@@ -239,10 +239,10 @@ Change: 2017-07-15 16:48:36.297000776 +0
 
 修改mtime
 
-```sh
+```
 # touch 命令的默认行为就是更新一个文件的atime和mtime，改变到当前的系统时间。
-[ubak@ad-manage1 ~]$ touch -mt 1602241622 2017_07_15.tar.gz 
-[ubak@ad-manage1 ~]$ stat 2017_07_15.tar.gz 
+[ubak@ad-manage1 ~]$ touch -mt 1602241622 2017_07_15.tar.gz
+[ubak@ad-manage1 ~]$ stat 2017_07_15.tar.gz
   File: `2017_07_15.tar.gz'
   Size: 30825158        Blocks: 60208      IO Block: 4096   regular file
 Device: fc01h/64513d    Inode: 169645      Links: 1
@@ -250,7 +250,7 @@ Access: (0644/-rw-r--r--)  Uid: (  504/    ubak)   Gid: (  504/    ubak)
 Access: 2017-07-19 15:28:38.979000777 +0800
 Modify: 2016-02-24 16:22:00.000000000 +0800
 Change: 2017-07-19 15:33:56.578000776 +0800
-[ubak@ad-manage1 ~]$ 
+[ubak@ad-manage1 ~]$
 ```
 
 -m 参数指mtime，接下来的t和一串数字指我们想要更改成的timestamp

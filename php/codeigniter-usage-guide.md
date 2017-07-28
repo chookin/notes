@@ -40,6 +40,14 @@ define('ENVIRONMENT', 'development');
 $config['log_threshold'] = 4;
 ```
 
+# 常见问题
+1，怎么查看CI的版本信息？想看某个项目中使用的CI具体是哪个版本，怎么查看？
+system\core\codeigniter.php中可以查看版本常量
+
+```php
+define('CI_VERSION', '2.1.4');
+```
+
 # 参考
 
 - [数据库配置](http://codeigniter.org.cn/user_guide/database/configuration.html)

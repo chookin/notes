@@ -348,29 +348,17 @@ redis-cli KEYS "youku*" | xargs -d \\n redis-cli DEL
 5) "c"
 6) "b"
 7) "a"
-// -2表示链表的倒数第二个元素
-127.0.0.1:6379> LRANGE test 0 -2
-1) "g"
-2) "f"
-3) "e"
-4) "d"
-5) "c"
-6) "b"
 // 返回并弹出链表头部元素
 127.0.0.1:6379> LPOP test
 "g"
 // 返回链表元素数量
 127.0.0.1:6379> LLEN test
 (integer) 6
-127.0.0.1:6379> LRANGE test -1 -2
-(empty list or set)
-127.0.0.1:6379> LRANGE test 0 1
-1) "f"
-2) "e"
 // 添加元素到链表尾部
 127.0.0.1:6379> RPUSH test z
 (integer) 7
 // 在链表尾部获取2个元素
+// -2表示链表的倒数第二个元素
 127.0.0.1:6379> LRANGE test -2 -1
 1) "a"
 2) "z"
@@ -383,6 +371,13 @@ redis-cli KEYS "youku*" | xargs -d \\n redis-cli DEL
 5) "b"
 6) "a"
 7) "z"
+// 删除链表尾部的5个元素
+127.0.0.1:6379> LTRIM test 0 -5
+OK
+127.0.0.1:6379> LRANGE test 0 -1
+1) "f"
+2) "e"
+3) "d"
 ```
 
 
@@ -414,3 +409,16 @@ pconnect函数声明
     $redis->pconnect('/tmp/redis.sock'); // unix domain socket - would be another connection than the four before.
 
 - [PHP中使用Redis长连接笔记](http://blog.csdn.net/whynottrythis/article/details/71156688)
+
+# python-redis
+
+## 安装redis module
+
+```sh
+pip install redis
+```
+
+
+
+
+

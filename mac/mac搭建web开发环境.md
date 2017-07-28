@@ -116,6 +116,12 @@ sudo /usr/local/opt/httpd24/bin/apachectl -k stop
 
 访问 http://127.0.0.1
 
+### 日志
+
+```
+/usr/local/var/log/apache2/error_log
+```
+
 ## php
 
 ### 安装
@@ -127,11 +133,15 @@ We will proceed by installing **PHP 5.3**, **PHP 5.6** and using a simple script
 
 > You can get a full list of available options to include by typing `brew options php55`, for example. In this example we are just including Apache support via `--with-httpd24` to build the required PHP modules for Apache.
 
-```
+```sh
 $ brew install php53 --with-httpd24
 $ brew unlink php53
-$ brew install php56 --with-httpd24
-$ brew unlink php56
+$ brew install php71 --with-httpd24
+
+# --with-httpd22
+#	Enable building of shared Apache 2.2 Handler module
+# --with-httpd24
+#	Enable building of shared Apache 2.4 Handler module
 ```
 
 This may take some time as your computer is actually compiling PHP from source.
@@ -142,26 +152,22 @@ Also, you may have the need to tweak configuration settings of PHP to your needs
 
 ```
 /usr/local/etc/php/5.3/php.ini
-/usr/local/etc/php/5.6/php.ini
+/usr/local/etc/php/7.1/php.ini
 ```
 
 ### 配置
 
+#### apache
+
 You have successfully installed your PHP versions, but we need to tell Apache to use them. You will again need to edit the `/usr/local/etc/apache2/2.4/httpd.conf` file and search for `#LoadModule php5_module`.
 
 ```shell
-LoadModule php5_module        /usr/local/Cellar/php55/5.5.38_11/libexec/apache2/libphp5.so
-LoadModule php5_module        /usr/local/Cellar/php56/5.6.26_3/libexec/apache2/libphp5.so
-LoadModule php7_module        /usr/local/Cellar/php70/7.0.11_5/libexec/apache2/libphp7.so
-LoadModule php7_module        /usr/local/Cellar/php71/7.1.0-rc.3_8/libexec/apache2/libphp7.so
+LoadModule php7_module        /usr/local/Cellar/php71/7.1.7_19/libexec/apache2/libphp7.so
 ```
 
 Modify the paths as follows:
 
 ```shell
-LoadModule php5_module    /usr/local/opt/php55/libexec/apache2/libphp5.so
-LoadModule php5_module    /usr/local/opt/php56/libexec/apache2/libphp5.so
-LoadModule php7_module    /usr/local/opt/php70/libexec/apache2/libphp7.so
 LoadModule php7_module    /usr/local/opt/php71/libexec/apache2/libphp7.so
 ```
 
@@ -169,9 +175,8 @@ We can only have one module processing PHP at a time, so for now, comment out al
 
 ```shell
 #LoadModule php5_module    /usr/local/opt/php55/libexec/apache2/libphp5.so
-LoadModule php5_module    /usr/local/opt/php56/libexec/apache2/libphp5.so
-#LoadModule php7_module    /usr/local/opt/php70/libexec/apache2/libphp7.so
-#LoadModule php7_module    /usr/local/opt/php71/libexec/apache2/libphp7.so
+#LoadModule php5_module    /usr/local/opt/php56/libexec/apache2/libphp5.so
+LoadModule php7_module    /usr/local/opt/php71/libexec/apache2/libphp7.so
 ```
 
 This will tell Apache to use PHP 5.6 to handle PHP requests.
@@ -295,6 +300,24 @@ Group staff
 $ sudo apachectl -k restart
 ```
 
+#### php
+
+##### pdo-mysql
+
+默认已经开启pdo-mysql，若访问报错，需编辑php配置文件`/usr/local/etc/php/7.1/php.ini`，配置`pdo_mysql.default_socket`指向具体的socket.
+
+```
+pdo_mysql.default_socket=/Users/chookin/data/mysql/var/mysqld.sock
+```
+
+##### 日志
+
+设置日志文件的路径
+
+```
+error_log = /usr/local/var/log/php_errors.log
+```
+
 ### 测试
 
 写测试文件test.php，放到apache的DocumentRoot路径下。
@@ -318,14 +341,14 @@ LoadModule php5_module libexec/apache2/libphp5.so
 ## memcached
 
 ```
-brew install homebrew/php/php53-memcached
+brew install php53-memcached
 php -i "(command-line 'phpinfo()')" | grep mem
 ```
 
 ## redis
 
 ```
-brew install homebrew/php/php53-redis
+brew install php53-redis
 
 redis: stable 4.0.0 (bottled), HEAD
 Persistent key-value database, with built-in net interface
@@ -347,7 +370,30 @@ Or, if you don't want/need a background service you can just run:
   redis-server /usr/local/etc/redis.conf
 ```
 
+## opcache
+
 ## xdebug
+
+### php71
+
+```
+brew install php71-xdebug
+```
+
+具体配置，注意配置不当将导致apache访问php时非常的卡。
+
+```
+➜  ~ cat /usr/local/etc/php/7.1/conf.d/ext-xdebug.ini
+[xdebug]
+zend_extension="/usr/local/opt/php71-xdebug/xdebug.so"
+xdebug.remote_enable=1
+xdebug.remote_host=127.0.0.1
+xdebug.remote_port=9000
+xdebug.remote_handler=dbgp
+xdebug.idekey="PHPSTORM"
+```
+
+### php53
 
 ```
 $ brew install php53-xdebug
@@ -419,8 +465,8 @@ xdebug.idekey="PHPSTORM"
 - Preferences | Languages & Frameworks | PHP | Debug
   - 核查Xdebug的Debug port与xdebug配置文件中`remote_port`的一致，默认9000。
 - Preferences | Languages & Frameworks | PHP | Debug | DBGpProxy
-  - 配置IDE key 与xdebug配置文件中的`idekey`一致
-  - 配置Host为localhost
+  - 配置IDE key 与xdebug配置文件中的`idekey`一致，例如：`PHPSTORM`
+  - 配置Host为`localhost`
   - 配置Port ，默认9001
 - Preferences | Languages & Frameworks | PHP | Servers
   - 若不存在，新建一个，配置Host为`localhosthost`，Port为80，Debugger选`Xdebug`，不用勾选`Use path mappings`
@@ -435,9 +481,19 @@ xdebug.idekey="PHPSTORM"
 - 配置Start URL，默认`/`
 - 配置浏览器为`Chrome`。
 
-点击电话图片使其变为绿色，Start Listening for PHP Debug Connections.
+**点击电话图片使其变为绿色**，Start Listening for PHP Debug Connections.
 
 点击爬虫图标，则开始调试，可在php 脚本中插入断点进行跟踪调试。
+
+注意：xdebug所监听的端口是由phpstorm开启的，若phpstorm的断点调试不起作用，请检查该端口的占用情况。
+
+```sh
+➜  ~ lsof -i:9000
+COMMAND    PID    USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+httpd    52642 chookin   18u  IPv4 0x221a0a5a9c5bffd3      0t0  TCP localhost:54159->localhost:cslistener (ESTABLISHED)
+phpstorm 54511 chookin   24u  IPv4 0x221a0a5a9de143b3      0t0  TCP *:cslistener (LISTEN)
+phpstorm 54511 chookin   27u  IPv4 0x221a0a5a9c1beabb      0t0  TCP localhost:cslistener->localhost:54159 (ESTABLISHED)
+```
 
 ## phpmyadmin
 
