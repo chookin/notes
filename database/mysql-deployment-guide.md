@@ -2,8 +2,10 @@
 
 # rhel6安装mysql
 ## 安装编译代码需要的包
+```sh
+yum install -y gcc gcc-c++ cmake bison bison-devel ncurses-devel
+```
 
-    yum install -y gcc gcc-c++ cmake bison bison-devel ncurses-devel
 ## 下载MySQL
 
 ```sh
@@ -15,12 +17,15 @@ wget https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.18.tar.gz
 
 ```shell
 version=5.7.18
+tar xvf mysql-$version*
+cd mysql-$version
 TARGET_PATH=/home/`whoami`/local/mysql-$version
-cmake -DCMAKE_INSTALL_PREFIX=$TARGET_PATH -DMYSQL_DATADIR=$TARGET_PATH/data -DSYSCONFDIR=$TARGET_PATH/etc -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_MEMORY_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DMYSQL_UNIX_ADDR=$TARGET_PATH/var/mysql.sock -DMYSQL_TCP_PORT=3306 -DENABLED_LOCAL_INFILE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci
+cmake -DCMAKE_INSTALL_PREFIX=$TARGET_PATH -DMYSQL_DATADIR=$TARGET_PATH/data -DSYSCONFDIR=$TARGET_PATH/etc -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_MEMORY_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DMYSQL_UNIX_ADDR=$TARGET_PATH/var/mysql.sock -DMYSQL_TCP_PORT=23306 -DENABLED_LOCAL_INFILE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DDOWNLOAD_BOOST=1 -DWITH_BOOST=$TARGET_PATH/boost
 # 注意，对于5.7.x，需要增加如下选项
 # -DDOWNLOAD_BOOST=1 -DWITH_BOOST=$TARGET_PATH/boost
 
 make && make install
+ln -fsv /home/`whoami`/local/mysql-$version /home/`whoami`/local/mysql
 ```
 
 编译的参数可以参考[MySQL Source-Configuration Options](http://dev.mysql.com/doc/refman/5.5/en/source-configuration-options.html)。

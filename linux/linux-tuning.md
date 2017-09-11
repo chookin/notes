@@ -129,6 +129,11 @@ kernel.pid_max = 196608
 # The contents of /proc/<pid>/maps and smaps files are only visible to
 # readers that are allowed to ptrace() the process
 kernel.maps_protect = 1
+OUTLINE
+tuned
+sysctl.conf
+参考
+
 
 #Enable ExecShield protection
 kernel.exec-shield = 1
@@ -194,6 +199,8 @@ net.ipv4.tcp_syncookies = 1
 net.ipv4.tcp_syn_retries = 2
 # 这个是三次握手中，服务器回应ACK给客户端里，重试的次数。默认是5。对于正常的客户端，如果它接收不到服务器回应的ACK包，它会再次发送SYN包，客户端还是能正常连接的，只是可能在某些情况下建立连接的速度变慢了一点。
 net.ipv4.tcp_synack_retries = 2
+# Tcp syn队列的最大长度，在进行系统调用connect时会发生Tcp的三次握手，server内核会为Tcp维护两个队列，Syn队列和Accept队列，Syn队列是指存放完成第一次握手的连接，Accept队列是存放完成整个Tcp三次握手的连接，修改net.ipv4.tcp_max_syn_backlog使之增大可以接受更多的网络连接。
+# 注意此参数过大可能遭遇到Syn flood攻击，即对方发送多个Syn报文端填充满Syn队列，使server无法继续接受其他连接可参考此文http://tech.uc.cn/?p=1790
 net.ipv4.tcp_max_syn_backlog = 8192
 
 # Disables packet forwarding
@@ -291,7 +298,7 @@ net.core.default_qdisc = fq
 net.ipv4.tcp_window_scaling = 1
 
 # Increase the read-buffer space allocatable
-net.ipv4.tcp_rmem = 8192 87380 16777216
+net.ipv4.tcp_rmem = 10240 87380 16777216
 net.ipv4.udp_rmem_min = 16384
 # 接收套接字缓冲区大小的缺省值(以字节为单位)
 # chookin net.core.rmem_default = 262144
@@ -300,7 +307,7 @@ net.core.rmem_default = 8388608
 net.core.rmem_max = 16777216
 
 # Increase the write-buffer-space allocatable
-net.ipv4.tcp_wmem = 8192 65536 16777216
+net.ipv4.tcp_wmem = 10240 65536 16777216
 net.ipv4.udp_wmem_min = 16384
 # 指定了发送套接字缓冲区大小的缺省值(以字节为单位)
 net.core.wmem_default = 262144
@@ -308,31 +315,34 @@ net.core.wmem_default = 262144
 net.core.wmem_max = 16777216
 
 # Increase number of incoming connections
+# somaxconn参数决定Accept队列长度
 net.core.somaxconn = 32768
 
 # Increase number of incoming connections backlog
 # 在接口接收数据包的速率比内核处理这些包的速率快时，允许送到队列的数据包的最大数目
 #net.core.netdev_max_backlog = 16384
-net.core.netdev_max_backlog = 36384
+net.core.netdev_max_backlog = 96384
 net.core.dev_weight = 64
 
 # Increase the maximum amount of option memory buffers
 # 该文件指定了每个套接字所允许的最大缓冲区的大小
-net.core.optmem_max = 65535
+net.core.optmem_max = 95535
 
 # Increase the tcp-time-wait buckets pool size to prevent simple DOS attacks
 # 最大TIME_WAIT缓冲池数量
 # chookin net.ipv4.tcp_max_tw_buckets = 1440000
-net.ipv4.tcp_max_tw_buckets = 10000
+net.ipv4.tcp_max_tw_buckets = 1440000
 
 # try to reuse time-wait connections, but don't recycle them (recycle can break clients behind NAT)
+# 使用负载均衡时，不能开启tcp_tw_recycle
 net.ipv4.tcp_tw_recycle = 0
+# 允许重用处于time_wait的socket
 net.ipv4.tcp_tw_reuse = 1
 
 # Limit number of orphans, each orphan can eat up to 16M (max wmem) of unswappable memory
 # 系统所能处理不属于任何进程的TCP sockets最大数量（主动关闭端发送了FIN后转到FIN_WAIT_1，这时TCP连接就不属于某个进程了）
 # net.ipv4.tcp_max_orphans = 262144
-net.ipv4.tcp_max_orphans = 16384
+net.ipv4.tcp_max_orphans = 262144
 net.ipv4.tcp_orphan_retries = 0
 
 # Increase the maximum memory used to reassemble IP fragments

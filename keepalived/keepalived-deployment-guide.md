@@ -256,3 +256,7 @@ TCP  10.1.0.100:8001 wrr persistent 5
     inet6 fe80::f816:3eff:fef6:693c/64 scope link
        valid_lft forever preferred_lft forever
 ```
+
+# 常见问题
+1，one or more VIP associated with VR ID mismatch actual MASTER advert
+> 原因：客户在同一网段中部署了新一套keepalived环境，导致`virtual_router_id`值跟我们部署的集群系统中该值冲突了.

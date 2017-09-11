@@ -21,7 +21,7 @@ QS_SrvMaxConnPerIP 50
 这两个数值可以根据服务器的性能调整。
 ```
 
-解决办法，配置reqtimeout_module和mod_qos,具体配置
+解决办法，配置`reqtimeout_module`和`mod_qos`,具体配置
 
 ```shell
 LimitRequestBody 102400

@@ -93,17 +93,17 @@ ERROR 1054 (42S22): Unknown column 'password' in 'field list'
 
 # mysql 操作
 ```sql
-<!-- 创建数据库 -->
+-- 创建数据库
 create database if not exists db_name;
-<!-- 查看数据库 -->
+-- 查看数据库
 show databases;
-<!-- 选用数据库 -->
+-- 选用数据库
 use db_name;
-<!-- 删除数据库 -->
+-- 删除数据库
 drop database if exist db_name;
-查看数据库表
+-- 查看数据库表
 show tables;
-删除数据表
+-- 删除数据表
 drop table if exists db_name;
 
 CREATE TABLE table_name (column_name column_type);
@@ -112,10 +112,15 @@ CREATE TABLE table_name (column_name column_type);
 ## 数据库状态
 
 ```sql
+-- 查看version
+status;
+
 -- 查看目前处理的列表
 show processlist;
 -- 杀死连接
 kill process_id;
+-- 查看端口号
+show global variables like 'port';
 
 -- 查看存储过程有哪些
 show procedure status\G;
@@ -129,9 +134,9 @@ show engine innodb status\G;
 
 ## 数据表操作
 ```sql
-查看表信息
+-- 查看表信息
 desc table_name;
-查看表的创建
+-- 查看表的创建
 show create table table_name;
 ```
 

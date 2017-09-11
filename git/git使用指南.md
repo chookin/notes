@@ -73,6 +73,22 @@ To again go back to the most recent commit
 $ git pull
 ```
 
+## 签出到非空目录
+想使用Git把档案获取到某个已存在的目录下错误
+fatal: destination path ‘文件夹名’ git clone already exists and is not an empty directory
+
+解决办法，在文件夹目录下执行以下命令：
+
+```sh
+git init
+git remote add origin gitpath
+git fetch
+git branch master origin/master
+git checkout master
+```
+
+或者先签出到其他路径，之后`copy -rf tmpdir dstdir`
+
 ## 创建新仓库
 
 创建新文件夹，切换路径到该文件夹，然后执行 `git init`以创建新的 git 仓库。
@@ -704,6 +720,8 @@ git tag -a v1.2 1502795
 
 # 参考
 
+- [Pro Git](http://iissnan.com/progit/)
+- [progit-v1 github](https://github.com/progit/progit)
 - [Git基础](https://github.com/mzkmzk/Read/blob/master/progit.md?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)
 - [Git教程](https://github.com/geeeeeeeeek/git-recipes/wiki?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)
 - [Undoing Changes](https://www.atlassian.com/git/tutorials/undoing-changes/git-checkout)

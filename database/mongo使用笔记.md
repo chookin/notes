@@ -49,7 +49,13 @@ db.apps.find({version:{"$in":[null],"$exists":true}})
 ```
 ## gt
 
-    db.proxy.find({validateTime:{$gt:ISODate("2015-03-06T06:23:12.493Z")}})
+```js
+db.comments.find({appName:{$regex:'直播'}}).count()
+db.comments.find({appName:{$regex:'直播'}}).limit(1)
+db.comments.find({appName:{$regex:'直播'},time:{$gt:ISODate("2017-01-01T00:00:00.000Z")}}).count()
+db.proxy.find({validateTime:{$gt:ISODate("2015-03-06T06:23:12.493Z")}})
+```
+
 ## lt
 
     db.category.find({ site:'amazon', crawlTime:{ $gte:ISODate("1971-01-01T00:00:00Z"), $lt: ISODate("2970-01-01T00:00:00Z")} }).count();

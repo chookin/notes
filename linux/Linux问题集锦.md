@@ -112,10 +112,12 @@ A: 下载RPM包：http://kojipkgs.fedoraproject.org/packages/gcc/4.3.2/7/x86_64/
 ```
 则在当前目录下生成./usr/lib64目录，包含：libstdc++.so.6.0.10、软连接和 libstdc++.so.6
 将生成的libstdc++.so.6.0.10 、软连接和 libstdc++.so.6拷贝到/usr/lib64下：
+
 ```shell
 #cp libstdc++* /usr/lib64 -a
 ```
 查看：
+
 ```shell
 ls -l libstdc++.so.6
 /usr/lib/libstdc++.so.6 -> /usr/lib/libstdc++.so.6.0.10

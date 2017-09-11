@@ -66,11 +66,14 @@ export PATH=$PHANTOM_HOME/bin:$PATH
 export CASPER_JS_HOME=$HOME/local/casperjs
 export PATH=$CASPER_JS_HOME/bin:$PATH
 
+export JADX_HOME=$HOME/local/jadx
+export PATH=$JADX_HOME/bin:$PATH
+
 # configure terminal color
 export CLICOLOR=1
 export LSCOLORS=gxfxaxdxcxegedabagacad
 
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/`whoami`/local/mysql/lib
+export LD_LIBRARY_PATH=/home/`whoami`/local/mysql/lib:$LD_LIBRARY_PATH
 
 # 历史命令最大条数
 HISTFILESIZE=100000
@@ -81,7 +84,6 @@ export HISTTIMEFORMAT
 alias ll="ls -all"
 
 alias vi='/usr/bin/vim'
-alias grep='grep --color=auto'
 alias mvnps='mvn package -DskipTests'
 alias mvnis='mvn install -DskipTests'
 alias gs='git status'
@@ -90,9 +92,6 @@ alias gpush='git push origin master'
 alias gpull='git pull origin'
 
 export SVN_EDITOR=vim
-
-export JADX_HOME=$HOME/local/jadx
-export PATH=$JADX_HOME/bin:$PATH
 
 alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
 
@@ -103,3 +102,14 @@ export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 export SVN_EDITOR=vim
 
+alias grep='grep --color=auto'
+alias mystrace="strace -tt -T -f -ff -o stracelog -s 1024 -p "
+function mykill(){
+    keyword=$1
+    user_name=$(whoami)
+    ps -u ${user_name} -f |grep ${keyword} | grep -v grep |awk '{print $2}'|xargs kill -9
+}
+
+function myps() {
+    ps -C $1 -f
+}

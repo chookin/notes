@@ -190,7 +190,7 @@ design = wyang
 @admin = rw
 @dev = r
 # 除了当前节已配置的用户，其他用户不能读写
-* = 
+* =
 
 [/doc]
 @design = rw
@@ -286,6 +286,14 @@ Tree conflict on '东软开发成果-广告管理平台/管理平台/1.代码类
 Select: (r) mark resolved, (p) postpone, (q) quit resolution, (h) help:
 ```
 
+若输入`p`，再次执行`svn status`，报错
+
+```
+local dir unversioned, incoming dir add upon update
+```
+
+可以执行`svn revert [dir]`撤销本地修改，然后再次`svn update`
+
 ## 参考
 
 - [How to Setup SubVersion Server on CentOS, RHEL & Fedora](http://tecadmin.net/setup-subversion-server-on-centos/#)
@@ -310,6 +318,8 @@ password-stores =
 
 ```sh
 svn checkout http://111.13.47.167/repos/tagbase/ tagbase/
+# 强制更新
+svn checkout --force http://111.13.47.167/repos/tagbase/ tagbase/
 # 签出指定版本
 svn co http://117.136.183.146:21889/repos/admonitor/src/webapp/src -r 174
 ```
@@ -393,23 +403,39 @@ Use the following command to create a list not under version control files.
 svn status | grep "^\?" | awk "{print \$2}" > ignoring.txt
 ```
 Then edit the file to leave just the files you want actually to ignore. Then use this one to ignore the files listed in the file:
+
 ```shell
 svn propset svn:ignore -F ignoring.txt .
 ```
 Note the dot at the end of the line. It tells SVN that the property is being set on the current directory.
 
 或者
+
 ```shell
 export SVN_EDITOR=/usr/bin/vi
 svn propedit svn:ignore .
 ```
 
-## 提交文件
-
-    svn commit  [path...]
 ## 生成patch
 
-    svn diff -x --ignore-all-space  > test.patch
+```sh
+svn diff -x --ignore-all-space  > test.patch
+```
+## 提交文件
+
+```sh
+svn commit  [path...]
+```
+
+## 提交文件夹但忽略其内部文件
+使用选项 `-N`
+
+```sh
+svn diff log-stat/cache-handler log-stat/collect-logs/filter139.py  log-stat/conf/stat.conf log-stat/lib  log-stat/sample-data/2017070308-admonitor.log log-agent >../patches/AD-67-zhuyin-filter-139-with-t-and-ip-2.patch
+
+
+svn commit -N log-agent/* log-stat log-stat/cache-handler log-stat/cache-handler/* log-stat/collect-logs log-stat/collect-logs/filter139.py  log-stat/conf log-stat/conf/stat.conf log-stat/lib log-stat/lib/* log-stat/sample-data log-stat/sample-data/2017070308-admonitor.log ../patches/AD-67-zhuyin-filter-139-with-t-and-ip-2.patch
+```
 ## 与指定版本做对比，生成diff
 
 ```
@@ -458,6 +484,12 @@ svn diff -c 25114 src/main.cpp
 svn diff -r r6453:r6452 src
 ```
 
+## 查看文件历史变更记录
+
+```sh
+svn log file
+```
+
 # 常见问题
 
 Q1:
@@ -479,6 +511,7 @@ export SVN_EDITOR=vi
     source /etc/profile
 
 Q2: idea打开svn版本管理的项目报错：
+
 ```
 svn: E155021: This client is too old to work with the working copy at '/Users/chookin/project/DaTiBa' (format 31). You need to get a newer Subversion client.
 ```

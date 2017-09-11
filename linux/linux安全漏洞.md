@@ -1,6 +1,7 @@
 # 安全漏洞
 ## ssh
 升级ssh
+
 ```shell
 wget http://mirrors.evowise.com/pub/OpenBSD/OpenSSH/portable/openssh-7.2p2.tar.gz
 tar zxvf openssh-*.tar.gz
@@ -21,6 +22,7 @@ wget https://mirrors.evowise.com/pub/OpenBSD/OpenSSH/portable/openssh-7.5p1.tar.
 yum update -y glibc
 
 测试脚本 `ghost-test.sh`
+
 ```shell
 #!/bin/bash
 #Version 3
@@ -32,7 +34,7 @@ for glibc_nvr in $( rpm -q --qf '%{name}-%{version}-%{release}.%{arch}\n' glibc 
     glibc_ver=$( echo "$glibc_nvr" | awk -F- '{ print $2 }' )
     glibc_maj=$( echo "$glibc_ver" | awk -F. '{ print $1 }')
     glibc_min=$( echo "$glibc_ver" | awk -F. '{ print $2 }')
-    
+
     echo -n "- $glibc_nvr: "
     if [ "$glibc_maj" -gt 2   -o  \
         \( "$glibc_maj" -eq 2  -a  "$glibc_min" -ge 18 \) ]; then
@@ -60,6 +62,48 @@ fi
 exit $rv
 ```
 
+## 升级openssl
+官网 ：https://www.openssl.org/source/
+
+安装最新的openssl
+
+```shell
+wget https://www.openssl.org/source/openssl-1.0.2l.tar.gz --no-check-certificate
+tar zxf openssl-1.0.2l.tar.gz
+cd openssl-1.0.2l
+./config shared zlib
+make
+make install
+```
+
+将原来的openssl备份
+
+```sh
+which openssl
+mv /usr/bin/openssl /usr/bin/open1.0.1e
+mv /usr/include/openssl/ /usr/include/openssl1.0.1e
+```
+
+将安装好的openssl 做链接到原来的路径，并加载库文件
+
+```sh
+ln -sv  /usr/local/ssl/bin/openssl /usr/bin/openssl
+ln -sv /usr/local/ssl/include/openssl /usr/include/openssl
+echo "/usr/local/ssl/lib" >> /etc/ld.so.conf
+ldconfig -v
+```
+
+查看当前版本信息
+
+```sh
+[work@lab23 ~]$ openssl version -a
+OpenSSL 1.0.2l  25 May 2017
+built on: reproducible build, date unspecified
+platform: linux-x86_64
+options:  bn(64,64) rc4(16x,int) des(idx,cisc,16,int) idea(int) blowfish(idx)
+compiler: gcc -I. -I.. -I../include  -fPIC -DOPENSSL_PIC -DZLIB -DOPENSSL_THREADS -D_REENTRANT -DDSO_DLFCN -DHAVE_DLFCN_H -Wa,--noexecstack -m64 -DL_ENDIAN -O3 -Wall -DOPENSSL_IA32_SSE2 -DOPENSSL_BN_ASM_MONT -DOPENSSL_BN_ASM_MONT5 -DOPENSSL_BN_ASM_GF2m -DRC4_ASM -DSHA1_ASM -DSHA256_ASM -DSHA512_ASM -DMD5_ASM -DAES_ASM -DVPAES_ASM -DBSAES_ASM -DWHIRLPOOL_ASM -DGHASH_ASM -DECP_NISTZ256_ASM
+OPENSSLDIR: "/usr/local/openssl/ssl"
+```
 ## 其他
 ```shell
 yum update -y openssl bash

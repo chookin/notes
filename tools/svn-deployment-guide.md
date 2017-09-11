@@ -35,8 +35,21 @@ wget https://www.apache.org/dist/serf/serf-1.3.9.zip --no-check-certificate
 # 需要先安装scons
 # wget http://prdownloads.sourceforge.net/scons/scons-local-2.3.0.tar.gz
 base_dir=/home/`whoami`/local
-scons APR=$base_dir/apr PREFIX=$base_dir/serf
+scons APR=$base_dir/apr APU=$base_dir/apr-util PREFIX=$base_dir/serf
 scons install
+```
+
+之后，把scons的lib添加到环境变量
+
+```sh
+egrep "LD_LIBRARY_PATH=/home/zhuyin/local/serf/lib" ~/.bashrc > /dev/null || echo 'export LD_LIBRARY_PATH=/home/zhuyin/local/serf/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
+source ~/.bashrc
+```
+
+若`scons`报错：`ImportError: No module named SCons.Script`，则根据错误提示创建软连接
+
+```sh
+ln -sv /home/zhuyin/local/python/lib/python2.7/site-packages/scons-2.5.1-py2.7.egg/scons-2.5.1 /home/zhuyin/local/python/lib/scons-2.5.1
 ```
 
 ### 安装svn
@@ -46,7 +59,7 @@ wget http://mirrors.tuna.tsinghua.edu.cn/apache/subversion/subversion-1.9.6.zip
 
 base_dir=/usr/local
 base_dir=$HOME/local
-./configure --prefix=$base_dir/subversion --with-apxs=$base_dir/apache/bin/apxs --with-apr=$base_dir/apr --with-apr-util=$base_dir/apr-util --with-zlib --with-openssl --enable-maintainer-mode --enable-shared=yes
+./configure --prefix=$base_dir/subversion --with-apxs=$base_dir/apache/bin/apxs --with-apr=$base_dir/apr --with-apr-util=$base_dir/apr-util --with-serf=$base_dir/serf --with-zlib --with-openssl --enable-maintainer-mode --enable-shared=yes
 make && make install
 ```
 
@@ -86,20 +99,30 @@ LoadModule dav_module modules/mod_dav.so
 ### 检查svn支持的模式
 
 ```
-# svn --version
-svn, version 1.8.1 (r1503906)
-   compiled Aug  2 2013, 11:36:48 on x86_64-unknown-linux-gnu
-Copyright (C) 2013 The Apache Software Foundation.This software consists of contributions made by many people;
-see the NOTICE file for more information.Subversion is open source software, see http://subversion.apache.org/
+➜  subversion-1.9.6 svn --version
+svn, version 1.9.6 (r1800392)
+   compiled Aug  1 2017, 11:57:50 on x86_64-unknown-linux-gnu
+
+Copyright (C) 2017 The Apache Software Foundation.
+This software consists of contributions made by many people;
+see the NOTICE file for more information.
+Subversion is open source software, see http://subversion.apache.org/
+
 The following repository access (RA) modules are available:
+
 * ra_svn : Module for accessing a repository using the svn network protocol.
-  - with Cyrus SASL authentication
   - handles 'svn' scheme
 * ra_local : Module for accessing a repository on local disk.
   - handles 'file' scheme
 * ra_serf : Module for accessing a repository via WebDAV protocol using serf.
+  - using serf 1.3.9 (compiled with 1.3.9)
   - handles 'http' scheme
   - handles 'https' scheme
+
+The following authentication credential caches are available:
+
+* Plaintext cache in /home/zhuyin/.subversion
+* GPG-Agent
 ```
 
 ## 通过yum安装Subversion

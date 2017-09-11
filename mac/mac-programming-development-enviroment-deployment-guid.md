@@ -55,10 +55,25 @@ Oh My Zsh is installed by running one of the following commands in your terminal
 via curl
 
 ```sh
+# yum install -y zsh git
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 ```
 
 配置文件`~/.zshrc`
+
+1， vi报错
+
+```
+(eval):1: _vim: function definition file not found
+(eval):1: _vim: function definition file not found
+(eval):1: _vim: function definition file not found
+```
+解决办法
+
+```sh
+rm $ZSH_COMPDUMP
+exec zsh
+```
 
 # vi
 

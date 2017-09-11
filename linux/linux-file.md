@@ -56,6 +56,46 @@ find . -type f -name *.java | xargs grep -r common.Logger
 find . -type f -name "*.sh" -print0 | xargs -0 grep -r "merged.data"
 ```
 
+
+```sh
+# -mtime    -n +n              #按文件更改时间来查找文件，-n指n天以内，+n指n天以前
+find . -name "*.md" -mtime -7 -ls
+```
+
+```sh
+-name   filename             #查找名为filename的文件
+-perm                        #按执行权限来查找
+-user    username             #按文件属主来查找
+-group groupname            #按组来查找
+-mtime   -n +n                #按文件更改时间来查找文件，-n指n天以内，+n指n天以前
+-atime    -n +n               #按文件访问时间来查GIN: 0px">
+
+-ctime    -n +n              #按文件创建时间来查找文件，-n指n天以内，+n指n天以前
+
+-nogroup                     #查无有效属组的文件，即文件的属组在/etc/groups中不存在
+-nouser                     #查无有效属主的文件，即文件的属主在/etc/passwd中不存
+-newer   f1 !f2              找文件，-n指n天以内，+n指n天以前
+-ctime    -n +n               #按文件创建时间来查找文件，-n指n天以内，+n指n天以前
+-nogroup                     #查无有效属组的文件，即文件的属组在/etc/groups中不存在
+-nouser                      #查无有效属主的文件，即文件的属主在/etc/passwd中不存
+-newer   f1 !f2               #查更改时间比f1新但比f2旧的文件
+-type    b/d/c/p/l/f         #查是块设备、目录、字符设备、管道、符号链接、普通文件
+-size      n[c]               #查长度为n块[或n字节]的文件
+-depth                       #使查找在进入子目录前先行查找完本目录
+-fstype                     #查更改时间比f1新但比f2旧的文件
+-type    b/d/c/p/l/f         #查是块设备、目录、字符设备、管道、符号链接、普通文件
+-size      n[c]               #查长度为n块[或n字节]的文件
+-depth                       #使查找在进入子目录前先行查找完本目录
+-fstype                      #查位于某一类型文件系统中的文件，这些文件系统类型通常可 在/etc/fstab中找到
+-mount                       #查文件时不跨越文件系统mount点
+-follow                      #如果遇到符号链接文件，就跟踪链接所指的文件
+-cpio                %;      #查位于某一类型文件系统中的文件，这些文件系统类型通常可 在/etc/fstab中找到
+-mount                       #查文件时不跨越文件系统mount点
+-follow                      #如果遇到符号链接文件，就跟踪链接所指的文件
+-cpio                        #对匹配的文件使用cpio命令，将他们备份到磁带设备中
+-prune                       #忽略某个目录
+```
+
 ## 文件删除
 - 删除除指定文件外的其它文件
   `ls | grep -v jpg | xargs rm -rf`
@@ -224,6 +264,7 @@ $ ll
 | 修改文件内容                | 不一定（vim 与echo就不一样） | 改变    | 改变    |
 | 修改文件权限属性（chmod，chown） | 不变                 | 不变    | 改变    |
 如何查看这些时间信息?
+
 ```sh
 [ubak@ad-manage1 ~]$ file 2017_07_15.tar.gz
 2017_07_15.tar.gz: gzip compressed data, from Unix, last modified: Sat Jul 15 16:51:42 2017

@@ -70,7 +70,7 @@ export PATH=$CASPER_JS_HOME/bin:$PATH
 export CLICOLOR=1
 export LSCOLORS=gxfxaxdxcxegedabagacad
 
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/`whoami`/local/mysql/lib
+export LD_LIBRARY_PATH=/home/`whoami`/local/mysql/lib:$LD_LIBRARY_PATH
 
 # 历史命令最大条数
 HISTFILESIZE=100000

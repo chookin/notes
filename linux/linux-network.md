@@ -17,13 +17,13 @@ export TIMEOUT
 1. Open the /etc/sysconfig/network file with your favorite text editor. Modify the HOSTNAME= value to match your FQDN host name.
 
 ```shell
-$ sudo vi /etc/sysconfig/network
+vi /etc/sysconfig/network
 NETWORKING=yes
 HOSTNAME=myserver.domain.com
 ```
 2. Change the host that is associated to your main IPaddress for your server, this is for internal networking (found at /etc/hosts):
 3. The 'hostname' command will let you change the hostname on the server that the commandline remembers, but it will not actively update all programs that are running under the old hostname.
-4. reconnect the shell connection.
+4. execute `sysctl kernel.hostname=lab16 `
 
 ## 网卡
 
@@ -163,8 +163,49 @@ route add default gw 192.168.110.103
 
 编辑文件`/etc/resolv.conf`
 
+```sh
+# baidu dns
+echo 'nameserver 180.76.76.76' >> /etc/resolv.conf
+# google dns
+echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 ```
-echo 'nameserver 8.8.8.8' > /etc/resolv.conf
+
+如果dns由`NetworkManager`自动设定，则可能需要在`/etc/sysconfig/network-scripts/ifcfg-eth0`(具体根据网卡情况调整)中设定dns。否则，当重启network服务时，dns会被overwrite.
+
+```sh
+vi /etc/sysconfig/network-scripts/ifcfg-eth0
+DNS1=180.76.76.76
+DNS2=114.114.114.114
+DNS3=8.8.8.8
+```
+
+当然若启用了NetworkManager，可把其停用。
+
+```sh
+[root@lab16 ~]# service NetworkManager status
+NetworkManager (pid  2190) 正在运行...
+[root@lab16 ~]# service NetworkManager stop
+停止 NetworkManager 守护进程：                             [确定]
+[root@lab16 ~]# chkconfig --levels 0123456 NetworkManager off
+```
+
+确保可用dns解析，即/etc/nsswitch.conf文件中hosts使用了dns.
+
+```sh
+$ grep hosts /etc/nsswitch.conf  
+-------------------------------------------------------------------  
+hosts:      files dns  
+-------------------------------------------------------------------
+```
+
+注意，上面的配置要加上dns。
+以下是dns的配置，备忘。
+
+```
+hosts: dns files #表示只在DNS失效时候才使用/etc/hosts文件
+hosts: dns #表示只用DNS解析主机
+host: files #表示只用/etc/hosts文件解析主机
+hosts: files dns #将使用/etc/hosts文件解析主机，表示如果无法解析主机名将使用DNS。
 ```
 
 ## 查看网卡是否连接网线
@@ -454,7 +495,7 @@ A: 在命令行中加-k 使得connection keep alive
 多次连接测指定url的可访问性
 
 ```shell
-httping --ts -v -c 2 -GbY -Ss -b -g http://117.136.183.146:21008/sv/9999/325/9999
+httping --ts -v -GbY -Ss -b -g http://117.136.183.146:21008/sv/9999/325/9999 -c 2
 ```
 
 简单介绍一下几个常用的选项

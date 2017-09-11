@@ -20,10 +20,21 @@ FNR,与NR功用类似,不同的是awk每打开一个新文件,FNR便重新累计
 awk 'NF' somefile
 ```
 
+```sh
+先使用`| `分割，进一步，若分割后第一列以 数字+`.`开头，则取第一列输出，否则取第一列输出
+cat sc.log| awk -F '\\| ' '{if(match($1, /^[0-9]+\.[0-9]+/)){print $1}else{print $2}}'
+```
+
 指定分隔符，使用`OFS`
 
 ```sh
 [ ! -f cookie.sv ] && cat *sv.log |awk -F '|' '{OFS="|"}{print $5,$6,$7}' > cookie.sv
+```
+
+对特殊字符需要使用`\`转义
+
+```sh
+➜  139-ana cat ../20170808*/*sc.log|grep "79/319/2407"|awk -F 'Aug/2017:' '{print $2}' | awk -F ' \\+0800\\] "GET /sc/79/319/2407/5\\?v=1&ip='  '{print $1,$2}'|awk -F ' HTTP' '{print $1}'|awk -F '&t=' '{print $1,$2}'|awk -F ':' '{print $1,$3}'|awk '{print $1,$3,$4}'|sort -k 1,3|uniq |wc -l
 ```
 
 不输出最后一列. 如果用 `awk ‘{$NF=””,print}’` 虽然不打印最后一列，但最后的空格是存在的。
@@ -60,6 +71,31 @@ head -n 10000 128-sc.log |awk -F "72/325" '{print $2}'| awk 'NF' | awk -F '/' '$
 
 参考：
 - [linux awk 运算符](http://blog.csdn.net/ithomer/article/details/8476621)
+
+## grep/egrep
+```sh
+# 将会匹配到`/sv/79/319/2404/`
+grep --color "sv/.*/2404/" 123-sv.log
+```
+
+## sed
+
+```sh
+sed '2 ittt' -i a.txt # 在第2行前插入ttt，并且将结果更新到a.txt
+sed '2 attt' -i a.txt #在第2行后插入ttt,并且将结果更新到a.txt
+
+# 去除开头的字符‘：’
+cat s.log |awk -F ':' '{OFS=":"}{$1="";print $0}'|sed 's/^://g'>s1.log
+```
+
+```sh
+sed -i "s/work/zhuyin/g" file
+sed -i "s/^slaveof.*/slaveof $redis_master $redis_port/g" ${redis_home}/redis.conf
+sed -i "s#home/work#home/zhuyin#g" php-*.ini
+find ${soft_name} \( -name "*.ini" -o -name "*.conf" -o -name "*.cnf" \) -exec sed -i "s#/home/work#$target_path#g" {} +
+```
+
+- [文件和目录管理-sed](http://man.linuxde.net/sed)
 
 # 问题
 Q：Display 3rd line of the file in Unix

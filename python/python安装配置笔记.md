@@ -7,24 +7,22 @@
 安装如下组件
 
 ```
-yum install gcc zlib zlib-devel openssl-devel
+yum install -y gcc zlib zlib-devel openssl-devel
 ```
 
 ## 下载
 
 ```sh
-version=2.7.8
 version=2.7.13
 wget https://www.python.org/ftp/python/$version/Python-$version.tgz --no-check-certificate
 ```
 
 ## 编译安装
 ```shell
-username=`whoami`
-mkdir ~/local
-./configure --prefix=/home/${username}/local/python
-make
-make install
+tar xvf Python-$version*
+cd Python-$version
+./configure --prefix=/home/`whoami`/local/python
+make && make install
 ```
 
 ## 配置环境变量
@@ -54,7 +52,7 @@ module会安装到路径：`python-2.7.8/lib/python2.7/site-packages`
 
 ## 常用 module
 ```shell
-easy_install pymongo MySQL-python
+easy_install pymongo MySQL-python futures paramiko redis
 ```
 
 ## python notebook

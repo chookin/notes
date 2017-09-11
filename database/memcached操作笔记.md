@@ -12,8 +12,10 @@ wget http://www.memcached.org/files/memcached-$version.tar.gz
 
 完成后，解压并准备编译安装。
 
-```
-./configure --prefix=/home/`whoami`/local/memcached/
+```sh
+tar xvf memcached-$version.*
+cd memcached-$version
+./configure --prefix=/home/`whoami`/local/memcached/ --with-libevent=$HOME/local/libevent
 make && make install
 ```
 
@@ -26,6 +28,17 @@ make && make install
 解决办法，安装libevent
 
     yum install -y libevent libevent-devel
+
+或者编译安装
+
+```sh
+# 通过wget无法下载，建议通过浏览器下载之后，再传到服务器
+wget https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz
+tar xvf libevent-2.1.8-stable.tar.gz
+cd libevent-2.1.8-stable
+./configure --prefix=$HOME/local/libevent
+make && make install
+```
 
 # 程序启动
 ## 启动命令

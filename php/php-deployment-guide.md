@@ -1,12 +1,27 @@
 # php7
 
+## 前言
+[What is no-debug-non-zts-20090626?](https://stackoverflow.com/questions/14414551/what-is-no-debug-non-zts-20090626)
+
+> It's an extension directory for PHP, named after some factors that influence extension compatibility: thread safety (non-zts), debug (no-debug), and engine version (20090626).
+
+Different web servers implement different techniques for handling incoming HTTP requests in parallel. A pretty popular technique is using threads -- that is, the web server will create/dedicate a single thread for each incoming request. The Apache HTTP web server supports multiple models for handling requests, one of which (called the worker MPM) uses threads. But it supports another concurrency model called the prefork MPM which uses processes -- that is, the web server will create/dedicate a single process for each request.
+
+Since with mod_php, PHP gets loaded right into Apache, if Apache is going to handle concurrency using its Worker MPM (that is, using Threads) then PHP must be able to operate within this same multi-threaded environment -- meaning, PHP has to be thread-safe to be able to play ball correctly with Apache!
+
+In case you are wondering, my personal advice would be to not use PHP in a multi-threaded environment if you have the choice!
+
+Speaking only of Unix-based environments, I'd say that fortunately, you only have to think of this if you are going to use PHP with Apache web server, in which case you are advised to go with the prefork MPM of Apache (which doesn't use threads, and therefore, PHP thread-safety doesn't matter)
+
 ## 安装php
 
 ```sh
-yum -y install gcc gcc-c++ cmake libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel pcre-devel libmcrypt libmcrypt-devel libxslt-devel
+yum -y install gcc gcc-c++ cmake libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel pcre-devel libmcrypt libmcrypt-devel libxslt-devel libcurl-devel
 
-version=7.1.7
+version=7.1.8
 wget http://cn2.php.net/distributions/php-$version.tar.xz
+tar xvf php-$version.tar.xz
+cd php-$version
 TARGET_PATH=/home/`whoami`/local/php-$version
 ./configure --prefix=$TARGET_PATH  \
  --with-apxs2=/home/`whoami`/local/apache/bin/apxs \
@@ -49,6 +64,7 @@ TARGET_PATH=/home/`whoami`/local/php-$version
  --enable-xml \
  --enable-zip
 make && make install
+ln -fsv /home/`whoami`/local/php-$version /home/`whoami`/local/php
 ```
 
 ## 配置
@@ -77,7 +93,7 @@ LoadModule php7_module        modules/libphp7.so
 
 ```ini
 [Zend]
-zend_extension="/home/zhuyin/local/php-7.1.6/lib/php/extensions/no-debug-zts-20160303/opcache.so"
+zend_extension="/home/zhuyin/local/php/lib/php/extensions/no-debug-zts-20160303/opcache.so"
 opcache.enable=1
 opcache.enable_cli=1
 opcache.memory_consumption=128
@@ -106,13 +122,14 @@ https://pecl.php.net/package/xdebug
 #### 编译安装
 
 ```sh
-# 需要先安装libevent
+# 需要先安装libmemcached
 wget https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz
 tar xvf libmemcached-1.0.18.tar.gz
 cd libmemcached-1.0.18
 ./configure --prefix=$HOME/local/libmemcached
 make && make install
 
+# wget https://pecl.php.net/get/memcached-3.0.3.tgz
 git clone -b php7  https://github.com/php-memcached-dev/php-memcached.git --depth=1
 cd php-memcached
 phpize
@@ -161,21 +178,26 @@ xdebug.idekey="PHPSTORM"
 ```
 
 ### redis
-
+#### 编译安装
 ```sh
 # https://pecl.php.net/package/redis
 wget https://pecl.php.net/get/redis-3.1.3.tgz
+tar xvf redis-3.1.3.tgz
+cd redis-3.1.3
 phpize
 ./configure
 make && make install
 # Installing shared extensions:     /home/zhuyin/local/php-7.1.7/lib/php/extensions/no-debug-zts-20160303/
 ```
 
+#### 配置
 ```ini
 ; Directory in which the loadable extensions (modules) reside.
 extension_dir = "/home/zhuyin/local/php/lib/php/extensions/no-debug-zts-20160303/"
 extension=redis.so
 ```
+
+#### 校验安装
 
 ```
 ➜  redis-3.1.3 php -i "(command-line 'phpinfo()')" | grep Redis
@@ -185,15 +207,75 @@ Redis Version => 3.1.3
 
 ## 测试
 
-写测试文件test.php，放到apache的DocumentRoot路径下。
+写测试文件info.php，放到apache的DocumentRoot路径下。
 
 ```php
-# test.php
+// info.php
 <?php
 phpinfo();
 ?>
 ```
-在浏览器地址栏中输入http://localhost/test.php，正常情况下，页面中出现php的版本信息。
+在浏览器地址栏中输入http://localhost/info.php，正常情况下，页面中出现php的版本信息。
+
+测试数据库连接
+
+```php
+// test.php
+<?php
+echo "php version=";
+echo phpversion();
+
+echo "<br>";
+echo "mysqli connect:";
+$link=mysqli_connect('mysqlmaster','root','root','admonitor','23306');
+if(!$link) echo '<p>failed.</p>';
+else echo '<p>successed.</p>';
+mysqli_close($link);
+
+echo "mysql-pdo connect:";
+$pdo = new PDO("mysql:host=mysqlmaster;dbname=admonitor",'root','root');
+$pdo->exec("set names 'utf8'");
+$sql = "select * from userinfo where uid = ?";
+$stmt = $pdo->prepare($sql);
+$stmt->bindValue(1, '1', PDO::PARAM_STR);
+$rs = $stmt->execute();
+if ($rs) {
+    // PDO::FETCH_ASSOC 关联数组形式
+    // PDO::FETCH_NUM 数字索引数组形式
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        var_dump($row);
+    }
+}
+$pdo = null;//关闭连接
+?>
+```
+
+# 常见问题
+
+1，Autoconf version 2.59 or higher is required for this script
+
+```
+➜  redis-3.1.3 phpize
+Configuring for:
+PHP Api Version:         20160303
+Zend Module Api No:      20160303
+Zend Extension Api No:   320160303
+Autoconf version 2.59 or higher is required for this script
+```
+
+删除旧版本：
+`rpm -e --nodeps autoconf`
+安装新版本autoconf
+
+```sh
+wget http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz
+tar -xzf autoconf-2.69.tar.gz
+cd autoconf-2.69
+./configure
+make && make install
+```
+
+
 
 # 参考
 

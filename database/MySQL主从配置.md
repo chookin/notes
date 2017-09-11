@@ -11,7 +11,7 @@ MySQL复制技术有以下一些特点：
 2. 数据备份(Backups)；
 3. 高可用性和容错行 High availability and failover 。
 
-## 复制如何工作 
+## 复制如何工作
 
 整体上来说，复制有3个步骤：
 
@@ -185,10 +185,10 @@ $ bin/mysql --defaults-file=etc/my.cnf -h mysql_master -u slave -p -P23306
 若连接成功，则进入下一步，在从库上启动主从数据同步。
 
 ## 在从库上启动主从数据同步
-1）启动从库 
+1）启动从库
 
 ```shell
-$ bin/mysqld_safe  --defaults-file=etc/my.cnf & 
+$ bin/mysqld_safe  --defaults-file=etc/my.cnf &
 ```
 
 2）和主数据库同步
@@ -232,33 +232,33 @@ mysql> show slave status\G;
         Relay_Master_Log_File: mysql-bin.000001
              Slave_IO_Running: Yes
             Slave_SQL_Running: Yes
-              Replicate_Do_DB: 
-          Replicate_Ignore_DB: 
-           Replicate_Do_Table: 
-       Replicate_Ignore_Table: 
-      Replicate_Wild_Do_Table: 
-  Replicate_Wild_Ignore_Table: 
+              Replicate_Do_DB:
+          Replicate_Ignore_DB:
+           Replicate_Do_Table:
+       Replicate_Ignore_Table:
+      Replicate_Wild_Do_Table:
+  Replicate_Wild_Ignore_Table:
                    Last_Errno: 0
-                   Last_Error: 
+                   Last_Error:
                  Skip_Counter: 0
           Exec_Master_Log_Pos: 107
               Relay_Log_Space: 409
               Until_Condition: None
-               Until_Log_File: 
+               Until_Log_File:
                 Until_Log_Pos: 0
            Master_SSL_Allowed: No
-           Master_SSL_CA_File: 
-           Master_SSL_CA_Path: 
-              Master_SSL_Cert: 
-            Master_SSL_Cipher: 
-               Master_SSL_Key: 
+           Master_SSL_CA_File:
+           Master_SSL_CA_Path:
+              Master_SSL_Cert:
+            Master_SSL_Cipher:
+               Master_SSL_Key:
         Seconds_Behind_Master: 0
 Master_SSL_Verify_Server_Cert: No
                 Last_IO_Errno: 0
-                Last_IO_Error: 
+                Last_IO_Error:
                Last_SQL_Errno: 0
-               Last_SQL_Error: 
-  Replicate_Ignore_Server_Ids: 
+               Last_SQL_Error:
+  Replicate_Ignore_Server_Ids:
              Master_Server_Id: 1
 ```
 
@@ -379,7 +379,7 @@ skip-slave-start
 - 启动新的slave数据库
 
 ```shell
-bin/mysqld_safe  --defaults-file=etc/my.cnf & 
+bin/mysqld_safe  --defaults-file=etc/my.cnf &
 ```
 
 - 登录新的slave数据库并配置复制
@@ -438,33 +438,33 @@ mysql> show slave status\G;
         Relay_Master_Log_File: mysql-bin.000011
              Slave_IO_Running: Yes
             Slave_SQL_Running: Yes
-              Replicate_Do_DB: 
+              Replicate_Do_DB:
           Replicate_Ignore_DB: mysql
-           Replicate_Do_Table: 
-       Replicate_Ignore_Table: 
-      Replicate_Wild_Do_Table: 
-  Replicate_Wild_Ignore_Table: 
+           Replicate_Do_Table:
+       Replicate_Ignore_Table:
+      Replicate_Wild_Do_Table:
+  Replicate_Wild_Ignore_Table:
                    Last_Errno: 0
-                   Last_Error: 
+                   Last_Error:
                  Skip_Counter: 0
           Exec_Master_Log_Pos: 808436349
               Relay_Log_Space: 808436694
               Until_Condition: None
-               Until_Log_File: 
+               Until_Log_File:
                 Until_Log_Pos: 0
            Master_SSL_Allowed: No
-           Master_SSL_CA_File: 
-           Master_SSL_CA_Path: 
-              Master_SSL_Cert: 
-            Master_SSL_Cipher: 
-               Master_SSL_Key: 
+           Master_SSL_CA_File:
+           Master_SSL_CA_Path:
+              Master_SSL_Cert:
+            Master_SSL_Cipher:
+               Master_SSL_Key:
         Seconds_Behind_Master: 0
 Master_SSL_Verify_Server_Cert: No
                 Last_IO_Errno: 0
-                Last_IO_Error: 
+                Last_IO_Error:
                Last_SQL_Errno: 0
-               Last_SQL_Error: 
-  Replicate_Ignore_Server_Ids: 
+               Last_SQL_Error:
+  Replicate_Ignore_Server_Ids:
              Master_Server_Id: 1
 1 row in set (0.00 sec)
 ```
@@ -516,6 +516,7 @@ Seconds_Behind_Master表示slave上SQL thread与IO thread之间的延迟。MySQL
 ### 查看master和slave上线程的状态
 
 在master上，可以看到slave的I/O线程创建的连接：
+
 ```sql
 mysql> show processlist\G;
 *************************** 8. row ***************************
@@ -531,12 +532,13 @@ Command: Binlog Dump
 行8为处理slave的I/O线程的连接。
 
 在slave服务器上运行该语句：
+
 ```sql
 mysql> show processlist\G;
 *************************** 3. row ***************************
      Id: 7
    User: system user
-   Host: 
+   Host:
      db: NULL
 Command: Connect
    Time: 273
@@ -545,7 +547,7 @@ Command: Connect
 *************************** 4. row ***************************
      Id: 8
    User: system user
-   Host: 
+   Host:
      db: NULL
 Command: Connect
    Time: 267

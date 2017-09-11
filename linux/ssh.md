@@ -20,6 +20,7 @@ ssh lab09 'su - work -c "/home/work/local/mfs/sbin/mfschunkserver stop"'
 <b>配置ssh使得服务器A的用户user_a1可以无密码访问服务器B的用户user_b1</b>
 
 采用rsa方式。
+
 ```
 https://www.gentoo.org/support/news-items/2015-08-13-openssh-weak-keys.html
 
@@ -49,9 +50,9 @@ entirely, so this is only a stop gap solution.
 # 启用 RSA 认证
 RSAAuthentication yes
 # 启用公钥私钥配对认证方式
-g yes
+PubkeyAuthentication yes
 # 公钥文件路径
-AuthorizedKeysFile .ssh/authorized_keys 
+AuthorizedKeysFile .ssh/authorized_keys
 ```
 
 如果修改了配置文件，需重启ssh.
@@ -63,18 +64,21 @@ service sshd restart
 
 ## 具体操作
 1）在A服务器的用户user_a1上执行如下命令，将在.ssh路径下自动生成id_dsa.pub文件
+
 ```shell
-cd && ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa && chmod 700 ~/.ssh
+cd && ssh-keygen -b 4096 -t rsa -P '' -f ~/.ssh/id_rsa && chmod 700 ~/.ssh && chmod 600 ~/.ssh/id_rsa
 ```
 
 2）配置B服务器
 登录B服务器的用户user_b1。
 如果路径~/.ssh/不存在，则执行命令
+
 ```shell
 cd && ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa && chmod 700 ~/.ssh
 ```
 
 拷贝步骤1生成的`id_dsa.pub`文件内容并追加到服务器B的`.ssh/c`文件中（如果`.ssh/authorized_keys`不存在，创建之），并执行如下命令
+
 ```shell
 chmod 600 $HOME/.ssh/authorized_keys;
 ```
@@ -83,16 +87,18 @@ chmod 600 $HOME/.ssh/authorized_keys;
 
 3）配置B服务器防火墙
 开放A的ssh访问。
+
 ```shell
 iptables -I INPUT -p tcp -s hostname_A --dport 22 -j ACCEPT
 ```
 
 注意，避免使用iptables -A，因为“iptables -A”会使得新添加的规则加入到防火墙链的尾部，可能会存在不可用的情况。
+
 ```shell
 # iptables -L
 Chain INPUT (policy ACCEPT)
 target     prot opt source               destination
-ACCEPT     tcp  --  anywhere             anywhere            tcp dpt:biimenu 
+ACCEPT     tcp  --  anywhere             anywhere            tcp dpt:biimenu
 ACCEPT     tcp  --  218.206.179.52       anywhere            tcp dpt:ssh
 ACCEPT     udp  --  anywhere             anywhere            udp dpt:ntp
 DROP       tcp  --  anywhere             anywhere            tcp dpt:ssh
@@ -101,12 +107,30 @@ ACCEPT     tcp  --  upload@udbac.com     anywhere            tcp dpt:ssh
 
 4）测试A对B的访问
 在A上执行
+
 ```shell
 ssh user_b1@hostname_B -v
 ```
 
 如果可以成功访问，OK
 
+# 简单操作
+
+Simple method
+Note: This method might fail if the remote server uses a non-sh shell such as tcsh as default and uses OpenSSH older than 6.6.1p1. See this bug report.
+If your key file is ~/.ssh/id_rsa.pub you can simply enter the following command.
+
+```sh
+$ ssh-copy-id remote-server.org
+```
+
+If your username differs on remote machine, be sure to prepend the username followed by @ to the server name.
+
+```sh
+$ ssh-copy-id username@remote-server.org
+```
+
+- [SSH keys](https://wiki.archlinux.org/index.php/SSH_keys)
 ## 常见问题
 
 若无密码登录配置不成功，请检查：
@@ -128,6 +152,7 @@ OpenSSH在用户登录的时候会验证ip，它根据用户的IP使用反向DNS
 解决办法：
 
 在目标服务器上修改sshd服务器端配置,并重启sshd
+
 ```shell
 vi /etc/ssh/sshd_config
 UseDNS no
@@ -136,6 +161,7 @@ UseDNS no
 2) 关闭ssh的gssapi认证
 
 用`ssh -v user@server`可以看到登录时有如下信息：
+
 ```
 debug1: Next authentication method: gssapi-with-mic
 debug1: Unspecified GSS failure. Minor code may provide more information
@@ -155,6 +181,7 @@ debug1: Next authentication method: publickey
 解决办法：
 
 修改sshd服务器端配置
+
 ```shell
 vi /etc/ssh/ssh_config
 
@@ -174,7 +201,7 @@ GSSAPI ( Generic Security Services Application Programming Interface) 是一套�
 
 - [ssh登录很慢解决方法](https://blog.linuxeye.com/420.html)
 - [ssh 配置讲解大全](http://blog.chinaunix.net/uid-20395453-id-3264845.html)
-
+CmAdm@139)1
 # 禁止root登录
 
 2016.07.21下午发现183服务器的`/var/log/secure`文件中有大量的登录错误信息。

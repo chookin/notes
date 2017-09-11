@@ -5,17 +5,20 @@
 ## 安装基础组件
 
 ```sh
-# to fix error: expat.h: No such file or directory
-yum install expat-devel
+# to fix error:
+# expat.h: No such file or directory
+# configure: error: You need a C++ compiler for C++ support
+yum install -y expat-devel gcc gcc-c++
 ```
 
 ### 安装pcre
 
 ```sh
 # wget https://ftp.pcre.org/pub/pcre/pcre2-10.23.tar.bz2 --no-check-certificate
-wget https://ftp.pcre.org/pub/pcre/pcre-8.40.tar.bz2 --no-check-certificate
-tar zxvf pcre-*
-cd pcre-*
+version=8.41
+wget https://ftp.pcre.org/pub/pcre/pcre-$version.tar.bz2 --no-check-certificate
+tar zxvf pcre-$version*
+cd pcre-$version
 
 ./configure --enable-utf8 --prefix=/home/`whoami`/local/pcre
 make && make install
@@ -23,17 +26,19 @@ make && make install
 ### 安装apr和apr-util
 
 ```sh
-wget http://mirrors.hust.edu.cn/apache//apr/apr-1.5.2.tar.bz2
-tar xvf apr-*
-# wget http://mirrors.hust.edu.cn/apache//apr/apr-1.6.2.tar.bz2
+version=1.5.2
+version=1.6.2
+wget http://mirrors.hust.edu.cn/apache//apr/apr-$version.tar.bz2
+tar xvf apr-$version*
 ./configure   --prefix=/home/`whoami`/local/apr
 make && make install
 ```
 
 ```sh
-wget http://mirrors.hust.edu.cn/apache//apr/apr-util-1.5.4.tar.bz2
-tar xvf apr-util-*
-# wget http://mirrors.hust.edu.cn/apache//apr/apr-util-1.6.0.tar.bz2
+version=1.5.4
+version=1.6.0
+wget http://mirrors.hust.edu.cn/apache//apr/apr-util-$version.tar.bz2
+tar xvf apr-util-$version*
 ./configure --prefix=/home/`whoami`/local/apr-util --with-apr=/home/`whoami`/local/apr
 make && make install
 ```
@@ -53,16 +58,17 @@ drwxr-xr-x 20 zhuyin zhuyin 4096 Nov  4 10:54 apr-util
 
 ```sh
 version="2.4.26"
-
+version="2.4.27"
 wget http://archive.apache.org/dist/httpd/httpd-$version.tar.bz2
 tar xvf httpd-$version.tar.bz2
 cd httpd-$version
 
+make clean
 username=`whoami`
 TARGET_PATH="/home/${username}/local"
-make clean
 ./configure --with-layout=Apache --prefix=${TARGET_PATH}/apache-$version --with-apr=${TARGET_PATH}/apr --with-apr-util=$TARGET_PATH/apr-util --with-pcre=$TARGET_PATH/pcre --with-port=80 --enable-modules=most --enable-module=so --enable-dav --enable-module=rewrite --enable-ssl --enable-mime-magic --enable-mpms-shared=all
 make && make install
+ln -fsv /home/`whoami`/local/apache-$version /home/`whoami`/local/apache
 ```
 
 ### 说明
@@ -96,8 +102,8 @@ apache2.4.10起，有3种稳定的MPM（Multi-Processing Module，多进程处�
 在httpd.conf中修改Apache的多处理模式MPM可以通过（modules文件夹下，会自动编译出三个MPM的so）：
 
 ```sh
-#LoadModule mpm_prefork_module modules/mod_mpm_prefork.so
-LoadModule mpm_worker_module modules/mod_mpm_worker.so
+LoadModule mpm_prefork_module modules/mod_mpm_prefork.so
+#LoadModule mpm_worker_module modules/mod_mpm_worker.so
 #LoadModule mpm_event_module modules/mod_mpm_event.so
 ```
 
@@ -254,7 +260,7 @@ apachectl -k start
 apachectl -k stop
 
 # 杀死当前用户的所有apache进程，用于当pid丢失时
-pkill -u zhuyin httpd
+pkill -u `whoami` httpd
 ```
 # 常见问题
 

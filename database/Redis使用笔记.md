@@ -66,12 +66,40 @@ cp redis.conf $HOME/local/redis/
 
 ```sh
 # start-redis.sh
-bin/redis-server redis.conf
+# created by zhuyin, 20170725
+
+cur_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $cur_dir
+
+function do_start(){
+    [ -d log ] || mkdir log
+    [ -d snapshot ] || mkdir snapshot
+    [ -d var ] || mkdir var
+    script_file=$1
+    $script_file redis.conf
+}
+
+function count_running(){
+    keyword=$1
+    echo $(ps -u `whoami` -f |grep \"${script_file}\" | grep -v grep |awk '{print $2}' |wc -l)
+}
+
+# 若当前用户没有运行`redis2log.py`脚本,则才执行启动
+script_file="redis-server"
+[ $(count_running ${script_file}) -eq 0 ] && do_start ${script_file}
 ```
 
 ```sh
 # stop-redis.sh
- ps -u `whoami` xu |grep redis | grep -v grep | awk '{print $2}' | xargs kill -9
+#!/usr/bin/env bash
+# created by zhuyin, 20170725
+
+function kill_all(){
+    keyword=$1
+    ps -u `whoami` -f |grep ${keyword} | grep -v grep |awk '{print $2}' | xargs kill -15
+}
+
+kill_all "redis-server"
 ```
 
 ### 常见问题
@@ -384,7 +412,9 @@ OK
 
 ## 参考
 
-- [[Redis学习手册(List数据类型)](http://www.cnblogs.com/stephen-liu74/archive/2012/03/16/2351859.html)](http://www.cnblogs.com/stephen-liu74/archive/2012/02/14/2351859.html)
+- [Redis学习手册(List数据类型)](http://www.cnblogs.com/stephen-liu74/archive/2012/03/16/2351859.html)
+- [Redis学习手册(Set数据类型)](http://www.cnblogs.com/stephen-liu74/archive/2012/03/21/2352512.html)
+- [Redis学习手册(Hashes数据类型)](http://www.cnblogs.com/stephen-liu74/archive/2012/03/19/2352932.html)
 
 # php-redis
 

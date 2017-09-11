@@ -40,6 +40,14 @@ define('ENVIRONMENT', 'development');
 $config['log_threshold'] = 4;
 ```
 
+## 日志记录
+
+```php
+log_message("debug", "this->hostname".serialize($this->hostname));
+```
+
+对象序列化为字符串，使用`serialize函数。
+
 # 常见问题
 1，怎么查看CI的版本信息？想看某个项目中使用的CI具体是哪个版本，怎么查看？
 system\core\codeigniter.php中可以查看版本常量
