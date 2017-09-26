@@ -22,6 +22,30 @@ include有返回值，而require没有。
 include_once()和require_once()一样，应该用于在脚本执行期间同一个文件有可能被包含超过一次的情况下，想确保它只被包含一次以避免函数重定义，变量重新赋值等问题。这就是include_once()和require_once()与include()和require()的主要区别。
 require_once()、include_once()运行效率要比require()和include()低，因为前两者需要判断寻找引入的文件是否已经存在。
 
+## 数组
+http://www.w3school.com.cn/php/php_arrays.asp
+
+在 PHP 中， array() 函数用于创建数组：
+
+```php
+array();
+```
+在 PHP 中，有三种数组类型：
+索引数组 - 带有数字索引的数组
+关联数组 - 带有指定键的数组
+多维数组 - 包含一个或多个数组的数组
+
+索引数组的索引是自动分配的（索引从 0 开始）：
+$cars=array("Volvo","BMW","SAAB");
+
+关联数组是使用您分配给数组的指定键的数组。
+有两种创建关联数组的方法：
+$age=array("Peter"=>"35","Ben"=>"37","Joe"=>"43");
+或者：
+$age['Peter']="35";
+$age['Ben']="37";
+$age['Joe']="43";
+
 # 编程
 
 怎么进行页面跳转？
@@ -53,6 +77,39 @@ Swoole2.0支持了类似Go语言的协程，可以使用完全同步的代码实
 Yii is a high-performance PHP framework best for developing Web 2.0 applications.
 
 Yii comes with rich features: MVC, DAO/ActiveRecord, I18N/L10N, caching, authentication and role-based access control, scaffolding, testing, etc. It can reduce your development time significantly.
+
+## _POST
+`_POST`用于获取以表单形式提交的数据。
+
+```shell
+curl -X POST -d  "ISAPI=yes&IMEI=abc" http://localhost/sc/18/294/991 \
+  -H "Content-type: application/x-www-form-urlencoded" \
+  -H 'cache-control: no-cache' \
+  -H 'cm-adm-api: 20170918103124_CMRI' \
+  -H 'Cookie: uuid=%7B08057CE2-C4FE-3060-D084-250575198463%7D%7C2017-08-24%7C06%3A22%3A27; XDEBUG_SESSION=11890; ad_session=9cc8508e30edee4bb808e5dc7146abec' \
+  -H 'postman-token: 4b286605-4424-0712-85b8-a32007b2865f'
+```
+
+`_POST`不能获取以json字符串形式POST提交的数据。[reading-json-post-using-php](https://stackoverflow.com/questions/19004783/reading-json-post-using-php)
+If your web-server wants see data in json-format you need to read the raw input and then parse it with JSON decode.
+
+```php
+$json = file_get_contents('php://input');
+$obj = json_decode($json);
+
+# 例如要访问参数`msg`
+$msg = $obj->msg;
+```
+
+curl的post json示例。
+
+```sh
+curl -X POST -d '{"ISAPI":"yes"}' http://localhost/sv/18/294/991 \
+  -H "Content-type: application/json" \
+  -H 'cache-control: no-cache' \
+  -H 'cm-adm-api: 20170918103124_CMRI' \
+  -H 'Cookie: XDEBUG_SESSION=11890'
+```
 
 ## PHP应用性能优化
 ### 代码层级

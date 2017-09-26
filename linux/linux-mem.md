@@ -7,6 +7,8 @@ cat /proc/meminfo
 
 htop命令显示了每个进程的内存实时使用率。它提供了所有进程的常驻内存大小、程序总内存大小、共享库大小等的报告。列表可以水平及垂直滚动。
 
+## htop
+
 ## vmstat
 vmstat--虚拟内存统计
 vmstat(VirtualMeomoryStatistics,虚拟内存统计) 是Linux中监控内存的常用工具,可对操作系统的虚拟内存、进程、CPU等的整体情况进行监视。

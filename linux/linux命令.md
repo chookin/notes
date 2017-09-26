@@ -93,6 +93,7 @@ The second solution allows you to use arguments.
 
 # 切换用户
 切换用户执行命令
+
 ```shell
 su --session-command="/home/mfs/local/mfs/sbin/mfschunkserver start &" work
 su - root -c 'ls /var/root'
@@ -112,6 +113,7 @@ su - root -c 'ls /var/root'
 ## 配置最多打开的文件数
 
 编辑文件`/etc/security/limits.conf`，在尾部添加:
+
 ```
 chookin - nofile 655360
 ```

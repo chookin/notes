@@ -265,7 +265,7 @@ $ ll
 | 修改文件权限属性（chmod，chown） | 不变                 | 不变    | 改变    |
 如何查看这些时间信息?
 
-```sh
+```
 [ubak@ad-manage1 ~]$ file 2017_07_15.tar.gz
 2017_07_15.tar.gz: gzip compressed data, from Unix, last modified: Sat Jul 15 16:51:42 2017
 [ubak@ad-manage1 ~]$ stat 2017_07_15.tar.gz

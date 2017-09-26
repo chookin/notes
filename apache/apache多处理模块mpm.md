@@ -40,6 +40,19 @@ Compiled in modules:
   event.c
 ```
 
+或者
+
+```sh
+$ apachectl -M
+Loaded Modules:
+ core_module (static)
+ authn_file_module (static)
+ authn_dbm_module (static)
+ ...
+ mpm_prefork_module (shared)
+ php7_module (shared)
+```
+
 prefork的配置示例
 
 ```

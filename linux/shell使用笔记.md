@@ -173,7 +173,7 @@ echo $?
 ## $参数说明
 
     $$
-    Shell本身的PID（ProcessID）
+    ps（ProcessID）
     $!
     Shell最后运行的后台Process的PID
     $?

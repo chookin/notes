@@ -404,6 +404,9 @@ ulimit -c unlimited
 
 [LICEcap](http://www.cockos.com/licecap/) 是一款免费的屏幕录制工具，支持导出 GIF 动画图片格式，轻量级、使用简单，录制过程中可以随意改变录屏范围。
 
+## Adapter
+[Adapter](https://macroplant.com/adapter)是一款视频、音频、图片格式转换工具，支持预览、批量混合处理以及剪裁.
+
 ## Tuxera Disk Manager
 
 mac读写ntfs格式磁盘。

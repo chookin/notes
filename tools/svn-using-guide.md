@@ -318,7 +318,7 @@ password-stores =
 
 ```sh
 svn checkout http://111.13.47.167/repos/tagbase/ tagbase/
-# 强制更新
+# 强制更新，用于解决错误`an unversioned directory of the same name already exists`
 svn checkout --force http://111.13.47.167/repos/tagbase/ tagbase/
 # 签出指定版本
 svn co http://117.136.183.146:21889/repos/admonitor/src/webapp/src -r 174
@@ -528,7 +528,11 @@ Q4: 修改仓库地址
 
 A: 使用命令
 
-`svn relocate $new_repository_address`
+```sh
+svn relocate $new_repository_address
+# for lower version, no command relocate
+svn switch --relocate http://117.136.183.146:21889/repos/admonitor http://172.31.167.176:21889/repos/admonitor
+```
 
 # 端口
 

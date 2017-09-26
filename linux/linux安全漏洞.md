@@ -104,6 +104,30 @@ options:  bn(64,64) rc4(16x,int) des(idx,cisc,16,int) idea(int) blowfish(idx)
 compiler: gcc -I. -I.. -I../include  -fPIC -DOPENSSL_PIC -DZLIB -DOPENSSL_THREADS -D_REENTRANT -DDSO_DLFCN -DHAVE_DLFCN_H -Wa,--noexecstack -m64 -DL_ENDIAN -O3 -Wall -DOPENSSL_IA32_SSE2 -DOPENSSL_BN_ASM_MONT -DOPENSSL_BN_ASM_MONT5 -DOPENSSL_BN_ASM_GF2m -DRC4_ASM -DSHA1_ASM -DSHA256_ASM -DSHA512_ASM -DMD5_ASM -DAES_ASM -DVPAES_ASM -DBSAES_ASM -DWHIRLPOOL_ASM -DGHASH_ASM -DECP_NISTZ256_ASM
 OPENSSLDIR: "/usr/local/openssl/ssl"
 ```
+
+## apache
+
+### 远程WWW服务支持TRACE请求
+解决办法，修改`httpd.conf`，之后重启apache
+
+```
+# 启用Rewrite引擎
+RewriteEngine On
+
+# 对Request中的Method字段进行匹配：^TRACE 即以TRACE字符串开头
+RewriteCond %{REQUEST_METHOD} ^TRACE
+
+# 定义规则：对于所有格式的来源请求，均返回[F]-Forbidden响应
+RewriteRule .* - [F]
+```
+
+对于2.0.55以上版本的apache服务器，有一种更简单的办法
+
+```
+TraceEnable off
+```
+
+
 ## 其他
 ```shell
 yum update -y openssl bash
