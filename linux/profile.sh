@@ -16,8 +16,8 @@ jdk8() {
     export PATH=$JAVA_HOME/bin:$PATH
 }
 
-#jdk7
-jdk8
+# jdk7
+# jdk8
 
 export APACHE_HOME=$HOME/local/apache
 export PATH=$APACHE_HOME/bin:$PATH
@@ -31,6 +31,37 @@ export PATH=${PYTHON_HOME}/bin:$PATH
 export JAVA_HOME=$HOME/local/jdk
 export CLASSPATH="$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$CLASSPATH"
 export PATH=$JAVA_HOME/bin:$PATH
+
+export PATH=/usr/local/opt/go/libexec/bin:$PATH
+
+export PHPBREW_RC_ENABLE=1
+export PHPBREW_SET_PROMPT=1
+#source /Users/chookin/.phpbrew/bashrc
+
+export PATH=/Users/chookin/Library/Android/sdk/platform-tools:$PATH
+
+export HADOOP_HOME=$HOME/local/hadoop
+export HADOOP_CONF_DIR=$HOME/local/hadoop-conf
+export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
+export HADOOP_HOME_WARN_SUPPRESS=1
+
+export SPARK_HOME=$HOME/local/spark
+export PATH=$SPARK_HOME/bin:$PATH
+
+export SCALA_HOME=$HOME/local/scala
+export PATH=$SCALA_HOME/bin:$PATH
+
+export ZOOKEEPER_HOME=$HOME/local/zookeeper
+export PATH=$ZOOKEEPER_HOME/bin:$PATH
+
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$ANDROID_HOME/platform-tools:$PATH
+
+export SPARK_HOME=$HOME/local/spark
+export PATH=$SPARK_HOME/bin:$PATH
+
+export SCALA_HOME=$HOME/local/scala
+export PATH=$SCALA_HOME/bin:$PATH
 
 export MYSQL_HOME=$HOME/local/mysql
 export PATH=$MYSQL_HOME/bin:$PATH

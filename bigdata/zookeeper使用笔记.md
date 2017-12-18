@@ -2,6 +2,10 @@
 
 # 部署
 
+```sh
+curl -L -O http://mirrors.hust.edu.cn/apache/zookeeper/stable/zookeeper-3.4.10.tar.gz
+```
+
 ## 单机模式
 
 进入zookeeper目录下的conf子目录, 编辑`zoo.cfg`。
@@ -29,9 +33,9 @@ initLimit=10
 syncLimit=5
 
 # 配置集群各节点的地址
-server.1=zoo1:2888:3888
-server.2=zoo2:2888:3888
-server.3=zoo3:2888:3888
+server.1=zk01:2888:3888
+server.2=zk02:2888:3888
+server.3=zk03:2888:3888
 ```
 
 说明：

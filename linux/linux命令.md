@@ -99,6 +99,16 @@ su --session-command="/home/mfs/local/mfs/sbin/mfschunkserver start &" work
 su - root -c 'ls /var/root'
 ```
 
+建议使用`-c`。
+
+```
+       -c, --command=COMMAND
+              pass a single COMMAND to the shell with -c
+
+       --session-command=COMMAND
+              pass a single COMMAND to the shell with -c and do not create a new session
+```
+
 # 开机自启动
 把操作命令写到`/etc/rc.local`文件。
 该脚本是在系统初始化级别脚本运行之后再执行的，因此可以安全地在里面添加你想在系统启动之后执行的脚本。
@@ -125,6 +135,14 @@ chookin - nofile 655360
 ```
 chookin           -       noproc          65536
 ```
+
+另外一个问题：
+使用ssh 登录主机后，用户不能获取到ulimit 值。这里我设置了open files 为102400，但登录后值为1024.  su - 切换后可正常获取到设置的值。root也存在同样问题。
+
+问题解决：要在SSH  ./configure时候加选项 with-pam=enable
+如果是现在的6.8就不存在这个问题。
+另附一个OPENSSH升级的详细操作步骤：
+详见http://www.cnblogs.com/xshrim/p/6472679.html
 
 ## 修改用户名
 

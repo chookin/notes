@@ -376,6 +376,9 @@ git diff HEAD
 # 查看历史修改
 # The -- is useful e.g. when you have a file named -p. Good to use in scripts, only in rare cases needed in practice.
 git diff [--options] <commit> <commit> [--] [<path>...]
+# 如查看commit d788相比6f43 的文件修改
+# git diff 6f43 d788 --stat
+# git diff 7fe81d2ae34ecde4661be13daab0441861682a5a head target_apps.conf
 
 # You can also compare two different files in two different revisions, like this:
 git diff <revision_1>:<file_1> <revision_2>:<file_2>
@@ -655,6 +658,27 @@ git checkout [tagname]
 
 ```shell
 git checkout master
+```
+
+## 与指定提交合并
+
+```sh
+➜  Psyassess git:(9b3f94f) git checkout master
+Previous HEAD position was 9b3f94f... 解决im因sdkappid错误导致收不到数据的bug
+Switched to branch 'master'
+➜  Psyassess git:(master) git merge 9b3f94f
+Merge made by the 'recursive' strategy.
+ XinjianXitong/docs/src/Android开发环境搭建.md  |  8 ++++++++
+ .../com/xjkj/psyassess/activity/LoginActivity.java   |  8 +++++---
+ .../xjkj/psyassess/activity/SettingsActivity.java    | 14 +++++++++++---
+ .../com/xjkj/psyassess/activity/UserActivity.java    |  4 ++--
+ .../xjkj/psyassess/constants/AppInfoConstants.java   |  2 +-
+ XinjianXitong/src/main/res/xml/file_paths.xml        | 20 ++++++--------------
+ build.gradle                                         |  6 +++---
+ .../com/xjkj/psyassess/activity/BaseActivity.java    |  3 ++-
+ .../com/xjkj/psyassess/common/lang/CommonUtils.java  |  4 +++-
+ .../com/xjkj/psyassess/fragment/BaseFragment.java    | 16 ++++++++++++----
+ 10 files changed, 53 insertions(+), 32 deletions(-)
 ```
 
 ## 查看标签

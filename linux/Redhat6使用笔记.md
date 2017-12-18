@@ -37,6 +37,7 @@ Permissive
 然后再次执行`passwd`命令。
 
 ## 安装中文包
+可以解决firefox中文乱码。
 
 需要使用centos的yum源
 
@@ -48,6 +49,27 @@ yum groupinstall Chinese-support
 
 ```shell
 LANG="zh_CN.utf8"
+```
+
+## 安装图形桌面
+
+检查桌面在哪个组件里面
+
+```sh
+ yum grouplist
+ ```
+
+ 若桌面在`desktop`组，则
+
+ ```sh
+yum groupinstall "X Window System"
+yum groupinstall "Desktop"
+```
+
+启动桌面
+
+```
+startx
 ```
 
 ## 图形界面切换到命令行

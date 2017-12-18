@@ -32,6 +32,28 @@ export JAVA_HOME=$HOME/local/jdk
 export CLASSPATH="$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$CLASSPATH"
 export PATH=$JAVA_HOME/bin:$PATH
 
+export PATH=/usr/local/opt/go/libexec/bin:$PATH
+
+export PHPBREW_RC_ENABLE=1
+export PHPBREW_SET_PROMPT=1
+#source /Users/chookin/.phpbrew/bashrc
+
+export PATH=/Users/chookin/Library/Android/sdk/platform-tools:$PATH
+
+export HADOOP_HOME=$HOME/local/hadoop
+export HADOOP_CONF_DIR=$HOME/local/hadoop-conf
+export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
+export HADOOP_HOME_WARN_SUPPRESS=1
+
+export SPARK_HOME=$HOME/local/spark
+export PATH=$SPARK_HOME/bin:$PATH
+
+export SCALA_HOME=$HOME/local/scala
+export PATH=$SCALA_HOME/bin:$PATH
+
+export ZOOKEEPER_HOME=$HOME/local/zookeeper
+export PATH=$ZOOKEEPER_HOME/bin:$PATH
+
 export MYSQL_HOME=$HOME/local/mysql
 export PATH=$MYSQL_HOME/bin:$PATH
 
@@ -105,3 +127,15 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 export SVN_EDITOR=vim
+
+alias grep='grep --color=auto'
+alias mystrace="strace -tt -T -f -ff -o stracelog -s 1024 -p "
+function mykill(){
+    keyword=$1
+    user_name=$(whoami)
+    ps -u ${user_name} -f |grep ${keyword} | grep -v grep |awk '{print $2}'|xargs kill -9
+}
+
+function myps() {
+    ps aux |grep -v grep | grep $1
+}

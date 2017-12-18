@@ -13,7 +13,7 @@ yum install -y gcc zlib zlib-devel openssl-devel
 ## 下载
 
 ```sh
-version=2.7.13
+version=2.7.14
 wget https://www.python.org/ftp/python/$version/Python-$version.tgz --no-check-certificate
 ```
 
@@ -52,7 +52,7 @@ module会安装到路径：`python-2.7.8/lib/python2.7/site-packages`
 
 ## 常用 module
 ```shell
-easy_install pymongo MySQL-python futures paramiko redis
+easy_install pip pymongo MySQL-python futures paramiko redis hashlib
 ```
 
 ## python notebook
@@ -76,6 +76,80 @@ jupyter notebook
 # 或者
 ipython notebook
 ```
+
+若报错
+
+```
+  File "/home/work/local/python-2.7.13/lib/python2.7/site-packages/notebook/services/sessions/sessionmanager.py", line 13, in <module>
+    from pysqlite2 import dbapi2 as sqlite3
+```
+
+则手工下载pysqlite3，`https://pypi.python.org/pypi/pysqlite`，执行`python setup.py install`安装。
+
+```sh
+wget https://pypi.python.org/packages/42/02/981b6703e3c83c5b25a829c6e77aad059f9481b0bbacb47e6e8ca12bd731/pysqlite-2.8.3.tar.gz#md5=033f17b8644577715aee55e8832ac9fc --no-check-certificate
+```
+
+需要先安装`sqlite`。注意`yum install sqlite-devel`的版本比较低，导致notebook启动报错
+
+```
+    from pysqlite2 import dbapi2 as sqlite3
+  File "/home/work/local/python-2.7.13/lib/python2.7/site-packages/pysqlite2/dbapi2.py", line 28, in <module>
+    from pysqlite2._sqlite import *
+ImportError: /home/work/local/python-2.7.13/lib/python2.7/site-packages/pysqlite2/_sqlite.so: undefined symbol: sqlite3_stmt_readonly
+```
+
+需手工编译安装sqlite. http://www.sqlite.org/download.html
+
+```sh
+wget http://www.sqlite.org/snapshot/sqlite-snapshot-201709211311.tar.gz
+./configure
+make && make install
+
+cd /lib64
+ln -fsv /usr/local/lib/libsqlite3.so.0 libsqlite3.so.0
+`libsqlite3.so.0' -> /usr/local/lib/libsqlite3.so.0'
+```
+
+开启远程访问。
+
+```
+# 生成配置文件
+[hadoop@ad-check1 ~]$ jupyter notebook  --generate-config
+Writing default config to: /home/hadoop/.jupyter/jupyter_notebook_config.py
+
+# 生成密码，记住输入的密码，远程登录时需要输入。竹喧莲动
+[hadoop@ad-check1 ~]$ ipython
+Python 2.7.13 (default, Sep 28 2017, 18:28:07)
+In [1]: from notebook.auth import passwd
+
+In [2]: passwd()
+Enter password:
+Verify password:
+Out[2]: 'sha1:daee8f79e381:59a00f46f516abf55fda651b2a30d207da53a4ee'
+```
+
+把密文复制下来。修改配置文件`vim ~/.jupyter/jupyter_notebook_config.py`，如下几处修改
+
+```
+c.NotebookApp.ip = '*'
+c.NotebookApp.password = u'sha1:daee8f79e381:59a00f46f516abf55fda651b2a30d207da53a4ee'
+c.NotebookApp.open_browser = False
+c.NotebookApp.port = 8888
+c.NotebookApp.notebook_dir = u'/data/hadoop/zhuyin/nbook'
+```
+
+'sha1:855487b6e29d:bd9d01131b41aa0a85dae198b80db2dbbce538c9'
+
+启用markdown目录
+
+1. 安装[jupyter_contrib_nbextensions](https://github.com/ipython-contrib/jupyter_contrib_nbextensions)
+
+```sh
+pip install jupyter_contrib_nbextensions
+jupyter contrib nbextension install --user
+```
+
 
 ## scipy
 
@@ -142,4 +216,11 @@ ImportError: libmysqlclient.so.15: cannot open shared object file: No such file 
 ```shell
 vi ~/.bash_profile
 export LD_LIBRARY_PATH=/home/work/local/mysql/lib:/usr/lib:$LD_LIBRARY_PATH
+```
+
+另外还有一个问题：`EnvironmentError: mysql_config not found`。解决方法：
+
+```sh
+export MYSQL_HOME=$HOME/local/mysql
+export PATH=$MYSQL_HOME/bin:$PATH
 ```

@@ -4,7 +4,11 @@ os max os 10.12.2
 # brew
 
 http://brew.sh
-安装`/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+安装
+
+```
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
 
 brew 安装的软件存放在 /usr/local/Cellar 中，同时会在 /usr/local/bin, /usr/local/sbin, /usr/local/lib 中创建链接。
 
@@ -45,6 +49,14 @@ sudo chown -R $(whoami) /usr/local
  //删除刚才下载一半的文件
 # mv /Downloads/go-1.6.2.el_capitan.bottle.tar.gz ./
 //将下载好的压缩包放到brew下载目录
+```
+
+4, mac更新系统后Git不能用，提示missing xcrun at
+通过终端重新安装的Xcode命令行工具使用（其实这里安装的是Command Line Tools，Command Line
+Tools是在Xcode中的一款工具）
+
+```sh
+xcode-select --install
 ```
 
 # zsh
@@ -135,17 +147,17 @@ fi
 
 ```
 —– BEGIN LICENSE —–
-Michael Barnes
-Single User License
-EA7E-821385
-8A353C41 872A0D5C DF9B2950 AFF6F667
-C458EA6D 8EA3C286 98D1D650 131A97AB
-AA919AEC EF20E143 B361B1E7 4C8B7F04
-B085E65E 2F5F5360 8489D422 FB8FC1AA
-93F6323C FD7F7544 3F39C318 D95E6480
-FCCC7561 8A4A1741 68FA4223 ADCEDE07
-200C25BE DBBC4855 C4CFB774 C5EC138C
-0FEC1CEF D9DCECEC D3A5DAD1 01316C36
+TwitterInc
+200 User License
+EA7E-890007
+1D77F72E 390CDD93 4DCBA022 FAF60790
+61AA12C0 A37081C5 D0316412 4584D136
+94D7F7D4 95BC8C1C 527DA828 560BB037
+D1EDDD8C AE7B379F 50C9D69D B35179EF
+2FE898C4 8E4277A8 555CE714 E1FB0E43
+D5D52613 C3D12E98 BC49967F 7652EED2
+9D2D2E61 67610860 6D338B72 5CF95C69
+E36B85CC 84991F19 7575D828 470A92AB
 —— END LICENSE ——
 ```
 
@@ -319,7 +331,7 @@ jdk8
 - Global Options | Terminal | Appearance，字体选择utf8。
 - Global Options | Terminal | Appearance | Advanced，配置`Window transparency`，用于设置securt半透明；
 
-
+若session manager变为浮动了，那么双击session manager的标签栏，将自动的切换为固定的。
 ## vnc-veviewer
 
 用于远程连接vnc服务器。

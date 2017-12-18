@@ -34,6 +34,63 @@ t是设置了粘住位
 chmod  +t  SOME_FILE
 ```
 
+## umask
+The user file-creation mode mask (umask) is use to determine the file permission for newly created files. It can be used to control the default file permission for new files.
+
+You can setup umask in /etc/bashrc or /etc/profile file for all users. By default most Linux distro set it to 0022 (022) or 0002 (002). Open /etc/profile or ~/.bashrc file, enter:
+
+`# vi /etc/profile`
+
+OR
+
+`$ vi ~/.bashrc`
+
+Append/modify following line to setup a new umask:
+
+`umask 022`
+
+> The default umask 002 used for normal user. With this mask default directory permissions are 775 and default file permissions are 664.
+You can simply subtract the umask from the base permissions to determine the final permission for file as follows:
+
+666 – 022 = 644
+
+You can simply subtract the umask from the base permissions to determine the final permission for directory as follows:
+
+777 – 022 = 755
+
+## chattr
+chattr
+　　语法：#chattr [+-=][ASacdistu] [档案或目录名称]
+　　参数说明：
+　　+-=　：分别为 [+ 增加] [- 减少] [= 设定] 属性的意思
+　　A　　：当设定了 A 这个属性时，这个档案(或目录)的存取时间
+　　atime (access) 将不可被修改， 可避免例如手提式计算机容易有磁盘 I/O 错误的情况发生！
+　　S　　：这个功能有点类似 sync 的功能！就是会将数据同步写入磁盘当中！可以有效的避免数据流失！
+　　a　　：当设定 a 之后，这个档案将只能增加数据，而不能删除，只有 root 才能设定这个属性。
+　　c　　：这个属性设定之后，将会自动的将此档案『压缩』，在读取的时候将会自动解压缩出来，但是在储存的时候，将会先进行压缩之后再储存（看来对于大档案似乎蛮有用的！）
+　　d　　：当 dump (备份)程序被执行的时候，设定 d 属性将可使该档案(或目录)具有 dump 功效！
+　　i　　：这个 i 可就很厉害了！他可以让一个档案『不能被删除、改名、设定连结也无法写入或新增数据！对于系统安全性有相当大的帮助！
+　　j　　：当使用 ext3 这个档案系统格式时，设定 j 属性将会使档案在写入时先记录在 journal 中！ 但是当 filesystem 设定参数为 data=journalled 时，由于已经设定了日志了，所以这个属性无效！
+　　s　　：当档案设定了 s 参数时，他将会被完全的移除出这个硬盘空间。
+　　u　　：与 s 相反的，当使用 u 来设定档案时，则数据内容其实还存在磁盘中，可以使用来 undeletion.
+
+root用户无法删除文件`Operation not permitted`，问题原因是设置了`a`标记，使用chattr取消该标记即可。
+
+```
+➜  ~ rm -rf /home/work/CXTEMP
+rm: cannot remove `/home/work/CXTEMP/12.sh': Operation not permitted
+➜  ~ file /home/work/CXTEMP/12.sh
+/home/work/CXTEMP/12.sh: ASCII text, with CRLF line terminators
+➜  ~ lsattr /home/work/CXTEMP/12.sh
+-----a-------e- /home/work/CXTEMP/12.sh
+➜  ~ chattr -a /home/work/CXTEMP/12.sh
+➜  ~ rm -rf /home/work/CXTEMP
+➜  ~
+```
+
+问题原因是
+
+
 ## ls 排序
 
 ```shell

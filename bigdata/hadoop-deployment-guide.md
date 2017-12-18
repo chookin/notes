@@ -1,5 +1,17 @@
 # 部署
 
+## 配置
+
+### hosts
+```
+172.17.128.20 hadoopnn
+172.17.128.21 hadoopsnn
+
+172.17.128.20 yarnmaster
+172.17.128.20 hadoopjobhist
+172.17.128.24 sparkmaster
+```
+
 ## hadoop
 
 ### 创建用户
@@ -7,7 +19,9 @@
 ```shell
 ## in remote_cmds.sh
 # create user hadoop
-useradd hadoop && echo "hadoop_Ln17" | passwd --stdin hadoop
+my_user=hadoop
+id $my_user >/dev/null 2>&1 || useradd $my_user
+echo "hadoop_SyVm17" | passwd --stdin hadoop
 ```
 
 ### 建立ssh互信
@@ -16,14 +30,14 @@ useradd hadoop && echo "hadoop_Ln17" | passwd --stdin hadoop
 
 ```shell
 ## in remote_cmds.sh
-su --session-command="cd && ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa && chmod 700 ~/.ssh" hadoop
+su - hadoop -c "cd && ssh-keygen -b 4096 -t rsa -P '' -f ~/.ssh/id_rsa && chmod 700 ~/.ssh && chmod 600 ~/.ssh/id_rsa"
 
 ## in cmds.sh script
 # manual do ssh $host to update known_hosts and then rsync to other hosts
-rsync -av /root/.ssh/known_hosts $host:/root/.ssh/
-rsync -av $host:/home/hadoop/.ssh/id_rsa.pub /home/hadoop/.ssh/id_rsa.pub.$host/
+rsync -av $host:/home/hadoop/.ssh/id_rsa.pub /home/hadoop/.ssh/id_rsa.pub.$host
 
-## in cm01 shell
+## in client server's shell
+su - hadoop
 cd /home/hadoop/.ssh/
 cat id_rsa.pub.* > authorized_keys
 chown -R hadoop.hadoop authorized_keys
@@ -114,6 +128,12 @@ rsync -av /home/hadoop/.bash_profile $host:/home/hadoop
 
 
 
+```sh
+wget http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-x64.tar.gz?AuthParam=1506593861_828d0a004a8898b9a89c62d149bc3f54
+```
+
+
+
 ### 安装hadoop
 
 ```shell
@@ -121,6 +141,14 @@ cd /home/hadoop/local
 tar xvf /data/cmri-docs/soft/hadoop/hadoop-2.7.2.tar.gz
 mv hadoop-2.* hadoop
 ```
+
+
+
+```sh
+wget http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-2.7.4/hadoop-2.7.4.tar.gz
+```
+
+
 
 ### 配置
 
@@ -221,14 +249,15 @@ Hadoop-env配置文件为hadoop运行相关环境变量配置（主要是配置J
 ```shell
 # hadoop-env.sh
 export JAVA_HOME=/home/hadoop/local/jdk
+export HADOOP_LOG_DIR=/data/hadoop/logs
+export HADOOP_PID_DIR=/data/hadoop/pid
+
 export HADOOP_NAMENODE_OPTS="-Dcom.sun.management.jmxremote $HADOOP_NAMENODE_OPTS"
 export HADOOP_SECONDARYNAMENODE_OPTS="-Dcom.sun.management.jmxremote $HADOOP_SECONDARYNAMENODE_OPTS"
 export HADOOP_DATANODE_OPTS="-Dcom.sun.management.jmxremote $HADOOP_DATANODE_OPTS"
 export HADOOP_BALANCER_OPTS="-Dcom.sun.management.jmxremote $HADOOP_BALANCER_OPTS"
 export HADOOP_JOBTRACKER_OPTS="-Dcom.sun.management.jmxremote $HADOOP_JOBTRACKER_OPTS"
 
-export HADOOP_LOG_DIR=/data/hadoop/logs
-export HADOOP_PID_DIR=/data/hadoop/pid
 export HADOOP_OPTS=-Djava.net.preferIPv4Stack=true
 ```
 
@@ -427,13 +456,13 @@ hdfs namenode -format
 hadoop文件系统格式化完成之后，可以使用批量脚本启动整个集群
 
 ```shell
-$ bin/start-all.sh
+$ sbin/start-all.sh
 ```
 
 使用批量停止脚本停止整个集群
 
 ```shell
-$ bin/stop-all.sh
+$ sbin/stop-all.sh
 ```
 
 也可以直接启停单节点的服务。
@@ -534,7 +563,7 @@ drwxr-xr-x   - hadoop supergroup          0 2017-03-06 14:53 test
 ```shell
 # 第1个数字指的是要运行5次map任务
 # 第2个数字指的是每个map任务，要投掷多少次
-hadoop jar $HADOOP_HOME/hadoop-*-examples-*.jar pi 5 6
+hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-*-examples-*.jar pi 5 6
 ```
 
 #### mr任务测试
@@ -577,7 +606,7 @@ mvn package -Dmaven.javadoc.skip=true-Pdist,native -DskipTests -Dtar
 
 [hadoop-unable-to-load-native-hadoop-library-for-your-platform-error-on-centos](http://stackoverflow.com/questions/19943766/hadoop-unable-to-load-native-hadoop-library-for-your-platform-error-on-centos)
 
-或者，从http://dl.bintray.com/sequenceiq/sequenceiq-bin/  下载，同一小版本的，将准备好的64位的lib包解压到已经安装好的hadoop安装目录的lib/native 和 lib目录下。
+或者，从 http://dl.bintray.com/sequenceiq/sequenceiq-bin/  下载，同一小版本的，将准备好的64位的lib包解压到已经安装好的hadoop安装目录的lib/native 和 lib目录下。
 
 
 # next

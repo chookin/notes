@@ -60,7 +60,7 @@ crontab [-u user] [ -e | -l | -r ]
 Linux在相应用户下，用crontab －l 命令可以查看该用户定时执行的任务，-e可以编辑，但是其真实文件在哪儿呢？
 > 以CentOS为例，其真实的位置在：/var/spool/cron下面
 
-crontab任务的执行历史在`/var/log/cron`
+crontab任务的执行历史在`/var/log/cron`，任务的日志输出在`/var/mail/[username]`文件。
 
 配置示例：
 

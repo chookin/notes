@@ -77,7 +77,7 @@ cd && ssh-keygen -b 4096 -t rsa -P '' -f ~/.ssh/id_rsa && chmod 700 ~/.ssh && ch
 cd && ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa && chmod 700 ~/.ssh
 ```
 
-拷贝步骤1生成的`id_dsa.pub`文件内容并追加到服务器B的`.ssh/c`文件中（如果`.ssh/authorized_keys`不存在，创建之），并执行如下命令
+拷贝步骤1生成的`id_dsa.pub`文件内容并追加到服务器B的`.ssh/authorized_keys`文件中（如果`.ssh/authorized_keys`不存在，创建之），并执行如下命令
 
 ```shell
 chmod 600 $HOME/.ssh/authorized_keys;
@@ -118,9 +118,15 @@ ssh user_b1@hostname_B -v
 
 Simple method
 Note: This method might fail if the remote server uses a non-sh shell such as tcsh as default and uses OpenSSH older than 6.6.1p1. See this bug report.
-If your key file is ~/.ssh/id_rsa.pub you can simply enter the following command.
 
 ```sh
+➜  ~ ssh -V
+OpenSSH_7.5p1, OpenSSL 1.0.2l  25 May 2017
+```
+
+If your key file is ~/.ssh/id_rsa.pub you can simply enter the following command.
+
+```shssh
 $ ssh-copy-id remote-server.org
 ```
 
@@ -201,7 +207,7 @@ GSSAPI ( Generic Security Services Application Programming Interface) 是一套�
 
 - [ssh登录很慢解决方法](https://blog.linuxeye.com/420.html)
 - [ssh 配置讲解大全](http://blog.chinaunix.net/uid-20395453-id-3264845.html)
-CmAdm@139)1
+
 # 禁止root登录
 
 2016.07.21下午发现183服务器的`/var/log/secure`文件中有大量的登录错误信息。
@@ -233,3 +239,6 @@ PermitRootLogin no
 ```
 
 3，安装denyhosts
+
+# 启用pam后，不需密码就能登录
+问题原因是`ChallengeResponseAuthentication`的值设置为了yes，设置为no后，就可以了。

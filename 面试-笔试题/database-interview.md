@@ -46,7 +46,28 @@ ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that 
 Q: 这个查询语句有什么问题?
 A: group需要在后面。
 
-2, join
+2，查找重复记录
+
+查找数据表`mediaplaceholdmap`中`placeholdid`重复的记录。
+
+```sql
+select * from mediaplaceholdmap where placeholdid in (select placeholdid from mediaplaceholdmap group by placeholdid having count(placeholdid) > 1);
+```
+
+若是查找多个字段同时重复的呢？
+假设现有一张人员表（表名：Person），若想将姓名、身份证号、住址这三个字段完全相同的记录查找出来，使用
+
+```sql
+SELECT p1.*
+FROM persons   p1,persons   p2
+WHERE p1.id != p2.id
+AND p1.cardid   =   p2.cardid
+AND p1.pname   =   p2.pname
+AND p1.address   =   p2.address
+```
+可以实现该功能。
+
+3, join
 
 ```sql
 SELECT
@@ -62,7 +83,7 @@ WHERE
 ```
 
 Q: 项目id为88的广告位数是9个，这个是查询项目对应广告位的sql，执行的结果竟然546，很多重复。
-A: 使用projectmediamap导致不属于该项目的广告位也被join进去了，需要改成如下形式。
+A: 使用projectmediamap导致不属于该项目的广告位也被join进去了(一个媒体有多个广告位，某个项目投放可能只用了其中的部分广告位)，需要改成如下形式。
 
 ```sql
 SELECT

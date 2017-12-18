@@ -40,14 +40,22 @@ ipvsadm -A -t $lvs_server_outer_ip:8001 -s wrr
 ipvsadm -a -t $lvs_server_outer_ip:8001 -r 192.168.110.222:21889 -m
 ```
 
+ipvsadm -A -t 117.136.183.142:443 -s wrr
+ipvsadm -a -t 117.136.183.142:443 -r 172.31.167.127:8443 -m
+ipvsadm -a -t 117.136.183.142:443 -r 172.31.167.125:8443 -m
+ipvsadm -a -t 117.136.183.142:443 -r 172.31.167.124:8443 -m
+ipvsadm -a -t 117.136.183.142:443 -r 172.31.167.123:8443 -m
+
+
 5.查看配置的现有转发
+
 ```shell
 # /sbin/ipvsadm -Ln
 IP Virtual Server version 1.2.1 (size=4096)
 Prot LocalAddress:Port Scheduler Flags
   -> RemoteAddress:Port           Forward Weight ActiveConn InActConn
 TCP  111.13.47.171:vcom-tunnel wrr
-  -> dsp02.cm:21889               Masq    1      0          0 
+  -> dsp02.cm:21889               Masq    1      0          0
 ```
 
 

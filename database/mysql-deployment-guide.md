@@ -10,13 +10,13 @@ yum install -y gcc gcc-c++ cmake bison bison-devel ncurses-devel
 
 ```sh
 # wget https://dev.mysql.com/get/Downloads/MySQL-5.5/mysql-5.5.48.tar.gz --no-check-certificate
-wget https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.18.tar.gz
+wget https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.20.tar.gz --no-check-certificate
 ```
 
 ## 编译安装
 
 ```shell
-version=5.7.18
+version=5.7.20
 tar xvf mysql-$version*
 cd mysql-$version
 TARGET_PATH=/home/`whoami`/local/mysql-$version
@@ -30,6 +30,7 @@ ln -fsv /home/`whoami`/local/mysql-$version /home/`whoami`/local/mysql
 
 编译的参数可以参考[MySQL Source-Configuration Options](http://dev.mysql.com/doc/refman/5.5/en/source-configuration-options.html)。
 
+注意：若编译报错 `Could NOT find Curses (missing: CURSES_LIBRARY CURSES_INCLUDE_PATH)`，那么需要`yum install bison-devel ncurses-devel`，且再删除刚才编译生成的 CMakeCache.txt 文件，否则会依然编译报错。
 ## 创建配置文件
 
 ```shell

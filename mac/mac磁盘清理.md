@@ -1,6 +1,11 @@
 分享mac磁盘清理的方法
 http://www.mycleanmymac.com/changjianwenti/mac-cipan-qingli.html
 
+搜索了下 /cores 这个占了十几G的目录，发现好像是进程出错时的dump目录（不明觉厉感），进目录查看修改时间，4月份，距今3个月了应该没用，删光。
+
+删除qq聊天记录图片
+/Users/chookin/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/469308668/Image
+
 下面说说平时可能会用到的手动清理的方法吧！首先看看几个注意事项：
 　　1.下面内容涉及大量 Terminal （终端）命令，终端执行命令不可逆，所以新手小白请谨慎。
 　　2.个人测试经验，使用版本为10.7.X-10.8.X，请确认你的版本。

@@ -1,3 +1,18 @@
+## buffer cache
+
+```sh
+➜  ~ free -g
+             total       used       free     shared    buffers     cached
+Mem:           189        155         33          0          0        143
+-/+ buffers/cache:         11        177
+Swap:            3          0          3
+```
+
+A buffer is something that has yet to be "written" to disk. A cache is something that has been "read" from the disk and stored for later use.
+buffer与cache 两者都是RAM中的数据。简单来说，buffer是即将要被写入磁盘的，cache是被从磁盘中读出来的。这二者是为了提高IO性能的，并由OS管理，并非应用自己分配的内存，而是OS自己根据需要对空闲内存进行的额外利用。因为这部分只是缓存，降低IO，提升性能，只要应用程序有需要，OS可以直接将buffer写入磁盘，将cache删掉来得到空闲内存给应用程序使用。
+
+-/+ buffers/cache的含义即:使用内存是实际当前使用内存减去buffers/cache之和;空闲内存是实际空闲内存加上buffers/cache之和。 所以是-/+
+查看空闲内存，确定应用是否有内存泄漏时，只能以Free的第三行为依据，第二行其实作用不大，只是可以看到OS当前的buffer和cache大小。
 
 ## 查看内存信息
 

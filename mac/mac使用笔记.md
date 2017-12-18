@@ -23,6 +23,24 @@ sudo passwd root
 系统偏好设置 -> 用户与群组
 ```
 
+adobe 激活
+
+http://xclient.info/s/adobe-acrobat-pro-dc.html?_=777c979bd59977d8885f4b1a8843036d
+若忘记之前输入的序列号，需要卸载重新安装，需要删除文件夹`sudo rm -rf /Library/Application\ Support/Adobe`
+
+```
+1118-1440-8515-1360-8925-9909
+2ZPZ wPY4 pzp8 PhmT S99B Iy5c N5L2 FRmH G1G/ B8Jp FGM=
+uJdg JDXi klZ3 Ga53 vkJY Eosg eE8T eswX Gvet TA11 b+0=
+```
+
+## 让Keygen系列激活工具成功运行在10.12上的方法
+下载工具并解压：
+工具：[CP.zip](https://pan.baidu.com/s/1o8Tjk3w) 提取密码：7iyj
+
+打开.app,在弹出的选择窗口中选取要 运行的激活工具程序，成功后会提示SUCCESS，这时候就可以打开激活工具了
+文章中分享下载的所有dmg、zip 打开密码均为 xclient.info
+
 ### 屏保需输入密码
 
 ```
@@ -39,6 +57,28 @@ sudo passwd root
 ```
 
 ## 文件
+### 创建`/home/work`文件夹
+```sh
+➜  apache2 sudo mkdir -p /home/work/local/apache/logs/
+mkdir: /home/work/local/apache/logs/: Operation not supported
+```
+
+问题原因是
+Hmmm, trying to create a directory under '/home' on a Mac?
+
+Well, Apple doesn't want you to (with good reason, automounter owns this dir, which makes it easier to do NFS mounts and such) so you shouldn't muck with it but if you really just 'have to do it', here is how you can.
+
+Basically: Edit /etc/auto_master and remove or comment out the line that starts with "/home".
+
+to have the change take effect without a reboot:
+
+```sh
+sudo automount
+```
+
+注意：mac os升级后，该文件夹会被覆盖。
+
+NOTE: I wouldn't do anything 'important' with this directory as it's easy to forget you altered this and an upgrade will plow over this directory, removing all data. (this dir is also not included in any Time Machine backups.
 
 ### finder
 

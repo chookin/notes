@@ -2,6 +2,19 @@
 
 下载 http://spark.apache.org/downloads.html
 
+```sh
+wget https://d3kbcqa49mib13.cloudfront.net/spark-2.2.0-bin-hadoop2.7.tgz
+```
+
+## scala
+现网运行环境不需要安装scala。
+在开发环境中，若是有scala开发，需要安装scala
+
+```sh
+# http://www.scala-lang.org/download/
+curl -L -O https://downloads.lightbend.com/scala/2.12.4/scala-2.12.4.tgz
+```
+
 ## ssh无密码访问
 
 **配置ssh使得服务器A的用户user_a1可以无密码访问服务器B的用户user_b1**
@@ -77,6 +90,11 @@ export SPARK_MASTER_PORT=7077
 
 # defaut is 8081
 export SPARK_WORKER_WEBUI_PORT=8081
+
+# 配置使用ipython
+# PYSPARK_DRIVER_PYTHON=jupyter
+# 使用notebook
+# export PYSPARK_DRIVER_PYTHON_OPTS="notebook"
 ```
 
 SPARK_WORKER_PORT 端口限定之前
@@ -99,6 +117,8 @@ SPARK_WORKER_PORT 端口限定之前
 
 ```conf
 spark.driver.port 8083
+spark.driver.memory 20G
+# spark.jars.packages  mysql:mysql-connector-java:5.1.39
 ```
 
 端口限定之前

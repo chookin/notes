@@ -10,6 +10,7 @@
 ('id', 'name') -> id, name
 ```
 参考答案：
+
 ```python
 def tuple2string(obj):
     str_obj = str(obj)

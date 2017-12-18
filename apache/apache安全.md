@@ -24,12 +24,13 @@ QS_SrvMaxConnPerIP 50
 解决办法，配置`reqtimeout_module`和`mod_qos`,具体配置
 
 ```shell
+# 限制http请求的消息主体的大小，上传文件超过100k的时候就会报错
 LimitRequestBody 102400
 
 # mod_reqtimeout用于控制每个连接上请求发送的速率
 # 请求头部分，设置超时时间初始为10秒，并在收到客户端发送的数据后，每接收到500字节数据就将超时时间延长1秒，但最长不超过40秒。可以防护slowloris型的慢速攻击。
 RequestReadTimeout header=10-40,minrate=500
-#请求正文部分，设置超时时间初始为10秒，并在收到客户端发送的数据后，每接收到500字节数据就将超时时间延长1秒，但最长不超过40秒。可以防护slow message body型的慢速攻击。
+#请求正文部分，设置超时时间初始为20秒，并在收到客户端发送的数据后，每接收到500字节数据就将超时时间延长1秒，但最长不超过40秒。可以防护slow message body型的慢速攻击。
 #对于HTTPS站点，需要把初始超时时间上调，比如调整到20秒
 RequestReadTimeout body=20-40,minrate=500
 

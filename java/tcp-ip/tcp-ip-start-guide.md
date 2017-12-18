@@ -105,6 +105,7 @@ Thu Jun 15 13:50:50 CST 2017
 
 ```shell
 # 广告监测曝光服务
+#  netstat -n | awk '{print $5}' |uniq -c|sort -k 1 -r -n |head
 [work@lab26 ~]$ date
 Thu Jun 15 13:50:43 CST 2017
 [work@lab26 ~]$ netstat -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'
