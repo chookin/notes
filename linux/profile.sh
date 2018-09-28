@@ -45,6 +45,12 @@ export HADOOP_CONF_DIR=$HOME/local/hadoop-conf
 export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
 export HADOOP_HOME_WARN_SUPPRESS=1
 
+export HBASE_HOME=$HOME/local/hbase
+export PATH=$HBASE_HOME/bin:$PATH
+
+export HIVE_HOME=$HOME/local/hive
+export PATH=$HIVE_HOME/bin:$PATH
+
 export SPARK_HOME=$HOME/local/spark
 export PATH=$SPARK_HOME/bin:$PATH
 
@@ -53,6 +59,9 @@ export PATH=$SCALA_HOME/bin:$PATH
 
 export ZOOKEEPER_HOME=$HOME/local/zookeeper
 export PATH=$ZOOKEEPER_HOME/bin:$PATH
+
+export KAFKA_HOME=$HOME/local/kafka
+export PATH=$KAFKA_HOME/bin:$PATH
 
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$ANDROID_HOME/platform-tools:$PATH
@@ -131,7 +140,7 @@ alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
-export SVN_EDITOR=vim
+export SVN_EDITOR=vims
 
 alias grep='grep --color=auto'
 alias mystrace="strace -tt -T -f -ff -o stracelog -s 1024 -p "

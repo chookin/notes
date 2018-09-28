@@ -1,5 +1,5 @@
 [TOC]
- 
+
 # 简介
 [MyBatis](http://www.mybatis.org/)是支持普通SQL查询，存储过程和高级映射的优秀持久层框架。MyBatis消除了几乎所有的JDBC代码和参数的手工设置以及结果集的检索。MyBatis使用简单的XML或注解用于配置和原始映射，将接口和Java的POJOs（Plan Old Java Objects，普通的Java对象）映射成数据库中的记录.
 
@@ -19,6 +19,7 @@ ibatis在此工程中的作用相当于hibernate,就是进行数据库的访问�
 `SqlMapClientFactoryBean`类实现了两个接口：`FactoryBean`和`InitializingBean`.
 
 `InitializingBean`只有一个方法`afterPropertiesSet()`.`afterPropertiesSet`的实现中根据ibatis的配置文件、映射文件、属性文件创建`sqlMapClient`.
+
 ```java
 public void afterPropertiesSet() throws Exception {
     if (this.lobHandler != null) {
@@ -52,6 +53,7 @@ public void afterPropertiesSet() throws Exception {
 }
 ```
 `FactoryBean`接口的主要方法是`public Object getObject()`。`SqlMapClientFactoryBean`是一个工厂Bean，所以bean `sqlMapClient`对应的是其`getObject`方法所返回的对象，即`sqlMapClient`。
+
 ```java
 public Object getObject() {
     return this.sqlMapClient;
@@ -60,11 +62,12 @@ public Object getObject() {
 
 ## sqlMapConfig.xml
 ### 示例
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!DOCTYPE sqlMapConfig 
-PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" 
+<!DOCTYPE sqlMapConfig
+PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
 "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
 <sqlMapConfig>
     <settings cacheModelsEnabled="true" enhancementEnabled="true"
@@ -100,7 +103,7 @@ PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
         <result property="actionName" column="actionName" />
     </resultMap>
     <select id="queryAction" resultMap="actionMap">
-        SELECT * FROM tb_sys_action 
+        SELECT * FROM tb_sys_action
     </select>
     <insert id="insertAction" parameterClass="actionDto">
         INSERT INTO tb_sys_action (actionName) VALUES (#actionName#)
@@ -114,7 +117,7 @@ PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
         SELECT * FROM tb_sys_action  where ActionName=#actionName#
     </select>
     <select id="queryAllActionName" resultClass="String">
-        SELECT ActionName FROM tb_sys_action  
+        SELECT ActionName FROM tb_sys_action
     </select>
     <select id="queryUsers" resultMap="usersMap" parameterClass="usersDto">
         SELECT  *   FROM tb_d_users
@@ -126,15 +129,15 @@ PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
                 U_Password  = #u_Password#
             </isNotEmpty>
         </dynamic>
-    </select>    
+    </select>
 </sqlMap>
 ```
 
 - 通过insert、delete、update、select节点，分别定义了增删改查操作。
 - id设定使得在一个配置文件中定义两个同名节点成为可能（多个select节点，以不同id区分）；
-- parameterClass 指定了操作的输入参数类型,必须是值对象、；
+- parameterClass 指定了操作的输入参数类型,必须是值对象；
 - typeAlias 定义了类的别名;
-- resultMap用来提供数据库查询结果和java对象属性之间的映射，該例中，查詢`queryAction`的結果被映射為java对象`actionDto`,其中，数据表列`actionId`映射为对象`actionDto`的属性`actionId`,数据表列`actionName`被映射为属性`actionName`;
+- resultMap 用来提供数据库查询结果和java对象属性之间的映射，該例中，查詢`queryAction`的結果被映射為java对象`actionDto`,其中，数据表列`actionId`映射为对象`actionDto`的属性`actionId`,数据表列`actionName`被映射为属性`actionName`;
 - \#actionName#将在运行期由传入的actionDto对象的actionName属性填充;
 - `isNotEmpty`意思则为当此条件不为空时执行其中语句 prepend="" 依赖约束, 值可以是 AND 也可以是OR, property="" 就是对于这个条件所判定的取值字段 例如"u_Name"
 
@@ -163,7 +166,7 @@ public class ActionDto implements Serializable {
 }
 ```
 
-## 什么时候用$，什么时候 用 # 
+## 什么时候用`$`，什么时候 用`#`
 
 ```
 1. #将传入的数据都当成一个字符串，会对自动传入的数据加一个双引号。如：order by #user_id#，如果传入的值是111,那么解析成sql时的值为order by "111", 如果传入的值是id，则解析成的sql为order by "id".
@@ -174,12 +177,12 @@ public class ActionDto implements Serializable {
 6. 一般能用#的就别用$.
 ```
 
-对于变量部分，应当使用#，这样可以有效的防止sql注入，#都是用到了prepareStement，这样对效率也有一定的提升 
+对于变量部分，应当使用#，这样可以有效的防止sql注入，#都是用到了prepareStement，这样对效率也有一定的提升
 
-$只是简单的字符拼接而已，对于非变量部分，那只能使用$，实际上，在很多场合，$也是有很多实际意义的 
-例如 
-select * from $tableName$ 对于不同的表执行统一的查询 
-update $tableName$ set status = #status# 每个实体一张表，改变不用实体的状态 
+$只是简单的字符拼接而已，对于非变量部分，那只能使用$，实际上，在很多场合，$也是有很多实际意义的
+例如
+select * from $tableName$ 对于不同的表执行统一的查询
+update $tableName$ set status = #status# 每个实体一张表，改变不用实体的状态
 特别提醒一下， $只是字符串拼接， 所以要特别小心sql注入问题。
 
 ## SqlMapClient
@@ -224,4 +227,4 @@ public abstract class SqlMapClientDaoSupport extends DaoSupport {
     ...
 ```
 
- 
+

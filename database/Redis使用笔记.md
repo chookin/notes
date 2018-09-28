@@ -131,6 +131,14 @@ yum install -y tcl
 brew install redis
 ```
 
+安装 redis desktop manager
+
+访问https://github.com/uglide/RedisDesktopManager/releases/下载，或者
+
+```sh
+brew cask install rdm
+```
+
 ### view software info
 
 ```
@@ -292,10 +300,16 @@ redis服务关闭后，缓存数据会自动dump到硬盘上，硬盘地址为re
 
 redis服务关闭后，缓存数据会自动dump到硬盘上，硬盘地址为redis.conf中的配置项dbfilename dump.rdb所设定。
 强制备份数据到磁盘，使用如下命令
+
 ```shell
 redis-cli save
 # 指定端口
 redis-cli -p 6380 save
+```
+
+## 查询状态
+```sh
+info
 ```
 
 ## 查询

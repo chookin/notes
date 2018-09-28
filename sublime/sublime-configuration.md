@@ -7,8 +7,9 @@
   "always_show_minimap_viewport": true,
   "auto_find_in_selection": true,
   "bold_folder_labels": true,
-  "color_scheme": "Packages/User/knockdown_custom.tmTheme",
+  "color_scheme": "Packages/Boxy Theme/schemes/Boxy Monokai.tmTheme",
   "disable_tab_abbreviations": true,
+  "dpi_scale": 1.1,
   "draw_minimap_border": true,
   "ensure_newline_at_eof_on_save": true,
   "fade_fold_buttons": false,
@@ -52,7 +53,7 @@
   "show_encoding": true,
   "show_line_endings": true,
   "tab_size": 4,
-  "theme": "Material-Theme.sublime-theme",
+  "theme": "Boxy Monokai.sublime-theme",
   "translate_tabs_to_spaces": true,
   "trim_trailing_white_space_on_save": true,
   "word_separators": "./\\()\"':,.;<>~!@#$%^&*|+=[]{}`~?、，。！？：（）“”＋",
@@ -93,7 +94,7 @@
 两种办法：
 
 1，Navigate to Sublime Text -> Preferences -> Browse Packages
-Open the User directory
+Open the `User` directory
 Create a file named Default.sublime-theme (if you're using the default theme, otherwise use the theme name, e.g. Material-Theme-Darker.sublime-theme) with the following content (modify `font.size` as required):
 
 ```js

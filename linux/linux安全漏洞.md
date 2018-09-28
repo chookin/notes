@@ -1,4 +1,50 @@
 # 安全漏洞
+## 只允许某个用户登录
+
+修改`/etc/security/access.conf`
+
+只允许`work`用户远程访问。
+
+```sh
+# All other users should be denied to get access from all sources.
+#- : ALL : ALL
+-:ALL EXCEPT work:ALL
+```
+
+进一步允许`cmana`用户访问。
+
+```sh
+# User "foo" and members of netgroup "nis_group" should be
+# allowed to get access from all sources.
+# This will only work if netgroup service is available.
+#+ : @nis_group foo : ALL
++ : cmana : ALL
+```
+
+```sh
+# vi /etc/pam.d/sshd
+#%PAM-1.0
+auth       required     pam_sepermit.so
+auth       include      password-auth
+# account    required     pam_nologin.so
+account    required     pam_access.so
+account    include      password-auth
+password   include      password-auth
+# pam_selinux.so close should be the first session rule
+session    required     pam_selinux.so close
+session    required     pam_loginuid.so
+# pam_selinux.so open should only be followed by sessions to be executed in the user context
+session    required     pam_selinux.so open env_params
+session    optional     pam_keyinit.so force revoke
+session    include      password-auth
+
+
+
+#auth required /lib64/security/pam_listfile.so item=user sense=allow file=/etc/sshusers onerr=fail
+#account   required    /lib64/security/pam_access.so
+#session     required      /lib64/security/pam_limits.so
+```
+
 ## ssh
 升级ssh
 

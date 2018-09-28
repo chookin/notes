@@ -39,6 +39,8 @@ hbase -       nofile  327680
 
 ### hbase-env.sh
 
+可以不做如下配置。
+
 ```shell
 export JAVA_HOME=/usr/local/jdk
 export HBASE_REGIONSERVER_OPTS="-Xmx4g -Xms4g -Xmn128m -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=70 $HBASE_REGIONSERVER_OPTS"
@@ -55,8 +57,8 @@ export HBASE_MANAGES_ZK=false
 <configuration>
   <property>
     <name>hbase.rootdir</name>
-    <value>hdfs://hadoopmaster:21030/hbase</value>
-	<description>The directory shared by region servers and into which HBase persists.</description>
+    <value>hdfs://hadoopnn:9100/user/hbase</value>
+    <description>The directory shared by region servers and into which HBase persists. Please refer to `fs.defaultFS`</description>
   </property>
   <property>
     <name>hbase.cluster.distributed</name>
@@ -65,7 +67,7 @@ export HBASE_MANAGES_ZK=false
   </property>
   <property>
     <name>hbase.zookeeper.quorum</name>
-    <value>zk1,zk2,zk3</value>
+    <value>zk01,zk02,zk03</value>
     <description>Comma separated list of servers in the ZooKeeper ensemble</description>
   </property>
 </configuration>

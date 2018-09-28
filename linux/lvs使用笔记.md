@@ -4,6 +4,7 @@ lvs server的转发ip不能和client的处于同一网段。如果不能满足�
 
 # 安装
 1.在lvs director服务器上安装 ipvadm
+
 ```shell
 yum install -y ipvsadm
 ```

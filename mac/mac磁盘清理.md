@@ -70,3 +70,4 @@ http://www.mycleanmymac.com/changjianwenti/mac-cipan-qingli.html
 　　cd ~/Library/Caches/
 　　3.清理，请输入：
 　　rm -rf ~/Library/Caches/*
+    还有系统缓存  /Library/Caches/

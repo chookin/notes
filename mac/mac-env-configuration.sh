@@ -45,6 +45,12 @@ export HADOOP_CONF_DIR=$HOME/local/hadoop-conf
 export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
 export HADOOP_HOME_WARN_SUPPRESS=1
 
+export HBASE_HOME=$HOME/local/hbase
+export PATH=$HBASE_HOME/bin:$PATH
+
+export HIVE_HOME=$HOME/local/hive
+export PATH=$HIVE_HOME/bin:$PATH
+
 export SPARK_HOME=$HOME/local/spark
 export PATH=$SPARK_HOME/bin:$PATH
 
@@ -53,6 +59,9 @@ export PATH=$SCALA_HOME/bin:$PATH
 
 export ZOOKEEPER_HOME=$HOME/local/zookeeper
 export PATH=$ZOOKEEPER_HOME/bin:$PATH
+
+export KAFKA_HOME=$HOME/local/kafka
+export PATH=$KAFKA_HOME/bin:$PATH
 
 export MYSQL_HOME=$HOME/local/mysql
 export PATH=$MYSQL_HOME/bin:$PATH

@@ -80,7 +80,7 @@ cd && ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa && chmod 700 ~/.ssh
 拷贝步骤1生成的`id_dsa.pub`文件内容并追加到服务器B的`.ssh/authorized_keys`文件中（如果`.ssh/authorized_keys`不存在，创建之），并执行如下命令
 
 ```shell
-chmod 600 $HOME/.ssh/authorized_keys;
+chmod 600 $HOME/.ssh/authorized_keys
 ```
 
 如果步骤1生成的id_dsa.pub文件内容是以hostname结尾，那么还需要把服务器A的ip与hostname配置到服务器B的/etc/hosts文件中。

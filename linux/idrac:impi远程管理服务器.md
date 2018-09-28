@@ -50,7 +50,15 @@ system1 已成功重设
 
 http://download.oracle.com/otn-pub/java/jdk/8u121-b13/e9e7ea248e2c4826b92b3f075a80e441/jdk-8u121-linux-x64.tar.gz?AuthParam=1489730794_a542669b868af469e662897146a3c478
 
-其中，火狐和java的版本如下，低版本的java可能打不开。
+其中，低版本的java可能打不开，高版本的也打不开
+
+https://www.java.com/en/download/help/java_blocked.xml
+> Why are Java applications blocked by your security settings with the latest Java?
+> Java has further enhanced security to make the user system less vulnerable to external exploits. Starting with Java 7 Update 51, Java does not allow users to run applications that are not signed (unsigned), self-signed (not signed by trusted authority) or that are missing permission attributes.
+> 解决办法：对于linux服务器，执行`ControlPanel`命令，在`Security`页面，配置`Execption Site List`，例如添加`http://172.31.238.219`，之后点击`Apply`生效。
+> 然后，命令行执行`javaws Downloads/jviewer.jnlp`或者浏览器打开。
+
+火狐和java的版本如下，
 
 ```shell
 [zhuyin@lab21 ~]$ firefox -v

@@ -101,7 +101,7 @@ chown -R apache.apache admonitor # 如果不授权，在签入时会报错：svn
 cd /var/svn/admonitor/conf/
 rm -f passwd
 touch passwd
-htpasswd -m /etc/svn-users user1
+htpasswd -m passwd user1
 ```
 
 #### 在浏览器访问
@@ -320,6 +320,10 @@ password-stores =
 svn checkout http://111.13.47.167/repos/tagbase/ tagbase/
 # 强制更新，用于解决错误`an unversioned directory of the same name already exists`
 svn checkout --force http://111.13.47.167/repos/tagbase/ tagbase/
+
+## 如何获取最新版本？两步走
+# 获取当前版本号
+svn info http://218.206.176.143:8070/DaTiBa
 # 签出指定版本
 svn co http://117.136.183.146:21889/repos/admonitor/src/webapp/src -r 174
 ```
@@ -336,7 +340,7 @@ svn revert -R .
 分为三步操作：
 1. svn update，svn log，找到最新版本（latest revision）
 2. 找到自己想要回滚的版本号（rollbak revision）
-3. 用svn merge来回滚： svn merge -r : something
+3. 用svn merge来回滚： svn merge -r latest_revision:rollback_revision path
 
 具体示例
 
@@ -344,7 +348,7 @@ svn revert -R .
  svn update
  假设最新版本号是28。
 2、然后找出要回滚的确切版本号：
- svn log [something]
+ svn log [path]
  假设根据svn log日志查出要回滚的版本号是25，此处的something可以是文件、目录或整个项目
  如果想要更详细的了解情况，可以使用svn diff -r 28:25 [something]
 3、回滚到版本号25：

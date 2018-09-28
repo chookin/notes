@@ -231,55 +231,6 @@ jdk8
 
 ## idea
 
-访问 http://idea.lanyus.com 获取激活码
-
-选择license server
-
-- http://15.idea.lanyus.com 已不可用
-
-- http://idea.qinxi1992.cn
-
-
-
-- [IntelliJ IDEA 2016.1破解码一枚](http://aiyougege.com/articles/022711.html)
-
-### 配置
-
-- Appearance, UI Options, do Override default fonts by... and choose Name of 'Monaco' and size of '16'
-- check use soft wraps in console
-- show line numbers
-- change font 'Monaco' and size 16, and set Line spacing to '1.2'
-- mark modified tabs with asterisk
-- code completion.
-  - check case sensitive completion, set to `none`
-  - uncheck sort lookup items lexicographically
-  - check insert selected variant by typing dot...
-  - check autopopup and change to 200 ms
-- 智能提示忽略大小写 [Editor]|[Code Completion]，选择`Case sensitive completion`为`None`；
-
-如果`todo`不能自动提示添加`TODO:`那么需要做如下配置：
-- todo search 'todo', in live templates,
-  - confirm 'edit variables': 'date' expression is `date()` and 'skip if defined' is checked.
-  - 'Applicable in java', change to: statement, expression, declaration, comment and smart type completion for java.
-
-### 常用操作
-
-- 快捷键 https://resources.jetbrains.com/assets/products/intellij-idea/IntelliJIDEA_ReferenceCard_mac.pdf
-- 为了使得能自动加载本地的包，需要配置idea,执行更新maven的Repositories. [Build, Execution, Deployment]|[Build Tools]|[Maven]|[Repositories]，选择本地的repository，点击`update`按钮。
-- 查看注释：Win: Ctrl+Q, Mac: Control+J
-- 统计代码函数，安装插件statistics，之后【View】|【Tool Windows】|【statistics】
-- 为java程序设置 -D command-line option：【Run】|【Edit Configurations...】，在“VM options"中输入参数，如"-Daction=baidu"
-
-### 插件
-- GsonFormat Java开发中，经常有把json格式的内容转成Object的需求，[GsonFormat](https://plugins.jetbrains.com/plugin/7654?pr=)这款插件可以实现该功能。
-- FindBugs-IDEA
-- CheckStyle 通过检查对代码编码格式，命名约定，Javadoc，类设计等方面进行代码规范和风格的检查，从而有效约束开发人员更好地遵循代码编写规范。
-
-### 常见问题
-
-- `Error:java: Compilation failed: internal java compiler error`
-> 配置 [Preferences...]|[Build,Execution,Deployment]|[Compiler]|[Java Compiler]，为出问题的module设置`Target bytecode version`（或者设置`Project bytecode version`，然后删除具体的module配置即可）。
-
 ## android studio
 
 [Android ButterKnife Zelezny插件的安装与使用
@@ -361,7 +312,7 @@ Already downloaded: /Library/Caches/Homebrew/tigervnc-viewer-1.6.0.dmg
 
 ### 配置
 
-打开Charles的代理设置：Proxy->Proxy Settings，设置一下端口号，默认的是8888，这个只要不和其他程序的冲突即可,并且勾选Enable transparent HTTP proxying
+打开Charles的代理设置：Proxy->Proxy Settings，设置一下端口号，默认的是8888，这个只要不和其他程序的冲突即可,并且勾选`Enable transparent HTTP proxying`
 
 手机连接上和电脑在同一局域网的wifi上，设置wifi的HTTP代理。代理地址是电脑的ip，端口号就是刚刚在Charles上设置的那个。
 查看mac电脑ip
@@ -371,12 +322,22 @@ $ ifconfig | grep broadcast
   inet 192.168.1.101 netmask 0xffffff00 broadcast 192.168.1.255
 ```
 
+### 抓取https
+- 电脑上配置
+`Help|SSL Proxying`，Install charles root certificate，系统默认是不信任 Charles 的证书的，此时对证书右键，在弹出的下拉菜单中选择『显示简介』，点击使用此证书时，把使用系统默认改为始终信任。然后关闭，就会发现 charles 的证书已经被信任了。
+
+- 手机上配置
+
+首先配置手机通过charles代理上网；之后，`Help|SSL Proxying`，Install charles Root Certificate on a Mobile Device，即：打开手机浏览器，访问，`http://charlesproxy.com/getssl`下载并安装证书。
+
 ### 参考
 
 - [抓包工具Charles的使用心得](http://www.jianshu.com/p/fdd7c681929c)
 - [Mac下使用Charles实现对Android手机进行抓包](http://bo1.me/2015/04/01/charles-android/)
 
 ## paw
+
+建议用postman，可以保存请求历史，非常方便。
 
 http://xclient.info/s/paw.html
 Paw 是一款Mac上实用的HTTP/REST服务测试工具，完美兼容最新的OS X El Capitan系统，Paw可以让Web开发者设置各种请求Header和参数，模拟发送HTTP请求，测试响应数据，支持OAuth, HTTP Basic Auth, Cookies，JSONP等，这对于开发Web服务的应用很有帮助，非常实用的一款Web开发辅助工具。

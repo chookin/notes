@@ -87,6 +87,9 @@ max_allowed_packet      = 16M
 thread_stack            = 192K
 thread_cache_size       = 8
 
+# 设置时区为东北区，因为mysql的jdbc驱动最新版（6.0+），误将CST（China Standard Time utc+8）解析成CST（Central Standard Tim UTC-6），即美国中部标准时间，所以少14个小时
+default-time-zone = '+8:00'
+
 ## Query Caching
 # query-cache-type = 1
 

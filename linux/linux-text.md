@@ -110,6 +110,8 @@ cat s.log |awk -F ':' '{OFS=":"}{$1="";print $0}'|sed 's/^://g'>s1.log
 
 ```sh
 sed -i "s/work/zhuyin/g" file
+sed -i "s/com.cmri.migu.recm/com.cmri.um.recm/g" `grep "com.cmri.migu.recm" -rl recm-server``
+sed -i "s/home\/work/home\/${username}/g" `grep home/work -rl ${SRC_PATH}`
 sed -i "s/^slaveof.*/slaveof $redis_master $redis_port/g" ${redis_home}/redis.conf
 sed -i "s#home/work#home/zhuyin#g" php-*.ini
 find ${soft_name} \( -name "*.ini" -o -name "*.conf" -o -name "*.cnf" \) -exec sed -i "s#/home/work#$target_path#g" {} +
@@ -120,7 +122,15 @@ find ${soft_name} \( -name "*.ini" -o -name "*.conf" -o -name "*.cnf" \) -exec s
 # 问题
 Q：Display 3rd line of the file in Unix
 A: Using combination of “head” and “tail”: `$ mdfind -name 数据采集 doc | head -n 3 | tail -n 1`
-另外一种方法，使用sed: `mdfind -name 数据采集 doc | sed -n '3,3p'`
+另外一种方法，使用sed:
+
+```sh
+mdfind -name 数据采集 doc | sed -n '3,3p'
+# 搜索文件，处理文件名中的空格，把空格替换为`\ `，然后打开
+mdfind -name 日历 |sed -n 3p|sed 's/ /\\ /g' | xargs open
+```
+
+
 
 ```sh
 sed -n '$p' file          #显示最后一行

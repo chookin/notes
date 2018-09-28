@@ -15,6 +15,30 @@ sudo passwd root
 - 窗口左下角打开用户与群组；
 - 在进入的新窗口中，左侧需要需要用户，右侧标签页选择登录项，如果你想取消某个应用程序开机启动，只需要选中他，然后点下面的减号。
 
+## 禁用reportcrash
+
+launchctl unload -w /System/Library/LaunchAgents/com.apple.ReportCrash.plist
+sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.ReportCrash.Root.plist
+
+http://www.sunzhongwei.com/mac-disable-reportcrash-process
+
+## com.alipay.DispatcherService
+```
+Dec 22 14:38:19 chookin com.apple.xpc.launchd[1] (com.apple.preference.displays.MirrorDisplays): Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+Dec 22 14:38:20 chookin com.apple.xpc.launchd[1] (com.alipay.DispatcherService[26318]): Service exited due to signal: Illegal instruction: 4 sent by exc handler[0]
+Dec 22 14:38:20 chookin com.apple.xpc.launchd[1] (com.alipay.DispatcherService): Service only ran for 2 seconds. Pushing respawn out by 8 seconds.
+```
+
+com.alipay.DispatcherService 是马云下的什么蛋？
+知乎上说是阿里用来检测支付插件是否有新版本而启用的后台进程，水木上有个老帖子说是阿里在偷偷收集用户隐私。当然，我觉得第二种说法更可信。毕竟，检测是否有新版本你启动的时候再检测不行么?
+
+禁用方法
+
+sudo launchctl unload /Library/LaunchDaemons/com.alipay.DispatcherService.plist
+再次查看 system.log 会发现 alipay 的相关日志不再出现了。说明禁用成功。
+
+为了以防万一，把电脑上的所有阿里的软件都卸载了（虽然只有阿里旺旺一个）
+
 ## 权限
 
 ### 禁用guest账户
@@ -203,9 +227,10 @@ rar解压缩软件。app store安装。
 
 导入utf-8编码的中文csv文件乱码问题：
 - 首先使用sublime打开该csv文件，将文件转为GBK编码（需要sublime装convert to utf8插件），【File】|【Set File Encoding to】|【Chinese Simplified(GBK)】。
-- 之后，打开office excel，新建一个空白文档，选择【文件】|【导入...】，选择已转码后的csv文件，在“文件原始格式”处，选择Chinese(GB 18030)。
+- 之后，打开office excel，新建一个空白文档，选择【文件】|【导入...】，选择已转码后的csv文件，在“文件原始格式”处，选择Chinese(GB 18030)。注：不用这么麻烦，配置excel preferences，设置`east asian languages`，语言选为`Simplified Chinese`
 
 还有一种更好的方法，利用iconv把文件转为GB18030格式：
+
 ```shell
 iconv  -f UTF-8 -t GB18030 apps_2016-06-04.csv  > apps.csv
 ```

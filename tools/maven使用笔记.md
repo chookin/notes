@@ -1,13 +1,31 @@
 # 配置repo源
+添加其他仓库：
 
-    vi settings
-    
+编辑maven的配置文件，在`mirrors`里面添加子节点。
+
+## 阿里云
+
+```xml
+
     <mirror>
-      <id>CN</id>
+      <id>alimaven</id>
+      <name>aliyun maven</name>
+  　　<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+      <mirrorOf>central</mirrorOf>
+    </mirror>
+
+```
+## oschina
+
+```xml
+    <mirror>
+      <id>oschina</id>
       <name>OSChina Central</name>
       <url>http://maven.oschina.net/content/groups/public/</url>
       <mirrorOf>central</mirrorOf>
     </mirror>
+```
+
 # 添加jar到本地仓库
 ```shell
 mvn install:install-file -Dfile=lib/CCP_REST_SDK_JAVA_v2.7r.jar -DgroupId=com-cloopen-rest -DartifactId=rest-sdk -Dversion=1.0.0 -Dpackaging=jar -DgeneratePom=true
@@ -105,7 +123,7 @@ mvn install:install-file -Dfile=lib/CCP_REST_SDK_JAVA_v2.7r.jar -DgroupId=com-cl
 
 - Maven Archiver can add the classpath of your project to the manifest. This is done with the <addClasspath\> configuration element.
 - Sometimes it is useful to be able to alter the classpath, this can be achieved with the <classpathPrefix\> configuration element.貌似只能添加一个，如添加"conf/:lib/"就加载失败了。
-- If you want to create an executable jar file, you need to configure Maven Archiver accordingly. You need to tell it which main class to use. This is done with the <mainClass\> configuration element. 
+- If you want to create an executable jar file, you need to configure Maven Archiver accordingly. You need to tell it which main class to use. This is done with the <mainClass\> configuration element.
 - exclude files,打包时排除指定文件.
 
 ```xml
@@ -175,11 +193,11 @@ mvn install:install-file -Dfile=lib/CCP_REST_SDK_JAVA_v2.7r.jar -DgroupId=com-cl
 2) jdk7中，maven 程序包com.sun.image.codec.jpeg不存在的解决方案
 
 ```shell
-mvn install:install-file -DgroupId=com.sun -DartifactId=rt -Dversion=1.7 -Dpackaging=jar -Dfile=/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/jre/lib/rt.jar 
-mvn install:install-file -DgroupId=com.sun -DartifactId=jce -Dversion=1.7 -Dpackaging=jar -Dfile=/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/jre/lib/jce.jar 
+mvn install:install-file -DgroupId=com.sun -DartifactId=rt -Dversion=1.7 -Dpackaging=jar -Dfile=/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/jre/lib/rt.jar
+mvn install:install-file -DgroupId=com.sun -DartifactId=jce -Dversion=1.7 -Dpackaging=jar -Dfile=/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/jre/lib/jce.jar
 ```
 
-在pox.xml中引入依赖 
+在pox.xml中引入依赖
 
 ```xml
 <dependency>
